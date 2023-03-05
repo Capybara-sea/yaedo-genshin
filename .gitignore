@@ -25,6 +25,3 @@ build
 *.sw?
 
 # my files
-res/
-metadata/
-!*/**/metadata
