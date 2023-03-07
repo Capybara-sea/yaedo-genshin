@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain, session } from 'electron'
 import { join } from 'path'
+import DataManager from './handlers/dataManager'
+
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -7,22 +10,27 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
-      nodeIntegration: false,
+      nodeIntegration: true,
       contextIsolation: true,
     },
+    ...(isDevelopment && {
+      x: 1700,
+      y: 800,
+    }),
   })
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDevelopment) {
     const rendererPort = process.argv[2]
     mainWindow.loadURL(`http://localhost:${rendererPort}`)
+    // mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
   }
 }
 
 app.whenReady().then(() => {
+  DataManager.init()
   createWindow()
-
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
       responseHeaders: {
