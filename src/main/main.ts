@@ -4,7 +4,7 @@ import DataManager from './inject/dataManager'
 import { IpcMainProvider } from './preload/ipcMainProvider'
 import HelloApi from './handlers/helloApi'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
