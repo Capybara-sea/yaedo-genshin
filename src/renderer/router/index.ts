@@ -6,6 +6,10 @@ const routes = [
     name: 'home',
     component: () => import('../views/Home.vue'),
   },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: '/',
+  },
 ]
 
 const router = createRouter({

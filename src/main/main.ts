@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain, session } from 'electron'
 import { join } from 'path'
-import DataManager from './handlers/dataManager'
+import DataManager from './inject/dataManager'
+import { IpcMainProvider } from './preload/ipcMainProvider'
+import HelloApi from './handlers/helloApi'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -9,7 +11,7 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: join(__dirname, 'preload.js'),
+      preload: join(__dirname, 'preload/index.js'),
       nodeIntegration: true,
       contextIsolation: true,
     },
@@ -29,7 +31,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  DataManager.init()
+  // DataManager.init()
   createWindow()
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
@@ -53,6 +55,5 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-ipcMain.on('message', (event, message) => {
-  console.log(message)
-})
+const ipcMainProvider = new IpcMainProvider()
+ipcMainProvider.register(new HelloApi())

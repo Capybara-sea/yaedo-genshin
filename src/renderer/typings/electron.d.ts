@@ -1,12 +1,14 @@
+import { HelloApi } from './helloApi'
+
 /**
  * Should match main/preload.ts for typescript support in renderer
  */
-export default interface ElectronApi {
-  sendMessage: (message: string) => void
+export default interface api {
+  HelloApi: HelloApi
 }
 
 declare global {
   interface Window {
-    electronAPI: ElectronApi
+    api: api
   }
 }

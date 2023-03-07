@@ -6,3 +6,7 @@ import router from './router'
 const app = createApp(App)
 
 app.use(router).mount('#app')
+;(async () => {
+  const a = await window.api.HelloApi.hello('App.vue')
+  console.log('a:', a)
+})()
