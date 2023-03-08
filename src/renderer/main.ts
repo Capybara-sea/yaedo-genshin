@@ -6,7 +6,9 @@ import './styles/index.scss'
 const app = createApp(App)
 
 app.use(router).mount('#app')
+
 ;(async () => {
-  const a = await window.api.AppData.hello('App.vue')
+  const a = await window.api.AppData.get('characters')
   console.log('a:', a)
+  console.log(window.api)
 })()

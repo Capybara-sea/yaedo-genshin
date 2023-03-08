@@ -3,6 +3,7 @@ import Path from 'path'
 import { Common } from '../common'
 import { checkDir, hasFile, writeFile } from '../utils/files'
 import { Http } from '../utils/request'
+import { AppDataType } from '../../types/data'
 
 type FileLock = {
   [propName: string]: FileLockItem
@@ -26,15 +27,17 @@ export default class DataManager {
   static init(): DataManager {
     if (DataManager.instance) return DataManager.instance
     DataManager.instance = new DataManager()
-    console.log('[DataManager]initialized')
+    console.log('[DataManager] initialized')
     return DataManager.instance
   }
 
   // 是否初始化
-  isInit: boolean = false
-  initialization: Promise<void>
-  appDataPath: string
-  localFileLockPath: string
+  public isInit: boolean = false
+  public initialization: Promise<void>
+
+  private appDataPath: string
+  private fileLock: FileLock = {}
+  private localFileLockPath: string
 
   constructor() {
     this.appDataPath = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
@@ -45,7 +48,7 @@ export default class DataManager {
   async checkUpdate() {
     // 检查目录是否存在
     const isExist = checkDir(this.localFileLockPath)
-    if (!isExist) throw new Error('[DataManager]appDataPath is not exist')
+    if (!isExist) throw new Error('[DataManager] appDataPath is not exist')
 
     // 检查版本文件
     const isHasLocalFileLock = hasFile(this.localFileLockPath)
@@ -63,7 +66,8 @@ export default class DataManager {
 
     // 没有更新
     if (needUpdate.length === 0) {
-      console.log('[dataManager]no update')
+      this.fileLock = localFileLock
+      console.log('[dataManager] no update')
       return
     }
 
@@ -71,7 +75,7 @@ export default class DataManager {
     await Promise.all(
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
-        console.log('[dataManager]data update', item.path, '...')
+        console.log('[dataManager] data update', item.path, '...')
         const data = await Http.GET(githubUrl(item.path)) // 下载
         writeFile(Path.join(this.appDataPath, item.path), data) // 写入
         localFileLock[key] = item // 更新本地版本
@@ -81,12 +85,14 @@ export default class DataManager {
     writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 
     // 更新完成
-    console.log('[dataManager]update finished')
+    console.log('[dataManager] update finished')
     this.isInit = true
+    this.fileLock = localFileLock
   }
 
-  async get<T>(path: string): Promise<T> {
+  async get(dataType: AppDataType): Promise<any> {
     await this.initialization
+    const path = this.fileLock[dataType].path
     return require(Path.join(this.appDataPath, path))
   }
 }

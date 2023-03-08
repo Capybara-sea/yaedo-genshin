@@ -10,7 +10,7 @@ export class IpcMainProvider extends IpcBase {
     methods.forEach((method) => {
       const key = IpcMainProvider.getKey(namespace, method)
       ipcMain.handle(key, instance[method])
-      console.log('Register ipcMain.handle: ', key)
+      console.log('[Register] ipcMain.handle: ', key)
     })
     this.clazzMap.set(namespace, instance)
   }
