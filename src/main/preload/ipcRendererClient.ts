@@ -1,24 +1,16 @@
 import { ipcRenderer } from 'electron'
+import IpcBase from './ipcBase'
 
-function getMethodKeys(instance: object) {
-  const prototype = Object.getPrototypeOf(instance)
-  const Keys = (Reflect.ownKeys(prototype) || []) as PropertyKey[]
-  return Keys.filter((key) =>
-    key === 'constructor' ? false : typeof prototype[key] === 'function'
-  )
-}
-
-export class IpcRendererClient {
-  /**
-   * 生成一个客户端实例
-   * @param namespace
-   */
-  static gen(instance: object): any {
+export class IpcRendererClient extends IpcBase {
+  static gen<T extends Function>(api: T): {
+    [key: string]: (...args: any[]) => Promise<any>
+  } {
     const client = {}
-    const methods = getMethodKeys(instance)
+    const namespace = IpcRendererClient.getNamespace(api.prototype)
+    const methods = IpcRendererClient.getMethodKeysByPrototype(api.prototype)
     methods.forEach((method) => {
       client[method] = function (...args: any[]) {
-        return ipcRenderer.invoke(`${instance['namespace']}.${method.toString()}`, ...args)
+        return ipcRenderer.invoke(`${namespace}.${method.toString()}`, ...args)
       }
     })
     return client

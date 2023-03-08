@@ -1,5 +1,3 @@
-import BaseApi from './baseApi'
-
-export default interface HelloApi extends BaseApi<'HelloApi'> {
+export default interface HelloApi {
   hello(name: string): string
 }

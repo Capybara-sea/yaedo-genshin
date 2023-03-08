@@ -2,11 +2,11 @@ import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
 import AppData from './api/appData'
 import HelloApi from './api/helloApi'
-import DataManager from './inject/dataManager'
+// import DataManager from './inject/dataManager'
 import { IpcMainProvider } from './preload/ipcMainProvider'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
-
+console.log(isDevelopment )
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -32,7 +32,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  if (!isDevelopment) DataManager.init()
+  // DataManager.init()
 
   createWindow()
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {

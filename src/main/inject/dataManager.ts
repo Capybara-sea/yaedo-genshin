@@ -18,11 +18,12 @@ const githubUrl = (path: string) =>
   `https://cdn.jsdelivr.net/gh/${github.name}/${github.repo}@${github.branch}/${path}`
 
 export default class DataManager {
-  static instance: DataManager
-  static init() {
+  private static instance: DataManager
+  static init(): DataManager {
     if (DataManager.instance) return DataManager.instance
     DataManager.instance = new DataManager()
     console.log('[DataManager]initialized')
+    return DataManager.instance
   }
 
   // 是否初始化
@@ -85,5 +86,10 @@ export default class DataManager {
     // 更新完成
     console.log('[dataManager]update finished')
     this.isInit = true
+  }
+
+  async get<T>(path: string): Promise<T> {
+    await this.initialization
+    return require(Path.join(this.appDataPath, path))
   }
 }
