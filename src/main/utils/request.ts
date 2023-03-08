@@ -1,8 +1,10 @@
-import { net } from 'electron'
+import { app, net } from 'electron'
 import { URL } from 'url'
 
 export class Http {
   static async GET(url: string, params: object = {}): Promise<any> {
+    await app.whenReady()
+
     return new Promise((resolve, reject) => {
       const request = net.request({
         method: 'GET',

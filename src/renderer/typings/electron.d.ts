@@ -1,14 +1,10 @@
-import { HelloApi } from './helloApi'
-
 /**
  * Should match main/preload.ts for typescript support in renderer
  */
-export default interface api {
-  HelloApi: HelloApi
-}
+import API from '../../types/api/index'
 
 declare global {
   interface Window {
-    api: api
+    api: API
   }
 }

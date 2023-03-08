@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron'
+import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
+import AppData from './api/appData'
+import HelloApi from './api/helloApi'
 import DataManager from './inject/dataManager'
 import { IpcMainProvider } from './preload/ipcMainProvider'
-import HelloApi from './handlers/helloApi'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -31,7 +32,8 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  // DataManager.init()
+  if (!isDevelopment) DataManager.init()
+
   createWindow()
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
@@ -57,3 +59,4 @@ app.on('window-all-closed', function () {
 
 const ipcMainProvider = new IpcMainProvider()
 ipcMainProvider.register(new HelloApi())
+ipcMainProvider.register(new AppData())
