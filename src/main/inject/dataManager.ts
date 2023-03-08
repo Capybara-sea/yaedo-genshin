@@ -5,6 +5,10 @@ import { checkDir, hasFile, writeFile } from '../utils/files'
 import { Http } from '../utils/request'
 
 type FileLock = {
+  [propName: string]: FileLockItem
+}
+
+type FileLockItem = {
   path: string
   hash: string
 }
@@ -12,7 +16,7 @@ type FileLock = {
 const github = {
   name: 'Capybara-sea',
   repo: 'yaedo-metadata',
-  branch: 'main',
+  branch: 'master',
 }
 const githubUrl = (path: string) =>
   `https://cdn.jsdelivr.net/gh/${github.name}/${github.repo}@${github.branch}/${path}`
@@ -45,16 +49,16 @@ export default class DataManager {
 
     // 检查版本文件
     const isHasLocalFileLock = hasFile(this.localFileLockPath)
-    const localFileLock: FileLock[] = isHasLocalFileLock
+    const localFileLock: FileLock = isHasLocalFileLock
       ? require(Path.join(this.localFileLockPath))
-      : []
+      : {}
 
     // 从远端检查更新
     const remoteFileLock = JSON.parse(await Http.GET(githubUrl(Common.APP_DATA_FILE_LOCK)))
 
     // 比对版本
-    const needUpdate = remoteFileLock.filter((item) => {
-      return item.hash !== localFileLock.find((i) => i.path === item.path)?.hash
+    const needUpdate = Object.keys(remoteFileLock).filter((key) => {
+      return remoteFileLock[key].hash !== localFileLock[key]?.hash
     })
 
     // 没有更新
@@ -64,24 +68,17 @@ export default class DataManager {
     }
 
     // 下载更新
-    const downloadData = await Promise.all(
-      needUpdate.map((item) => {
+    await Promise.all(
+      needUpdate.map(async (key) => {
+        const item = remoteFileLock[key]
         console.log('[dataManager]data update', item.path, '...')
-        return Http.GET(githubUrl(item.path))
+        const data = await Http.GET(githubUrl(item.path)) // 下载
+        writeFile(Path.join(this.appDataPath, item.path), data) // 写入
+        localFileLock[key] = item // 更新本地版本
       })
     )
-    const updatedFiles = needUpdate.filter((item, i) => {
-      const path = Path.join(this.appDataPath, item.path)
-      const isUpdated = writeFile(path, downloadData[i])
-      return isUpdated
-    })
-
-    // 更新版本文件
-    const newFileLock = [
-      ...localFileLock.filter((item) => !updatedFiles.find((i) => i.path === item.path)),
-      ...updatedFiles,
-    ]
-    writeFile(Path.join(this.localFileLockPath), JSON.stringify(newFileLock, null, 2))
+    // 写入本地版本
+    writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 
     // 更新完成
     console.log('[dataManager]update finished')
