@@ -23,14 +23,16 @@ import Sidebar from './Sidebar.vue'
   #left {
     width: 200px;
     height: 100%;
-    background-color: #f00;
+    background-color: rgb(177, 223, 231);
     float: left;
+    overflow: scroll;
   }
   #right {
     width: calc(100% - 200px);
     height: 100%;
-    background-color: #0f0;
+    background-color: rgb(236, 236, 177);
     float: left;
+    overflow: scroll;
   }
 }
 </style>

@@ -1,4 +1,4 @@
-export interface character {
+export interface Character {
   /** id */
   id: string
   /** 角色名 */
