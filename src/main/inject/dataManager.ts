@@ -39,7 +39,7 @@ export default class DataManager {
   private fileLock: FileLock = {}
   private localFileLockPath: string
 
-  constructor() {
+  private constructor() {
     this.appDataPath = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
     this.localFileLockPath = Path.join(this.appDataPath, Common.APP_DATA_FILE_LOCK)
     this.initialization = this.checkUpdate()

@@ -5,7 +5,7 @@ import HelloApi from './api/helloApi'
 import { IpcMainProvider } from './preload/ipcMainProvider'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
-console.log(isDevelopment )
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,

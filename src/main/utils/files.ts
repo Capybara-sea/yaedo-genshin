@@ -10,11 +10,11 @@ export const checkDir = (path: string, doNewFile: boolean = true): boolean => {
       if (!doNewFile) return false
       checkDir(dir)
       fs.mkdirSync(dir)
-      console.log('路径不存在，新建文件夹', dir)
+      console.log('[file:checkDir] 路径不存在，新建文件夹', dir)
     }
     return true
   } catch (error) {
-    console.error('文件夹创建失败', error)
+    console.error('[file:checkDir] 文件夹创建失败', error)
     return false
   }
 }
@@ -36,7 +36,7 @@ export const writeFile = (path: string, data: string): boolean => {
     fs.writeFileSync(path, data)
     return true
   } catch (error) {
-    console.error('文件写入失败', error)
+    console.error('[file:writeFile] 文件写入失败', error)
     return false
   }
 }
