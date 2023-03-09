@@ -1,35 +1,25 @@
 <template>
-  <div class="character">
-    <div class="character-item" v-for="character in characters" :key="character.id">
-      <h2>{{ character.name }}</h2>
-      <p>{{ character.title }}</p>
-      <p>{{ character.description }}</p>
-      <p>{{ character.region }}</p>
-      <p>{{ character.constellation }}</p>
-    </div>
+  <div>
+    <n-button type="primary" @click="setTheme('light')">白</n-button>
+    <n-button type="primary" @click="setTheme('dark')">黑</n-button>
+  </div>
+  <div v-for="character in characters" :key="character.id">
+    <div>{{ character.name }}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { Character } from '../../types/data/characters'
+import { NButton } from 'naive-ui'
+import { useAppStore } from '@/store'
+import type { Character } from '@/../types/data/characters'
 import { ref } from 'vue'
 
-const characters = ref<Character[]>([])
+const { setTheme } = useAppStore()
 
-window.api.AppData.get<Character[]>('characters').then((data) => {
-  characters.value = data
+const characters = ref<Character[]>([])
+window.api.AppData.get<Character[]>('characters').then((CharacterData) => {
+  characters.value = CharacterData
 })
 </script>
 
-<style lang="scss" scoped>
-.character {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
-  padding: 1rem;
-
-  &-item {
-    border: 1px solid #ccc;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
