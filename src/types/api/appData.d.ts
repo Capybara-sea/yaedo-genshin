@@ -1,4 +1,4 @@
-import { AppDataType } from '../data/index'
+import type { AppDataType } from '../data/index'
 
 export default interface AppData {
   hello(name: string): Promise<string>

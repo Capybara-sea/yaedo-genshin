@@ -2,7 +2,6 @@ import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
 import AppData from './api/appData'
 import HelloApi from './api/helloApi'
-// import DataManager from './inject/dataManager'
 import { IpcMainProvider } from './preload/ipcMainProvider'
 
 const isDevelopment = process.env.NODE_ENV === 'development'

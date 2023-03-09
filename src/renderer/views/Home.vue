@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Character } from '../../types/data/characters'
+import type { Character } from '../../types/data/characters'
 import { ref } from 'vue'
 
 const characters = ref<Character[]>([])

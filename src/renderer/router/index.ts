@@ -1,3 +1,4 @@
+import type { App } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -17,4 +18,6 @@ const router = createRouter({
   routes,
 })
 
-export default router
+export function setupRouter(app: App) {
+  app.use(router)
+}

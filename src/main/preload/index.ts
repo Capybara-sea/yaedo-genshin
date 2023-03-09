@@ -6,5 +6,4 @@ import AppData from '../api/appData'
 contextBridge.exposeInMainWorld('api', {
   HelloApi: IpcRendererClient.gen(HelloApi),
   AppData: IpcRendererClient.gen(AppData),
-  AAA: 'aaa'
 })

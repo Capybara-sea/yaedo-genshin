@@ -1,9 +1,9 @@
+import type { AppDataType } from '../../types/data'
 import { app } from 'electron'
 import Path from 'path'
 import { Common } from '../common'
 import { checkDir, hasFile, writeFile } from '../utils/files'
 import { Http } from '../utils/request'
-import { AppDataType } from '../../types/data'
 
 type FileLock = {
   [propName: string]: FileLockItem

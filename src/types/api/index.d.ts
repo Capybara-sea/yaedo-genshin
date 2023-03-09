@@ -1,5 +1,5 @@
-import HelloApi from './helloApi'
-import AppData from './appData'
+import type HelloApi from './helloApi'
+import type AppData from './appData'
 
 export default interface API {
   HelloApi: HelloApi

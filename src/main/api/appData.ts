@@ -1,6 +1,6 @@
-import { IpcMainInvokeEvent } from 'electron'
+import type { IpcMainInvokeEvent } from 'electron'
+import type { AppDataType } from '../../types/data'
 import DataManager from '../inject/dataManager'
-import { AppDataType } from '../../types/data'
 
 export default class AppData {
   async hello(e: IpcMainInvokeEvent, name: string) {
