@@ -1,5 +1,7 @@
 import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
+import { Common } from './common'
+
 import AppData from './api/appData'
 import HelloApi from './api/helloApi'
 import { IpcMainProvider } from './preload/ipcMainProvider'
@@ -8,8 +10,7 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    ...Common.WINDOW_DEFAULT_OPTIONS,
     webPreferences: {
       preload: join(__dirname, 'preload/index.js'),
       nodeIntegration: true,
@@ -24,7 +25,7 @@ function createWindow() {
   if (isDevelopment) {
     const rendererPort = process.argv[2]
     mainWindow.loadURL(`http://localhost:${rendererPort}`)
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
   }

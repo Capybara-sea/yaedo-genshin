@@ -1,10 +1,14 @@
+import type { BrowserWindowConstructorOptions } from 'electron'
+
 export class Common {
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
 
-  static WINDOW_SIZE = {
+  static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
     width: 800,
     height: 600,
+    minWidth: 600,
+    minHeight: 400,
   }
 
   static USER_AGENT = {
