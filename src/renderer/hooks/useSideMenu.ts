@@ -1,6 +1,7 @@
 import type { MenuOption } from 'naive-ui'
 import { h, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import icon_characters from '@/assets/icons/characters.png'
 
 export interface RenderMenuOption {
   el: any
@@ -13,6 +14,7 @@ export const renderMenuOption = (option: RenderMenuOption): MenuOption => {
   return {
     label: () => h(option.el, { to: { name: option.to } }, { default: () => option.label }),
     key: option.key,
+    icon: () => h('img', { src: icon_characters, alt: 'icon', style: 'width: 1em; height: 1em' }),
   }
 }
 

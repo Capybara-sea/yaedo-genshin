@@ -10,10 +10,12 @@
     @expand="collapsed = false"
   >
     <n-menu
+      :inverted="!isDark"
       v-model:value="activeKey"
       :collapsed="collapsed"
       :collapsed-width="menuCollapsedWidth"
-      :collapsed-icon-size="22"
+      :icon-size="26"
+      :collapsed-icon-size="30"
       :options="menuOptions"
     />
   </n-layout-sider>
@@ -23,10 +25,14 @@
 import { ref } from 'vue'
 import { useSideMenu } from '@/hooks/useSideMenu'
 import { NMenu, NLayoutSider } from 'naive-ui'
+import { useTheme } from '@/hooks/useTheme'
+
+// theme
+const { isDark } = useTheme()
 
 // menu
 const { menuOptions } = useSideMenu()
-const menuWidth = 160 // 宽度
+const menuWidth = 140 // 宽度
 const menuCollapsedWidth = 64 // 收起宽度
 const activeKey = ref('Home')
 const collapsed = ref(false)

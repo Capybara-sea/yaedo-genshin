@@ -2,8 +2,8 @@ import type { ThemeConfig } from './types'
 
 export const Layout: ThemeConfig<'Layout'> = {
   light: {
-    color: '#fff', // 主体颜色
-    siderColor: '#f6f6f7', // 边栏颜色
+    color: '#ffffff', // 主体颜色
+    siderColor: '#29435b', // 边栏颜色
   },
   dark: {
     color: '#2b2b45',

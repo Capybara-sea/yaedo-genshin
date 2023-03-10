@@ -25,7 +25,7 @@ import { NLayout, NLayoutContent } from 'naive-ui'
   .slide-fade- {
     &enter-active,
     &leave-active {
-      transition: opacity 0.1s ease-in-out 0.1s, transform 0.2s ease-in-out;
+      transition: opacity 0.15s ease-in-out 0.05s, transform 0.2s ease-in;
     }
     &enter-from,
     &leave-to {
