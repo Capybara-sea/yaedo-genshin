@@ -2,8 +2,8 @@
   <n-layout-sider
     bordered
     collapse-mode="width"
-    :collapsed-width="menuCollapsedWidth"
-    :width="menuWidth"
+    :collapsed-width="menuWidth.close"
+    :width="menuWidth.open"
     :collapsed="collapsed"
     show-trigger
     @collapse="collapsed = true"
@@ -13,9 +13,9 @@
       :inverted="!isDark"
       v-model:value="activeKey"
       :collapsed="collapsed"
-      :collapsed-width="menuCollapsedWidth"
-      :icon-size="26"
-      :collapsed-icon-size="30"
+      :collapsed-width="menuWidth.close"
+      :icon-size="iconSize.open"
+      :collapsed-icon-size="iconSize.close"
       :options="menuOptions"
     />
   </n-layout-sider>
@@ -32,10 +32,9 @@ const { isDark } = useTheme()
 
 // menu
 const { menuOptions } = useSideMenu()
-const menuWidth = 140 // 宽度
-const menuCollapsedWidth = 64 // 收起宽度
+const menuWidth = { open: 180, close: 64 } // 侧栏宽度
+const iconSize = { open: 26, close: 30 } // 图标大小
+
 const activeKey = ref('Home')
 const collapsed = ref(false)
 </script>
-
-<style lang="scss" scoped></style>

@@ -1,0 +1,32 @@
+<template>
+  <n-list hoverable :show-divider="false">
+    <!-- 深色模式 -->
+    <n-list-item>
+      <n-thing
+        title="深色模式"
+        description="写样式真的好麻烦..."
+        description-style="text-align: left"
+      />
+      <template #suffix>
+        <n-switch size="large" :default-value="darkSwitch" @update:value="triggerTheme">
+          <template #checked-icon>
+            <n-icon :component="DarkModeRound" color="#31322c" />
+          </template>
+          <template #unchecked-icon>
+            <n-icon :component="LightModeRound" color="#db9b34" />
+          </template>
+        </n-switch>
+      </template>
+    </n-list-item>
+  </n-list>
+</template>
+
+<script lang="ts" setup>
+import { useAppStore } from '@/store'
+import { LightModeRound, DarkModeRound } from '@vicons/material'
+import { NList, NListItem, NThing, NSwitch, NIcon } from 'naive-ui'
+
+const { $state, setTheme } = useAppStore()
+const darkSwitch = Boolean($state.theme === 'dark')
+const triggerTheme = (val: boolean) => setTheme(val ? 'dark' : 'light')
+</script>

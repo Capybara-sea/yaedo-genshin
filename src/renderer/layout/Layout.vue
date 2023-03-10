@@ -1,7 +1,7 @@
 <template>
   <n-layout has-sider class="app-container">
     <side-menu></side-menu>
-    <n-layout-content>
+    <n-layout-content content-style="padding: 24px;">
       <div class="content">
         <router-view class="view" v-slot="{ Component, route }">
           <transition name="slide-fade" mode="out-in">

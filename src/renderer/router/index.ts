@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,13 +14,18 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../views/Characters.vue'),
   },
   {
+    path: '/Setting',
+    name: 'Setting',
+    component: () => import('../views/Setting.vue'),
+  },
+  {
     path: '/:pathMatch(.*)',
     redirect: '/',
   },
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 })
 
