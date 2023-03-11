@@ -38,6 +38,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
+    "electron-store": "^8.1.0",
     "pinia": "^2.0.33",
     "vue": "^3.2.40",
     "vue-router": "4"

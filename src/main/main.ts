@@ -2,9 +2,10 @@ import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
 import { Common } from './common'
 
-import AppData from './api/appData'
-import HelloApi from './api/helloApi'
 import { IpcMainProvider } from './preload/ipcMainProvider'
+import HelloApi from './api/helloApi'
+import AppData from './api/appData'
+import Setting from './api/Setting'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -60,3 +61,4 @@ app.on('window-all-closed', function () {
 const ipcMainProvider = new IpcMainProvider()
 ipcMainProvider.register(new HelloApi())
 ipcMainProvider.register(new AppData())
+ipcMainProvider.register(new Setting())

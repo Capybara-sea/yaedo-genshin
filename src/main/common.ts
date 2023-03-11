@@ -4,6 +4,8 @@ export class Common {
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
 
+  static USER_SETTING = 'user_setting'
+
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
     width: 800,
     height: 600,
