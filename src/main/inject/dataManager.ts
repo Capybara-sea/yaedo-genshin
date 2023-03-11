@@ -67,7 +67,7 @@ export default class DataManager {
     // 没有更新
     if (needUpdate.length === 0) {
       this.fileLock = localFileLock
-      console.log('[dataManager] no update')
+      console.log('[DataManager] no update')
       return
     }
 
@@ -85,7 +85,7 @@ export default class DataManager {
     writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 
     // 更新完成
-    console.log('[dataManager] update finished')
+    console.log('[DataManager] update finished')
     this.isInit = true
     this.fileLock = localFileLock
   }
