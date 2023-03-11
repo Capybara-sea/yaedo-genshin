@@ -2,7 +2,7 @@ import type { AppDataType } from '../../types/data'
 import { app } from 'electron'
 import Path from 'path'
 import { Common } from '../common'
-import { checkDir, hasFile, writeFile } from '../utils/files'
+import { checkDir, hasFile, writeFile, hash } from '../utils/files'
 import { Http } from '../utils/request'
 
 type FileLock = {
@@ -17,7 +17,7 @@ type FileLockItem = {
 const github = {
   name: 'Capybara-sea',
   repo: 'yaedo-metadata',
-  branch: 'master',
+  branch: 'latest',
 }
 const githubUrl = (path: string) =>
   `https://cdn.jsdelivr.net/gh/${github.name}/${github.repo}@${github.branch}/${path}`
@@ -77,10 +77,16 @@ export default class DataManager {
         const item = remoteFileLock[key]
         console.log('[dataManager] data update', item.path, '...')
         const data = await Http.GET(githubUrl(item.path)) // 下载
+        const localHash = hash(data, 'hex')
+        if (localHash !== item.hash) throw new Error('[DataManager] hash is not equal')
         writeFile(Path.join(this.appDataPath, item.path), data) // 写入
         localFileLock[key] = item // 更新本地版本
       })
-    )
+    ).catch((error) => {
+      console.error('[DataManager] update error', error)
+      throw error
+    })
+
     // 写入本地版本
     writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 

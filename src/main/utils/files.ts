@@ -1,5 +1,6 @@
 import fs from 'fs'
 import Path from 'path'
+import crypto from 'crypto'
 
 export const checkDir = (path: string, doNewFile: boolean = true): boolean => {
   try {
@@ -39,4 +40,12 @@ export const writeFile = (path: string, data: string): boolean => {
     console.error('[file:writeFile] 文件写入失败', error)
     return false
   }
+}
+
+export const hash = (
+  data: string | NodeJS.ArrayBufferView,
+  encoding: 'base64' | 'base64url' | 'hex'
+): string => {
+  const hash = crypto.createHash('sha256')
+  return hash.update(data).digest(encoding)
 }
