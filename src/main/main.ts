@@ -5,7 +5,7 @@ import { Common } from './common'
 import { IpcMainProvider } from './preload/ipcMainProvider'
 import HelloApi from './api/helloApi'
 import AppData from './api/appData'
-import Setting from './api/Setting'
+import Setting from './api/setting'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 

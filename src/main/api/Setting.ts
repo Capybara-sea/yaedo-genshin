@@ -1,19 +1,25 @@
 import type { IpcMainInvokeEvent } from 'electron'
-import Store from 'electron-store'
+import SettingManager from '../modules/settingManager'
 import { Common } from '../common'
 
 export default class Setting {
-  private store: Store
+  private store: SettingManager
 
   constructor() {
-    this.store = new Store({ name: Common.USER_SETTING })
+    this.store = new SettingManager({ name: Common.USER_SETTING })
   }
 
-  async set(e: IpcMainInvokeEvent, key: string, value: any) {
-    return this.store.set(key, value)
+  async set(e: IpcMainInvokeEvent, key: string | object, value: any) {
+    if (typeof key === 'object') {
+      this.store.set(key)
+      return this.store.store
+    } else {
+      return this.store.set(key, value)
+    }
   }
 
-  async get(e: IpcMainInvokeEvent, key: string) {
-    return this.store.get(key)
+  async get(e: IpcMainInvokeEvent, key?: string) {
+    if (key) return this.store.get(key)
+    else return this.store.store
   }
 }

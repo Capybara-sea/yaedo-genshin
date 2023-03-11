@@ -1,15 +1,19 @@
 import { defineStore } from 'pinia'
 import type { AppState, Theme } from './types'
-import { getLocalSetting } from './helper'
+import { defaultState } from './helper'
 
 export const useAppStore = defineStore('app-store', {
-  state: (): AppState => getLocalSetting(),
+  state: (): AppState => defaultState(),
   actions: {
-    // TODO: 主题切换后应该储存至本地
-    // [ ] 1.主进程储存API
-    // [ ] 2.渲染进程调用主进程API
+    async init() {
+      window.api.Setting.get<AppState>().then((settings) => {
+        this.$state = settings
+      })
+    },
+
     setTheme(theme: Theme) {
       this.theme = theme
+      window.api.Setting.set('theme', theme)
     },
   },
 })
