@@ -9,7 +9,3 @@ const app = createApp(App)
 setupRouter(app)
 setupStore(app)
 app.mount('#app')
-
-window.api.Setting.get('test').then((res) => {
-  console.log(res)
-})

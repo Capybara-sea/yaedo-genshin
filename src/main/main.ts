@@ -3,7 +3,6 @@ import { join } from 'path'
 import { Common } from './common'
 
 import { IpcMainProvider } from './preload/ipcMainProvider'
-import HelloApi from './api/helloApi'
 import AppData from './api/appData'
 import Setting from './api/setting'
 
@@ -34,6 +33,10 @@ function createWindow() {
 
 app.whenReady().then(() => {
   // DataManager.init()
+  // 注册所有的api
+  const ipcMainProvider = new IpcMainProvider()
+  ipcMainProvider.register(new AppData())
+  ipcMainProvider.register(new Setting())
 
   createWindow()
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -57,8 +60,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
-
-const ipcMainProvider = new IpcMainProvider()
-ipcMainProvider.register(new HelloApi())
-ipcMainProvider.register(new AppData())
-ipcMainProvider.register(new Setting())
