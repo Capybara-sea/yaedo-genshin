@@ -14,11 +14,12 @@ export const hasFile = (path: string, fileName?: string): boolean => {
 }
 
 export const readFile = (filePath: string): string => {
-  if (!fs.existsSync(Path.dirname(filePath))) return ''
+  if (!fs.existsSync(filePath)) return ''
   else return filePath ? fs.readFileSync(filePath, 'utf-8') : ''
 }
 
 export const writeFile = (filePath: string, data: string): boolean => {
+  console.log('[writeFile]', Path.dirname(filePath))
   if (!fs.existsSync(Path.dirname(filePath))) {
     fs.mkdirSync(Path.dirname(filePath), { recursive: true })
   }
@@ -33,7 +34,7 @@ export const writeFile = (filePath: string, data: string): boolean => {
 
 export const hash = (
   data: string | NodeJS.ArrayBufferView,
-  encoding: 'base64' | 'base64url' | 'hex'
+  encoding: 'base64' | 'base64url' | 'hex' = 'hex'
 ): string => {
   const hash = crypto.createHash('sha256')
   return hash.update(data).digest(encoding)

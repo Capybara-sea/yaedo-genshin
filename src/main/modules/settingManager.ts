@@ -1,5 +1,6 @@
 const { app } = require('electron')
 const Path = require('path')
+import { Common } from '../common'
 import { readFile, writeFile } from '../utils/files'
 
 export default class SettingManager {
@@ -7,7 +8,7 @@ export default class SettingManager {
   store: object
 
   constructor(options: { name: string }) {
-    this.path = Path.join(app.getPath('appData'), app.getName(), `${options.name}.json`)
+    this.path = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH, options.name)
     const temp = readFile(this.path)
     this.store = temp === '' ? {} : JSON.parse(temp)
   }

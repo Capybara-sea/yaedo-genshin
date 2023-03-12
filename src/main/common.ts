@@ -3,8 +3,9 @@ import type { BrowserWindowConstructorOptions } from 'electron'
 export class Common {
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
+  static USER_SETTING = 'user_setting.json'
 
-  static USER_SETTING = 'user_setting'
+  static REQUEST_SCHEMES = 'yaedo'
 
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
     show: false,

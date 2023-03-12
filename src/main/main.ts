@@ -1,64 +1,26 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron'
-import { join } from 'path'
-import { Common } from './common'
+import { app, BrowserWindow } from 'electron'
+import { bindIpcApi } from './api'
+import { injectWebRequest, registerSchemes } from './inject/webRequest'
+import { createMainWindow } from './window/mainWindow'
 
-import { IpcMainProvider } from './preload/ipcMainProvider'
-import AppData from './api/appData'
-import Setting from './api/setting'
-
-const isDevelopment = process.env.NODE_ENV === 'development'
-
-function createWindow() {
-  const mainWindow = new BrowserWindow({
-    ...Common.WINDOW_DEFAULT_OPTIONS,
-    webPreferences: {
-      preload: join(__dirname, 'preload/index.js'),
-      nodeIntegration: true,
-      contextIsolation: true,
-    },
-    ...(isDevelopment && {
-      x: 1700,
-      y: 800,
-    }),
-  })
-
-  if (isDevelopment) {
-    const rendererPort = process.argv[2]
-    mainWindow.loadURL(`http://localhost:${rendererPort}`)
-    mainWindow.webContents.openDevTools()
-  } else {
-    mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
-  }
-
-  ipcMain.once('ready-to-show', () => mainWindow.show())
-}
+app.on('will-finish-launching', () => {
+  registerSchemes() // 注册协议
+})
 
 app.whenReady().then(() => {
-  // DataManager.init()
-  // 注册所有的api
-  const ipcMainProvider = new IpcMainProvider()
-  ipcMainProvider.register(new AppData())
-  ipcMainProvider.register(new Setting())
+  bindIpcApi() // 注册所有的api
+  injectWebRequest() // 注入本地图片的协议
+  createMainWindow()
+})
 
-  createWindow()
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': ["script-src 'self'"],
-      },
-    })
-  })
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-  })
+app.on('activate', function () {
+  // 在macOS上，当dock图标被点击并且没有其他窗口打开时，通常会在应用中重新创建一个窗口。
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createMainWindow()
+  }
 })
 
 app.on('window-all-closed', function () {
+  // 在macOS上，除非用户用Cmd + Q显式退出，否则绝大部分应用及其菜单栏会保持激活。
   if (process.platform !== 'darwin') app.quit()
 })

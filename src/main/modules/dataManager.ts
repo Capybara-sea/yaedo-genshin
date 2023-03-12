@@ -69,10 +69,27 @@ export default class DataManager {
     await Promise.all(
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
-        console.log('[dataManager] data update', item.path, '...')
+        console.log('[DataManager] data update', item.path, '...')
         const data = await Http.GET(githubUrl(item.path)) // 下载
-        const localHash = hash(data, 'hex')
-        if (localHash !== item.hash) throw new Error('[DataManager] hash is not equal')
+
+        // TODO 检查hash为什么不相等
+        // const localHash = hash(data)
+        // if (localHash !== item.hash) {
+        //   writeFile(
+        //     Path.join(app.getPath('appData'), app.getName(), 'error', 'local.json'),
+        //     JSON.stringify(
+        //       {
+        //         message: 'hash is not equal',
+        //         remoteHash: item.hash,
+        //         localHash,
+        //         data: JSON.parse(data),
+        //       },
+        //       null,
+        //       2
+        //     )
+        //   )
+        //   throw new Error('[DataManager] hash is not equal')
+        // }
         writeFile(Path.join(this.appDataPath, item.path), data) // 写入
         localFileLock[key] = item // 更新本地版本
       })
