@@ -7,7 +7,7 @@ import { customDarkTheme, customLightTheme } from '@/styles/theme'
 export function useTheme() {
   const appStore = useAppStore()
 
-  // TODO 和主进程通信，获取系统主题
+  // TODO : 和主进程通信，获取系统主题
   const OsTheme = useOsTheme()
 
   const isDark = computed(() => {

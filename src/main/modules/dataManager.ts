@@ -17,7 +17,7 @@ type FileLockItem = {
 const github = {
   name: 'Capybara-sea',
   repo: 'yaedo-metadata',
-  branch: 'latest',
+  branch: 'master',
 }
 const githubUrl = (path: string) =>
   `https://cdn.jsdelivr.net/gh/${github.name}/${github.repo}@${github.branch}/${path}`
@@ -71,26 +71,16 @@ export default class DataManager {
         const item = remoteFileLock[key]
         console.log('[DataManager] data update', item.path, '...')
         const data = await Http.GET(githubUrl(item.path)) // 下载
-
-        // TODO 检查hash为什么不相等
-        // const localHash = hash(data)
-        // if (localHash !== item.hash) {
-        //   writeFile(
-        //     Path.join(app.getPath('appData'), app.getName(), 'error', 'local.json'),
-        //     JSON.stringify(
-        //       {
-        //         message: 'hash is not equal',
-        //         remoteHash: item.hash,
-        //         localHash,
-        //         data: JSON.parse(data),
-        //       },
-        //       null,
-        //       2
-        //     )
-        //   )
-        //   throw new Error('[DataManager] hash is not equal')
-        // }
         writeFile(Path.join(this.appDataPath, item.path), data) // 写入
+
+        // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
+        const localHash = hash(readFile(Path.join(this.appDataPath, item.path)))
+        if (localHash !== item.hash) {
+          throw new Error(`[DataManager] hash is not equal
+          remote: ${item.hash}
+          local: ${localHash}
+          `)
+        }
         localFileLock[key] = item // 更新本地版本
       })
     ).catch((error) => {

@@ -22,7 +22,7 @@ export const renderMenuOption = (option: RenderMenuOption): MenuOption => {
 }
 
 export function useSideMenu() {
-  // TODO 和主进程通信，获取侧边栏状态，以及侧边栏自定义菜单内容
+  // TODO : 和主进程通信，获取侧边栏状态，以及侧边栏自定义菜单内容
   // const appStore = useAppStore()
   // const isSideMenuOpen = computed(() => appStore.isSideMenuOpen)
 
