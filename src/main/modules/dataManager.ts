@@ -1,9 +1,9 @@
 import type { AppDataType } from '../../types/data'
 import { app } from 'electron'
-import Path from 'path'
+import { join } from 'path'
 import { Common } from '../common'
-import { readFile, writeFile, hash } from '../utils/files'
-import { Http } from '../utils/request'
+import { hash, readFile, writeFile } from '../utils/files'
+import { getGithubFile } from '../utils/github'
 
 type FileLock = {
   [propName: string]: FileLockItem
@@ -13,14 +13,6 @@ type FileLockItem = {
   path: string
   hash: string
 }
-
-const github = {
-  name: 'Capybara-sea',
-  repo: 'yaedo-metadata',
-  branch: 'master',
-}
-const githubUrl = (path: string) =>
-  `https://cdn.jsdelivr.net/gh/${github.name}/${github.repo}@${github.branch}/${path}`
 
 export default class DataManager {
   private static instance: DataManager
@@ -40,8 +32,8 @@ export default class DataManager {
   private localFileLockPath: string
 
   private constructor() {
-    this.appDataPath = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
-    this.localFileLockPath = Path.join(this.appDataPath, Common.APP_DATA_FILE_LOCK)
+    this.appDataPath = join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
+    this.localFileLockPath = join(this.appDataPath, Common.APP_DATA_FILE_LOCK)
     this.initialization = this.checkUpdate()
   }
 
@@ -51,7 +43,7 @@ export default class DataManager {
     const localFileLock: FileLock = isHasLocalFileLock === '' ? {} : JSON.parse(isHasLocalFileLock)
 
     // 从远端检查更新
-    const remoteFileLock = JSON.parse(await Http.GET(githubUrl(Common.APP_DATA_FILE_LOCK)))
+    const remoteFileLock = JSON.parse(await getGithubFile(Common.APP_DATA_FILE_LOCK))
 
     // 比对版本
     const needUpdate = Object.keys(remoteFileLock).filter((key) => {
@@ -70,11 +62,11 @@ export default class DataManager {
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
         console.log('[DataManager] data update', item.path, '...')
-        const data = await Http.GET(githubUrl(item.path)) // 下载
-        writeFile(Path.join(this.appDataPath, item.path), data) // 写入
+        const data = await getGithubFile(item.path) // 下载
+        writeFile(join(this.appDataPath, item.path), data) // 写入
 
         // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
-        const localHash = hash(readFile(Path.join(this.appDataPath, item.path)))
+        const localHash = hash(readFile(join(this.appDataPath, item.path)))
         if (localHash !== item.hash) {
           throw new Error(`[DataManager] hash is not equal
           remote: ${item.hash}
@@ -100,6 +92,6 @@ export default class DataManager {
   async get(dataType: AppDataType): Promise<any> {
     await this.initialization
     const path = this.fileLock[dataType].path
-    return require(Path.join(this.appDataPath, path))
+    return require(join(this.appDataPath, path))
   }
 }

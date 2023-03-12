@@ -2,6 +2,9 @@ import fs from 'fs'
 import { Common } from '../common'
 import { join } from 'path'
 import { app, protocol, session } from 'electron'
+import ImageManager from '../modules/imageManager'
+
+const imageManager = ImageManager.init()
 
 export function injectWebRequest() {
   // 该方法必须在app ready之前调用
@@ -21,14 +24,12 @@ export function injectWebRequest() {
     })
 
     // 注册协议 用于加载本地图片
-    protocol.registerBufferProtocol(Common.REQUEST_SCHEMES, (request, callback) => {
-      const filePath = join(
-        app.getPath('appData'),
-        app.name,
-        Common.APP_DATA_PATH,
+    protocol.registerBufferProtocol(Common.REQUEST_SCHEMES, async (request, callback) => {
+      console.log('[registerBufferProtocol]', request.url)
+      const filePath = await imageManager.getPath(
         request.url.replace(`${Common.REQUEST_SCHEMES}://`, '')
       )
-      console.log('[registerBufferProtocol]', request.url)
+      console.log('[registerBufferProtocol:get]', filePath)
       callback({ mimeType: 'image/webp', data: fs.readFileSync(filePath) })
     })
 

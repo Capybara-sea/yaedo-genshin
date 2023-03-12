@@ -5,7 +5,8 @@ export class Common {
 
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
-  static USER_SETTING = 'user_setting.json'
+  static APP_DATA_IMAGE_LOCK = 'imageLock.json'
+  static USER_SETTING = 'userSetting.json'
 
   static REQUEST_SCHEMES = 'yaedo'
 
@@ -16,6 +17,12 @@ export class Common {
     minWidth: 600,
     minHeight: 400,
     backgroundColor: '#888',
+  }
+
+  static GITHUB = {
+    name: 'Capybara-sea',
+    repo: 'yaedo-metadata',
+    branch: 'master',
   }
 
   static USER_AGENT = {
