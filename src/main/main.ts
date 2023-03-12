@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from 'electron'
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 import { join } from 'path'
 import { Common } from './common'
 
@@ -29,6 +29,8 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
   }
+
+  ipcMain.once('ready-to-show', () => mainWindow.show())
 }
 
 app.whenReady().then(() => {

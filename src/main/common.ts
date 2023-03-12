@@ -7,10 +7,12 @@ export class Common {
   static USER_SETTING = 'user_setting'
 
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
+    show: false,
     width: 800,
     height: 600,
     minWidth: 600,
     minHeight: 400,
+    backgroundColor: '#888',
   }
 
   static USER_AGENT = {
