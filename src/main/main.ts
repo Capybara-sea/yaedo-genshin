@@ -1,16 +1,14 @@
 import { app, BrowserWindow } from 'electron'
 import { bindIpcApi } from './api'
-import { injectWebRequest, registerSchemes } from './inject/webRequest'
+import { injectWebRequest, keyboardListener } from './inject'
 import { createMainWindow } from './window/mainWindow'
 
-app.on('will-finish-launching', () => {
-  registerSchemes() // 注册协议
-})
+injectWebRequest() // 注入本地图片的协议
+keyboardListener() // 注册快捷键监听
+bindIpcApi() // 注册所有的api
 
 app.whenReady().then(() => {
-  bindIpcApi() // 注册所有的api
-  injectWebRequest() // 注入本地图片的协议
-  createMainWindow()
+  createMainWindow() // 创建主窗口
 })
 
 app.on('activate', function () {
@@ -22,5 +20,7 @@ app.on('activate', function () {
 
 app.on('window-all-closed', function () {
   // 在macOS上，除非用户用Cmd + Q显式退出，否则绝大部分应用及其菜单栏会保持激活。
-  if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })

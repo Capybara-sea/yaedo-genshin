@@ -2,8 +2,6 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
 
-const isDevelopment = process.env.NODE_ENV === 'development'
-
 export function createMainWindow() {
   console.log('[mainWindow] createMainWindow')
   const mainWindow = new BrowserWindow({
@@ -13,13 +11,13 @@ export function createMainWindow() {
       nodeIntegration: true,
       contextIsolation: true,
     },
-    ...(isDevelopment && {
+    ...(Common.isDev && {
       x: 1700,
       y: 800,
     }),
   })
 
-  if (isDevelopment) {
+  if (Common.isDev) {
     const rendererPort = process.argv[2]
     mainWindow.loadURL(`http://localhost:${rendererPort}`)
     mainWindow.webContents.openDevTools()

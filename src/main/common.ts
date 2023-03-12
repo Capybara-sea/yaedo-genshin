@@ -1,6 +1,8 @@
 import type { BrowserWindowConstructorOptions } from 'electron'
 
 export class Common {
+  static isDev = process.env.NODE_ENV === 'development'
+
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
   static USER_SETTING = 'user_setting.json'

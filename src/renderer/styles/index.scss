@@ -13,7 +13,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
-:root[class="dark"]{
+:root[class='dark'] {
   background-color: #2b2b45;
 }
 
@@ -21,6 +21,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 body {

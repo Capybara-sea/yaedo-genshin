@@ -3,12 +3,12 @@ import { Common } from '../common'
 import { join } from 'path'
 import { app, protocol, session } from 'electron'
 
-// 该方法必须在app ready之前调用
-export function registerSchemes() {
-  protocol.registerSchemesAsPrivileged([{ scheme: 'yaedo', privileges: { standard: true } }])
-}
-
 export function injectWebRequest() {
+  // 该方法必须在app ready之前调用
+  app.on('will-finish-launching', () => {
+    protocol.registerSchemesAsPrivileged([{ scheme: 'yaedo', privileges: { standard: true } }])
+  })
+
   app.whenReady().then(() => {
     // 为了让webview可以加载本地图片，需要修改webview的content-security-policy
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
