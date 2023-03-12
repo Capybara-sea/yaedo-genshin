@@ -2,24 +2,6 @@ import fs from 'fs'
 import Path from 'path'
 import crypto from 'crypto'
 
-export const checkDir = (path: string, doNewFile: boolean = true): boolean => {
-  try {
-    const dir = Path.dirname(path)
-    try {
-      fs.accessSync(dir)
-    } catch (error) {
-      if (!doNewFile) return false
-      checkDir(dir)
-      fs.mkdirSync(dir)
-      console.log('[file:checkDir] 路径不存在，新建文件夹', dir)
-    }
-    return true
-  } catch (error) {
-    console.error('[file:checkDir] 文件夹创建失败', error)
-    return false
-  }
-}
-
 // 检查文件是否存在
 export const hasFile = (path: string, fileName?: string): boolean => {
   if (fileName) {
@@ -31,10 +13,17 @@ export const hasFile = (path: string, fileName?: string): boolean => {
   }
 }
 
-export const writeFile = (path: string, data: string): boolean => {
-  checkDir(path)
+export const readFile = (filePath: string): string => {
+  if (!fs.existsSync(Path.dirname(filePath))) return ''
+  else return filePath ? fs.readFileSync(filePath, 'utf-8') : ''
+}
+
+export const writeFile = (filePath: string, data: string): boolean => {
+  if (!fs.existsSync(Path.dirname(filePath))) {
+    fs.mkdirSync(Path.dirname(filePath), { recursive: true })
+  }
   try {
-    fs.writeFileSync(path, data)
+    fs.writeFileSync(filePath, data)
     return true
   } catch (error) {
     console.error('[file:writeFile] 文件写入失败', error)

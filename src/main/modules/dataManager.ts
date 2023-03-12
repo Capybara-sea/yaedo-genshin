@@ -2,7 +2,7 @@ import type { AppDataType } from '../../types/data'
 import { app } from 'electron'
 import Path from 'path'
 import { Common } from '../common'
-import { checkDir, hasFile, writeFile, hash } from '../utils/files'
+import { readFile, writeFile, hash } from '../utils/files'
 import { Http } from '../utils/request'
 
 type FileLock = {
@@ -46,15 +46,9 @@ export default class DataManager {
   }
 
   async checkUpdate() {
-    // 检查目录是否存在
-    const isExist = checkDir(this.localFileLockPath)
-    if (!isExist) throw new Error('[DataManager] appDataPath is not exist')
-
     // 检查版本文件
-    const isHasLocalFileLock = hasFile(this.localFileLockPath)
-    const localFileLock: FileLock = isHasLocalFileLock
-      ? require(Path.join(this.localFileLockPath))
-      : {}
+    const isHasLocalFileLock = readFile(this.localFileLockPath)
+    const localFileLock: FileLock = isHasLocalFileLock === '' ? {} : JSON.parse(isHasLocalFileLock)
 
     // 从远端检查更新
     const remoteFileLock = JSON.parse(await Http.GET(githubUrl(Common.APP_DATA_FILE_LOCK)))
