@@ -1,9 +1,7 @@
 import type { MenuOption } from 'naive-ui'
 import { h, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import icon_home from '@/assets/icons/home.png'
-import icon_setting from '@/assets/icons/settings.png'
-import icon_characters from '@/assets/icons/characters.png'
+import { menu_home, menu_setting, menu_characters } from '@/assets/icons'
 
 export interface RenderMenuOption {
   el: any
@@ -34,21 +32,21 @@ export function useSideMenu() {
       to: 'Home',
       label: '首页',
       key: 'Home',
-      icon: icon_home,
+      icon: menu_home,
     }),
     renderMenuOption({
       el: RouterLink,
       to: 'Characters',
       label: '角色',
       key: 'Characters',
-      icon: icon_characters,
+      icon: menu_characters,
     }),
     renderMenuOption({
       el: RouterLink,
       to: 'Setting',
       label: '设置',
       key: 'Setting',
-      icon: icon_setting,
+      icon: menu_setting,
     }),
   ]
 

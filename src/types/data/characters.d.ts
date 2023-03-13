@@ -10,7 +10,7 @@ export interface Character {
   /** 描述 */
   description: string
   /** 稀有度 */
-  rarity: string
+  rarity: '1' | '2' | '3' | '4' | '5'
   /** 元素属性 */
   element: string
   /** 武器类型 */
