@@ -5,13 +5,13 @@ import { Common } from '../common'
 import { hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
 
-type FileLock = {
-  [propName: string]: FileLockItem
-}
-
 type FileLockItem = {
   path: string
   hash: string
+}
+
+type FileLock = {
+  [propName: string]: FileLockItem
 }
 
 export default class DataManager {
