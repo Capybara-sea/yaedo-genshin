@@ -2,6 +2,8 @@
   <div>
     <div v-for="character in characters" :key="character.id">
       <div>{{ character.name }}</div>
+      <div>{{ character.images.icon }}</div>
+      <img :src="character.images.icon" />
     </div>
   </div>
 </template>

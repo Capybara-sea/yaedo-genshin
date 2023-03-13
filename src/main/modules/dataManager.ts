@@ -39,7 +39,7 @@ export default class DataManager {
 
   async checkUpdate() {
     // 检查版本文件
-    const isHasLocalFileLock = readFile(this.localFileLockPath)
+    const isHasLocalFileLock = readFile(this.localFileLockPath) as string
     const localFileLock: FileLock = isHasLocalFileLock === '' ? {} : JSON.parse(isHasLocalFileLock)
 
     // 从远端检查更新
@@ -63,16 +63,15 @@ export default class DataManager {
         const item = remoteFileLock[key]
         console.log('[DataManager] data update', item.path, '...')
         const data = await getGithubFile(item.path) // 下载
-        writeFile(join(this.appDataPath, item.path), data) // 写入
-
         // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
-        const localHash = hash(readFile(join(this.appDataPath, item.path)))
+        const localHash = hash(data)
         if (localHash !== item.hash) {
           throw new Error(`[DataManager] hash is not equal
           remote: ${item.hash}
           local: ${localHash}
           `)
         }
+        writeFile(join(this.appDataPath, item.path), data) // 写入
         localFileLock[key] = item // 更新本地版本
       })
     ).catch((error) => {

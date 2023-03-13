@@ -9,7 +9,7 @@ export default class SettingManager {
 
   constructor(options: { name: string }) {
     this.path = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH, options.name)
-    const temp = readFile(this.path)
+    const temp = readFile(this.path) as string
     this.store = temp === '' ? {} : JSON.parse(temp)
   }
 

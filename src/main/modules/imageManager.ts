@@ -1,8 +1,8 @@
 import fs from 'fs'
-import { join, relative } from 'path'
+import { join, relative, extname, basename } from 'path'
 import { app } from 'electron'
 import { Common } from '../common'
-import { readFile, writeFile } from '../utils/files'
+import { readFile, writeFile, hasDir, hash } from '../utils/files'
 import { getGithubFile } from '../utils/github'
 
 type imageLock = {
@@ -37,7 +37,7 @@ export default class ImageManager {
   }
 
   private initImageLock() {
-    const imageLock = readFile(this.localImageLockPath)
+    const imageLock = readFile(this.localImageLockPath) as string
     this.imageLock = imageLock === '' ? {} : JSON.parse(imageLock)
 
     getGithubFile(Common.APP_DATA_IMAGE_LOCK).then((imageLock) => {
@@ -58,21 +58,41 @@ export default class ImageManager {
       })
       return res
     }
+    if (hasDir(this.appDataPath)) return
     this.fileList = getDir(this.appDataPath).map((path) => relative(this.appDataPath, path))
-    console.log(this.fileList)
   }
 
   private async download(path): Promise<string> {
+    const file = await getGithubFile(path)
+    const localPath = join(this.appDataPath, path)
+    writeFile(localPath, file)
+    this.fileList.push(path)
     return path
   }
 
   async getPath(path): Promise<string> {
-    if (this.fileList.includes(path)) return join(this.appDataPath, path)
-    else return this.download(path)
+    // 检查path是否有文件类型后缀,使用Path.extname(path)获取
+    if (extname(path) === '') {
+      path = path + '.png'
+    }
+    if (!this.fileList.includes(path)) {
+      await this.download(path)
+    }
+    return join(this.appDataPath, path)
   }
 
-  async getImageFile(path): Promise<string> {
-    // 检查文件是否在本地
-    return ''
+  async getImageFile(path): Promise<any> {
+    const filePath = await this.getPath(path)
+    const file = readFile(filePath, null)
+
+    const fileName = basename(filePath)
+    const imageLockItem = this.imageLock[fileName]
+
+    if (imageLockItem && imageLockItem.hash === hash(file)) {
+      await this.download(path)
+      const newFile = readFile(filePath, null)
+      return newFile
+    }
+    return file
   }
 }

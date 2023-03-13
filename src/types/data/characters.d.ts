@@ -42,9 +42,9 @@ export interface Character {
   /** 版本 */
   version: string
   /** 技能 */
-  talents?: Talents
+  talents: Talents
   /** 命座 */
-  constellations?: Constellations
+  constellations: Constellations
 }
 
 // 声优
@@ -67,19 +67,10 @@ export interface Costs {
 
 /** 角色图片 */
 export interface Images {
+  splash: string
+  card: string
   icon: string
-  sideicon: string
-  cover1?: string
-  cover2?: string
-  'hoyolab-avatar'?: string
-  nameicon: string
-  nameiconcard: string
-  namegachasplash?: string
-  namegachaslice?: string
-  namesideicon: string
-  card?: string
-  portrait?: string
-  image?: string
+  sideIcon: string
 }
 
 /** 命座 */

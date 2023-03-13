@@ -1,6 +1,4 @@
-import fs from 'fs'
 import { Common } from '../common'
-import { join } from 'path'
 import { app, protocol, session } from 'electron'
 import ImageManager from '../modules/imageManager'
 
@@ -13,6 +11,8 @@ export function injectWebRequest() {
   })
 
   app.whenReady().then(() => {
+    session.defaultSession.clearCache()
+
     // 为了让webview可以加载本地图片，需要修改webview的content-security-policy
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
       callback({
@@ -25,12 +25,8 @@ export function injectWebRequest() {
 
     // 注册协议 用于加载本地图片
     protocol.registerBufferProtocol(Common.REQUEST_SCHEMES, async (request, callback) => {
-      console.log('[registerBufferProtocol]', request.url)
-      const filePath = await imageManager.getPath(
-        request.url.replace(`${Common.REQUEST_SCHEMES}://`, '')
-      )
-      console.log('[registerBufferProtocol:get]', filePath)
-      callback({ mimeType: 'image/webp', data: fs.readFileSync(filePath) })
+      const filePath = request.url.replace(`${Common.REQUEST_SCHEMES}://`, '')
+      callback({ mimeType: 'image/webp', data: await imageManager.getImageFile(filePath) })
     })
 
     // 监听图片请求
