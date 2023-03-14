@@ -1,13 +1,18 @@
 <template>
   <div class="characters-container">
     <div v-for="character in filterCharacters" :key="character.id">
-      <item-card :name="character.name" :icon="character.images.icon" :rarity="character.rarity" />
+      <item-card
+        :name="character.name"
+        :icon="character.images.icon"
+        :rarity="character.rarity"
+        :element="character.element"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { Character } from '@/../types/data/characters'
+import type { Character } from '@/../types/data'
 
 import { ref, computed } from 'vue'
 import ItemCard from '@/components/ItemCard.vue'
@@ -29,7 +34,7 @@ const filterCharacters = computed(() => {
 .characters-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, 120px);
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
 }
 </style>

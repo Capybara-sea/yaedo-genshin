@@ -1,50 +1,66 @@
 <template>
   <n-card class="item-card-container" hoverable :bordered="false" :content-style="contentStyle">
     <template #cover>
-      <img v-if="icon" :src="icon" :style="iconStyle" loading="lazy" />
-      <img :src="starIcon" class="star-icon" />
+      <div class="cover">
+        <div class="icon-box" :style="iconBackground">
+          <img v-if="icon" :src="icon" loading="lazy" />
+        </div>
+        <img v-if="_subIcon" :src="_subIcon" loading="lazy" class="sub-icon-box" />
+        <img :src="starIcon" class="star" />
+      </div>
     </template>
     {{ name }}
   </n-card>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed, StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
+import type { Rarity, Element } from '@/../types/data'
+
+import { computed } from 'vue'
 import { NCard } from 'naive-ui'
-import { rarity_1, rarity_2, rarity_3, rarity_4, rarity_5 } from '@/assets/icons'
 
 const props = defineProps<{
   name: string
   icon?: string
-  rarity?: '1' | '2' | '3' | '4' | '5'
+  rarity?: Rarity
+  subIcon?: string
+  element?: Element
 }>()
 
+// 星星的图片地址
+const starIcon = computed(() => `yaedo://images/ui_rarity_${props.rarity}.webp`)
+// 文字框的样式
 const contentStyle = { padding: '0.5rem' }
 
-const starIcon = computed(() => {
-  return {
-    1: rarity_1,
-    2: rarity_2,
-    3: rarity_3,
-    4: rarity_4,
-    5: rarity_5,
-  }[props.rarity || '1']
-})
-
-const iconBackground = {
+const rarityColor = {
   1: '#818486',
   2: '#5a977a',
   3: '#5987ad',
   4: '#9470bb',
   5: '#c87c24',
 }
+const iconBackground = computed<StyleValue>(() => ({
+  background: rarityColor[props.rarity || '1'],
+}))
 
-const iconStyle = computed<StyleValue>(() => {
-  return {
-    background: iconBackground[props.rarity || '1'],
-    backgroundImage: 'linear-gradient(136deg,rgba(49,43,71,.53),transparent)',
-    borderBottomRightRadius: '.5rem',
+enum ElementEnum {
+  '火' = 'pyro',
+  '水' = 'hydro',
+  '风' = 'anemo',
+  '雷' = 'electro',
+  '草' = 'geo',
+  '冰' = 'cryo',
+  '岩' = 'dendro',
+}
+const _subIcon = computed(() => {
+  if (props.subIcon) {
+    return props.subIcon
   }
+  if (props.element) {
+    return `yaedo://images/ui_element_${ElementEnum[props.element]}.webp`
+  }
+  return undefined
 })
 </script>
 
@@ -56,11 +72,32 @@ const iconStyle = computed<StyleValue>(() => {
   border-radius: 0.5rem;
   overflow: hidden;
 
-  .star-icon {
-    object-fit: contain;
-    height: 1.2rem;
-    margin-bottom: -1.2rem;
-    transform: translateY(-100%);
+  .cover {
+    .icon-box {
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+      border-bottom-right-radius: '.5rem';
+      > img {
+        background-image: linear-gradient(136deg, rgba(49, 43, 71, 0.53), transparent);
+      }
+    }
+
+    .sub-icon-box {
+      position: absolute;
+      top: 0.2em;
+      left: 0.3em;
+      width: 2rem;
+      height: 2rem;
+      object-fit: contain;
+    }
+
+    .star {
+      object-fit: contain;
+      height: 1.2rem;
+      margin-bottom: -1.2rem;
+      transform: translateY(-100%);
+    }
   }
 }
 </style>

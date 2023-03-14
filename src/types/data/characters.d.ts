@@ -10,9 +10,9 @@ export interface Character {
   /** 描述 */
   description: string
   /** 稀有度 */
-  rarity: '1' | '2' | '3' | '4' | '5'
+  rarity: Rarity
   /** 元素属性 */
-  element: string
+  element: Element
   /** 武器类型 */
   weapontype: string
   /** 副词条 */
@@ -46,6 +46,11 @@ export interface Character {
   /** 命座 */
   constellations: Constellations
 }
+
+export type Rarity = '1' | '2' | '3' | '4' | '5'
+
+// 元素属性
+export type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
 
 // 声优
 export interface Cv {

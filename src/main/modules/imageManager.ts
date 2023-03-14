@@ -63,6 +63,7 @@ export default class ImageManager {
   }
 
   private async download(path): Promise<string> {
+    // BUG : 下载文件后检查图片是否完整
     const file = await getGithubFile(path)
     const localPath = join(this.appDataPath, path)
     writeFile(localPath, file)
@@ -88,7 +89,8 @@ export default class ImageManager {
     const fileName = basename(filePath)
     const imageLockItem = this.imageLock[fileName]
 
-    if (imageLockItem && imageLockItem.hash === hash(file)) {
+    if (!(imageLockItem && imageLockItem.hash === hash(file))) {
+      console.log('[ImageManager] image file is not the latest, downloading...')
       await this.download(path)
       const newFile = readFile(filePath, null)
       return newFile
