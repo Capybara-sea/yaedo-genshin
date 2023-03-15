@@ -1,8 +1,10 @@
-import fs from 'fs'
-import { join, relative, extname, basename } from 'path'
 import { app } from 'electron'
+import fs from 'fs'
+import fsExtra from 'fs-extra'
+import { read as JimpRead } from 'jimp'
+import { basename, extname, join, relative } from 'path'
 import { Common } from '../common'
-import { readFile, writeFile, hasDir, hash } from '../utils/files'
+import { hasDir, hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
 
 type imageLock = {
@@ -58,23 +60,38 @@ export default class ImageManager {
       })
       return res
     }
-    if (hasDir(this.appDataPath)) return
+    if (!hasDir(this.appDataPath)) return
     this.fileList = getDir(this.appDataPath).map((path) => relative(this.appDataPath, path))
   }
 
-  private async download(path): Promise<string> {
-    // BUG : 下载文件后检查图片是否完整
+  // 检查图片是否完整
+  private async checkImage(data: Buffer): Promise<boolean> {
+    try {
+      await JimpRead(data)
+      return false
+    } catch (e) {
+      console.error(`Image file is broken: ${e}`)
+      return true
+    }
+  }
+
+  private async download(path: string): Promise<{ isBroken: Boolean; path: string; file: Buffer }> {
     const file = await getGithubFile(path)
-    const localPath = join(this.appDataPath, path)
-    writeFile(localPath, file)
-    this.fileList.push(path)
-    return path
+    // 下载文件后检查图片是否完整
+    const isBroken = await this.checkImage(file)
+    if (!isBroken) {
+      // 如果完整就写入文件夹
+      const localPath = join(this.appDataPath, path)
+      writeFile(localPath, file)
+      this.fileList.push(path)
+    }
+    return { isBroken, path, file }
   }
 
   async getPath(path): Promise<string> {
     // 检查path是否有文件类型后缀,使用Path.extname(path)获取
     if (extname(path) === '') {
-      path = path + '.png'
+      path = path + '.webp'
     }
     if (!this.fileList.includes(path)) {
       await this.download(path)
@@ -84,17 +101,23 @@ export default class ImageManager {
 
   async getImageFile(path): Promise<any> {
     const filePath = await this.getPath(path)
-    const file = readFile(filePath, null)
+    const file = readFile(filePath, null) as Buffer
 
     const fileName = basename(filePath)
-    const imageLockItem = this.imageLock[fileName]
+    const imageLockItem = this.imageLock[fileName] || {}
 
-    if (!(imageLockItem && imageLockItem.hash === hash(file))) {
-      console.log('[ImageManager] image file is not the latest, downloading...')
-      await this.download(path)
-      const newFile = readFile(filePath, null)
-      return newFile
+    // 检查图片是否完整 和 hash是否一致
+    const isBroken = await this.checkImage(file)
+    const isHashSame = imageLockItem.hash === hash(file)
+    if (isBroken || !isHashSame) {
+      const res = await this.download(path)
+      return res.file
     }
     return file
+  }
+
+  clearCache(): void {
+    fsExtra.removeSync(join(this.appDataPath, 'images'))
+    this.fileList = []
   }
 }

@@ -58,7 +58,7 @@ const _subIcon = computed(() => {
     return props.subIcon
   }
   if (props.element) {
-    return `yaedo://images/ui_element_${ElementEnum[props.element]}.webp`
+    return `yaedo://images/ui_element_${ElementEnum[props.element]}_small.webp`
   }
   return undefined
 })
