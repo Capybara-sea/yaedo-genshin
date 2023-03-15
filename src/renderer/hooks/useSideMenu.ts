@@ -1,6 +1,6 @@
 import type { MenuOption } from 'naive-ui'
-import { h, ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { h, ref, computed, watch } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { menu_home, menu_setting, menu_characters } from '@/assets/icons'
 
 export interface RenderMenuOption {
@@ -54,5 +54,12 @@ export function useSideMenu() {
     return [...defaultMenuOptions, ...(customMenuOptions.value as MenuOption[])]
   })
 
-  return { menuOptions }
+  const router = useRouter()
+  const currentRoute = computed<string>(() => {
+    const name = router.currentRoute.value.name
+    if (name === undefined || name === null) return 'Home'
+    return name as string
+  })
+
+  return { menuOptions, currentRoute }
 }

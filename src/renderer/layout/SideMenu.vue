@@ -11,7 +11,7 @@
   >
     <n-menu
       :inverted="!isDark"
-      v-model:value="activeKey"
+      :value="currentRoute"
       :collapsed="collapsed"
       :collapsed-width="menuWidth.close"
       :icon-size="iconSize.open"
@@ -31,10 +31,9 @@ import { useTheme } from '@/hooks/useTheme'
 const { isDark } = useTheme()
 
 // menu
-const { menuOptions } = useSideMenu()
+const { menuOptions, currentRoute } = useSideMenu()
 const menuWidth = { open: 180, close: 64 } // 侧栏宽度
 const iconSize = { open: 26, close: 30 } // 图标大小
 
-const activeKey = ref('Home')
 const collapsed = ref(false)
 </script>
