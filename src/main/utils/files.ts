@@ -2,7 +2,6 @@ import fs from 'fs'
 import Path from 'path'
 import crypto from 'crypto'
 import Logger from './logger'
-const logger = new Logger('files')
 
 export const hasDir = (path: string): boolean => {
   try {
@@ -46,7 +45,7 @@ export const writeFile = (filePath: string, data: string | NodeJS.ArrayBufferVie
     fs.writeFileSync(filePath, data)
     return true
   } catch (error) {
-    logger.error('writeFile文件写入失败', error)
+    new Logger('ImageManager').error('writeFile文件写入失败', error)
     return false
   }
 }

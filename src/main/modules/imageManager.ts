@@ -6,7 +6,6 @@ import { Common } from '../common'
 import { hasDir, hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
 import Logger from '../utils/logger'
-const logger = new Logger('ImageManager')
 
 type imageLock = {
   [propName: string]: imageLockItem
@@ -22,7 +21,7 @@ export default class ImageManager {
   static init(): ImageManager {
     if (ImageManager.instance) return ImageManager.instance
     ImageManager.instance = new ImageManager()
-    logger.info('初始化')
+    new Logger('ImageManager').info('初始化')
     return ImageManager.instance
   }
 
