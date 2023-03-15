@@ -2,6 +2,19 @@ import { app, BrowserWindow } from 'electron'
 import { bindIpcApi } from './api'
 import { injectWebRequest, keyboardListener } from './inject'
 import { createMainWindow } from './window/mainWindow'
+import Logger from './utils/logger'
+const logger = new Logger('Main')
+
+process.on('uncaughtException', (error: Error) => {
+  logger.error('Uncaught Exception', error.stack)
+  // app.quit()
+})
+
+// 监听未处理的 Promise 拒绝
+process.on('unhandledRejection', (reason: any) => {
+  logger.error('Unhandled Rejection', reason)
+  // app.quit()
+})
 
 injectWebRequest() // 注入本地图片的协议
 keyboardListener() // 注册快捷键监听

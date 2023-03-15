@@ -1,11 +1,12 @@
 import { app } from 'electron'
 import fs from 'fs'
 import fsExtra from 'fs-extra'
-import { read as JimpRead } from 'jimp'
 import { basename, extname, join, relative } from 'path'
 import { Common } from '../common'
 import { hasDir, hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
+import Logger from '../utils/logger'
+const logger = new Logger('ImageManager')
 
 type imageLock = {
   [propName: string]: imageLockItem
@@ -21,7 +22,7 @@ export default class ImageManager {
   static init(): ImageManager {
     if (ImageManager.instance) return ImageManager.instance
     ImageManager.instance = new ImageManager()
-    console.log('[ImageManager] initialized')
+    logger.info('初始化')
     return ImageManager.instance
   }
 
@@ -64,28 +65,12 @@ export default class ImageManager {
     this.fileList = getDir(this.appDataPath).map((path) => relative(this.appDataPath, path))
   }
 
-  // 检查图片是否完整
-  private async checkImage(data: Buffer): Promise<boolean> {
-    try {
-      await JimpRead(data)
-      return false
-    } catch (e) {
-      console.error(`Image file is broken: ${e}`)
-      return true
-    }
-  }
-
-  private async download(path: string): Promise<{ isBroken: Boolean; path: string; file: Buffer }> {
+  private async download(path: string): Promise<{ path: string; file: Buffer }> {
     const file = await getGithubFile(path)
-    // 下载文件后检查图片是否完整
-    const isBroken = await this.checkImage(file)
-    if (!isBroken) {
-      // 如果完整就写入文件夹
-      const localPath = join(this.appDataPath, path)
-      writeFile(localPath, file)
-      this.fileList.push(path)
-    }
-    return { isBroken, path, file }
+    const localPath = join(this.appDataPath, path)
+    writeFile(localPath, file)
+    this.fileList.push(path)
+    return { path, file }
   }
 
   async getPath(path): Promise<string> {
@@ -107,9 +92,8 @@ export default class ImageManager {
     const imageLockItem = this.imageLock[fileName] || {}
 
     // 检查图片是否完整 和 hash是否一致
-    const isBroken = await this.checkImage(file)
     const isHashSame = imageLockItem.hash === hash(file)
-    if (isBroken || !isHashSame) {
+    if (!isHashSame) {
       const res = await this.download(path)
       return res.file
     }

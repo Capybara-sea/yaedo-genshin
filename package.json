@@ -39,9 +39,9 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
-    "jimp": "^0.22.7",
     "pinia": "^2.0.33",
     "vue": "^3.2.40",
-    "vue-router": "4"
+    "vue-router": "4",
+    "winston": "^3.8.2"
   }
 }

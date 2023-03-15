@@ -1,6 +1,8 @@
 import type { IpcMainInvokeEvent } from 'electron'
 import { ipcMain } from 'electron'
 import IpcBase from './ipcBase'
+import Logger from '../utils/logger'
+const logger = new Logger('IpcMainProvider')
 
 export class IpcMainProvider extends IpcBase {
   private readonly instanceMap = new Map<string, object>()
@@ -15,7 +17,7 @@ export class IpcMainProvider extends IpcBase {
         return instance[method](e, ...args)
       }
       ipcMain.handle(key, handler)
-      console.log('[Register] ipcMain.handle: ', key)
+      logger.info(`ipcMain.handle: ${key}`)
     })
     this.instanceMap.set(namespace, instance)
   }

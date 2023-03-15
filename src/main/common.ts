@@ -1,12 +1,16 @@
 import type { BrowserWindowConstructorOptions } from 'electron'
+// import { join } from 'path'
+// import { app } from 'electron'
 
 export class Common {
   static isDev = process.env.NODE_ENV === 'development'
 
+  // static APP_ROOT_PATH = join(app.getPath('appData'), app.getName())
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
   static APP_DATA_IMAGE_LOCK = 'imageLock.json'
   static USER_SETTING = 'userSetting.json'
+  static LOG_PATH = 'log'
 
   static REQUEST_SCHEMES = 'yaedo'
 

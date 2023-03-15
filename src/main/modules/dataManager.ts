@@ -4,6 +4,8 @@ import { join } from 'path'
 import { Common } from '../common'
 import { hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
+import Logger from '../utils/logger'
+const logger = new Logger('DataManager')
 
 type FileLockItem = {
   path: string
@@ -19,7 +21,7 @@ export default class DataManager {
   static init(): DataManager {
     if (DataManager.instance) return DataManager.instance
     DataManager.instance = new DataManager()
-    console.log('[DataManager] initialized')
+    logger.info('初始化')
     return DataManager.instance
   }
 
@@ -53,7 +55,7 @@ export default class DataManager {
     // 没有更新
     if (needUpdate.length === 0) {
       this.fileLock = localFileLock
-      console.log('[DataManager] no update')
+      logger.info('没有更新')
       return
     }
 
@@ -61,7 +63,7 @@ export default class DataManager {
     await Promise.all(
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
-        console.log('[DataManager] data update', item.path, '...')
+        logger.info(`${item.path} 下载中...`)
         const data = await getGithubFile(item.path) // 下载
         // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
         const localHash = hash(data)
@@ -75,7 +77,7 @@ export default class DataManager {
         localFileLock[key] = item // 更新本地版本
       })
     ).catch((error) => {
-      console.error('[DataManager] update error', error)
+      logger.error('更新失败', error)
       throw error
     })
 
@@ -83,14 +85,14 @@ export default class DataManager {
     writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 
     // 更新完成
-    console.log('[DataManager] update finished')
+    logger.info('更新完成')
     this.isInit = true
     this.fileLock = localFileLock
   }
 
   async get(dataType: AppDataType): Promise<any> {
     await this.initialization
-    const path = this.fileLock[dataType].path
+    const path = this.fileLock[dataType]?.path || ''
     return require(join(this.appDataPath, path))
   }
 }
