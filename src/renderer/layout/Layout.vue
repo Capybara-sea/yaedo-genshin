@@ -1,14 +1,12 @@
 <template>
   <n-layout has-sider class="app-container">
-    <side-menu></side-menu>
+    <side-menu />
     <n-layout-content content-style="padding: 24px;">
-      <div class="content">
-        <router-view class="view" v-slot="{ Component, route }">
-          <transition name="slide-fade" mode="out-in">
-            <component :is="Component" :key="route.path" />
-          </transition>
-        </router-view>
-      </div>
+      <router-view v-slot="{ Component, route }">
+        <transition name="slide-fade" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
     </n-layout-content>
   </n-layout>
 </template>
