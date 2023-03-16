@@ -7,7 +7,7 @@ const imageManager = ImageManager.init()
 export function injectWebRequest() {
   // 该方法必须在app ready之前调用
   app.on('will-finish-launching', () => {
-    protocol.registerSchemesAsPrivileged([{ scheme: 'yaedo', privileges: { standard: true } }])
+    protocol.registerSchemesAsPrivileged([{ scheme: Common.REQUEST_SCHEMES, privileges: { standard: true } }])
   })
 
   app.whenReady().then(() => {
