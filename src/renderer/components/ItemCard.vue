@@ -19,6 +19,7 @@ import type { Rarity, Element } from '@/types'
 
 import { computed } from 'vue'
 import { NCard } from 'naive-ui'
+import { uiMapping } from '@/utils/ui'
 
 const props = defineProps<{
   name: string
@@ -29,7 +30,7 @@ const props = defineProps<{
 }>()
 
 // 星星的图片地址
-const starIcon = computed(() => `yaedo://images/ui_rarity_${props.rarity}.webp`)
+const starIcon = computed(() => uiMapping('rarity' + props.rarity))
 // 文字框的样式
 const contentStyle = { padding: '0.5rem' }
 
@@ -44,22 +45,9 @@ const iconBackground = computed<StyleValue>(() => ({
   background: rarityColor[props.rarity || '1'],
 }))
 
-enum ElementEnum {
-  '火' = 'pyro',
-  '水' = 'hydro',
-  '风' = 'anemo',
-  '雷' = 'electro',
-  '草' = 'geo',
-  '冰' = 'cryo',
-  '岩' = 'dendro',
-}
 const _subIcon = computed(() => {
-  if (props.subIcon) {
-    return props.subIcon
-  }
-  if (props.element) {
-    return `yaedo://images/ui_element_${ElementEnum[props.element]}_small.webp`
-  }
+  if (props.subIcon) return props.subIcon
+  if (props.element) return uiMapping(props.element)
   return undefined
 })
 </script>

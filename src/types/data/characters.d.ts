@@ -23,9 +23,9 @@ export interface Character {
   body: string
   /** 关联 */
   association: string
-  /** 地区 */
-  region: string
   /** 国家 */
+  region: string
+  /** 所属 */
   affiliation: string
   /** 生日 */
   birthdaymmdd: string

@@ -2,7 +2,7 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordName } from 'vue-router'
 import { h, ref, computed } from 'vue'
 import { getRouteFirstName } from '@/utils/router'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { menu_home, menu_setting, menu_characters } from '@/assets/icons'
 
 export interface RenderMenuOption {
@@ -56,9 +56,9 @@ export function useSideMenu() {
     return [...defaultMenuOptions, ...(customMenuOptions.value as MenuOption[])]
   })
 
-  const router = useRouter()
+  const route = useRoute()
   const currentRoute = computed<RouteRecordName>(() => {
-    return getRouteFirstName(router.currentRoute.value)
+    return getRouteFirstName(route)
   })
 
   return { menuOptions, currentRoute }
