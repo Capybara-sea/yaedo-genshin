@@ -53,7 +53,7 @@ export type Rarity = '1' | '2' | '3' | '4' | '5'
 export type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
 
 // 声优
-export interface Cv {
+interface Cv {
   english: string
   chinese: string
   japanese: string
@@ -61,7 +61,7 @@ export interface Cv {
 }
 
 /** 突破费用 */
-export interface Costs {
+interface Costs {
   ascend1: Ascend[]
   ascend2: Ascend[]
   ascend3: Ascend[]

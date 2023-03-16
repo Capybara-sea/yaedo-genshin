@@ -7,16 +7,26 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue'),
+    meta: { label: 'Home' },
   },
   {
     path: '/Characters',
     name: 'Characters',
     component: () => import('../views/Characters.vue'),
+    meta: { label: 'Characters' },
+    children: [
+      {
+        path: '/:id',
+        component: () => import('../views/Character.vue'),
+        name: 'Character',
+      },
+    ],
   },
   {
     path: '/Setting',
     name: 'Setting',
     component: () => import('../views/Setting.vue'),
+    meta: { label: 'Setting' },
   },
   {
     path: '/:pathMatch(.*)',

@@ -11,7 +11,7 @@
   >
     <n-menu
       :inverted="!isDark"
-      :value="currentRoute"
+      :value="currentRoute as string"
       :collapsed="collapsed"
       :collapsed-width="menuWidth.close"
       :icon-size="iconSize.open"

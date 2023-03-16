@@ -2,9 +2,9 @@
   <n-layout has-sider class="app-container">
     <side-menu />
     <n-layout-content content-style="padding: 24px;">
-      <router-view v-slot="{ Component, route }">
+      <router-view v-slot="{ Component, route }" keep-alive>
         <transition name="slide-fade" mode="out-in">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="getRouteFirstName(route)" />
         </transition>
       </router-view>
     </n-layout-content>
@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import SideMenu from './SideMenu.vue'
 import { NLayout, NLayoutContent } from 'naive-ui'
+import { getRouteFirstName } from '@/utils/router'
 </script>
 
 <style lang="scss" scoped>

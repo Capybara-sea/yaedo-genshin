@@ -1,4 +1,4 @@
-import type { AppDataType } from '../../types/data'
+import type { AppDataType, AppData } from '../../types/data'
 import { app } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
@@ -89,9 +89,16 @@ export default class DataManager {
     this.fileLock = localFileLock
   }
 
-  async get(dataType: AppDataType): Promise<any> {
+  dataCache = new Map<AppDataType, AppData[AppDataType]>()
+
+  async get(appDataType: AppDataType): Promise<AppData[AppDataType]> {
     await this.initialization
-    const path = this.fileLock[dataType]?.path || ''
-    return require(join(this.appDataPath, path))
+    if (this.dataCache.has(appDataType)) {
+      return this.dataCache.get(appDataType) as AppData[AppDataType]
+    }
+    const path = this.fileLock[appDataType]?.path || ''
+    const data = require(join(this.appDataPath, path))
+    this.dataCache.set(appDataType, data)
+    return data
   }
 }

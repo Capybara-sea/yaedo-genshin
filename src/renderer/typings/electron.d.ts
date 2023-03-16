@@ -1,7 +1,7 @@
 /**
  * Should match main/preload.ts for typescript support in renderer
  */
-import API from '../../types/api/index'
+import type API from '../../types/api'
 
 declare global {
   interface Window {
