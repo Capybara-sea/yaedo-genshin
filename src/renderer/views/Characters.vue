@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { AppData } from '@/typings'
+import type { AppData } from '@/types'
 
 import { ref, computed } from 'vue'
 import ItemCard from '@/components/ItemCard.vue'

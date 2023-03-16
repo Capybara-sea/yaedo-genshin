@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import type { StyleValue } from 'vue'
-import type { Rarity, Element } from '@/typings'
+import type { Rarity, Element } from '@/types'
 
 import { computed } from 'vue'
 import { NCard } from 'naive-ui'
