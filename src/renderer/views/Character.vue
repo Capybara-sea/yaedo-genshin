@@ -71,8 +71,6 @@ const pageStyle = computed(() => ({
   .header {
     position: relative;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     border: 2px solid #ffffff10;
     border-radius: 12px;
     margin-top: 50px;
@@ -106,7 +104,13 @@ const pageStyle = computed(() => ({
     }
     .base {
       z-index: 2;
-      margin: 1rem 2rem;
+      padding: 1rem 2rem;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
 
       display: flex;
       flex-direction: column;
@@ -133,17 +137,23 @@ const pageStyle = computed(() => ({
         height: 1.6rem;
       }
       .tag {
-        margin-top: 1rem;
+        margin-top: .8rem;
         display: flex;
         gap: 0.6rem;
       }
       .description {
-        width: 100%;
+        width: 35%;
         font-size: 1rem;
         font-weight: 400;
         filter: brightness(0.8);
-        margin-top: 1rem;
+        margin-top: auto;
+        margin-bottom: .8rem;
         text-align: end;
+        color: #fff;
+        background-color: #0002;
+        padding: .4rem;
+        border-radius: 8px;
+        backdrop-filter: blur(4px);
       }
     }
   }
