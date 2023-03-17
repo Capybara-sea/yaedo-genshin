@@ -42,16 +42,35 @@
 
     <n-grid>
       <n-grid-item span="12">
-        {{ calculatedLevelSlider.str }}
-        {{ calculatedLevelSlider.level }}
-        {{ calculatedLevelSlider.ascension }}
-        <n-slider
-          v-model:value="currentLevelSliderValue"
-          :min="1"
-          :max="96"
-          :format-tooltip="() => calculatedLevelSlider.str"
-        />
-        <div>{{ stats }}</div>
+        <n-descriptions
+          bordered
+          :column="2"
+          size="small"
+          label-placement="left"
+          title="基础属性"
+          label-align="center"
+          label-style="width: 20%"
+          content-style="width: 30%"
+        >
+          <n-descriptions-item :span="2">
+            <template #label>
+              <p>等级</p>
+              <p style="color: #dc5">{{ calculatedLevelSlider.str }}</p>
+            </template>
+            <n-slider
+              v-model:value="currentLevelSliderValue"
+              :min="sliderConfig.min"
+              :max="sliderConfig.max"
+              :default-value="sliderConfig.max"
+              :marks="sliderConfig.marks"
+              :format-tooltip="() => calculatedLevelSlider.str"
+            />
+          </n-descriptions-item>
+          <n-descriptions-item label="生命">{{ stats.hp }}</n-descriptions-item>
+          <n-descriptions-item label="攻击">{{ stats.defense }}</n-descriptions-item>
+          <n-descriptions-item label="防御">{{ stats.attack }}</n-descriptions-item>
+          <n-descriptions-item label="防御">{{ stats.specialized }}</n-descriptions-item>
+        </n-descriptions>
       </n-grid-item>
       <n-grid-item span="12">
         <!-- <n-descriptions bordered :column="2" size="small" title="成长属性">
@@ -65,7 +84,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
@@ -76,13 +94,10 @@ const route = useRoute()
 const appDataStore = useAppDataStore()
 
 // 获取角色数据
-const selectedCharacter = computed(() => {
-  const { characters } = appDataStore
-  const id = route.params.id as string
-  return id ? characters.find((character) => character.id === id) : undefined
-})
+const selectedCharacter = appDataStore.getCharacterById(route.params.id as string)
 
-const { currentLevelSliderValue, calculatedLevelSlider, stats } = useStats(selectedCharacter)
+const { stats, sliderConfig, calculatedLevelSlider, currentLevelSliderValue } =
+  useStats(selectedCharacter)
 </script>
 
 <style lang="scss" scoped>

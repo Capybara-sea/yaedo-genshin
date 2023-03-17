@@ -4,6 +4,11 @@ import { defaultData } from './helper'
 
 export const useAppDataStore = defineStore('appData-store', {
   state: (): AppData => defaultData(),
+  getters: {
+    getCharacterById: (state) => (id: string) => {
+      return state.characters.find((c) => c.id === id)
+    },
+  },
   actions: {
     async init() {
       const appData = defaultData()

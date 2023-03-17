@@ -18,7 +18,8 @@ function getPromotionBonus(
     if (level > promotions[index].maxlevel) {
       return [index + 1, promotions[index + 1]]
     } else if (level === promotions[index].maxlevel) {
-      const ascensionNumber = typeof ascension === 'number' ? ascension : Infinity
+      const ascensionNumber =
+        typeof ascension === 'number' ? ascension : ascension === '-' ? -Infinity : Infinity
       if (ascensionNumber > index || ascension === '+') {
         return [index + 1, promotions[index + 1]]
       } else {
