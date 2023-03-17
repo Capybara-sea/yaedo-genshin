@@ -17,10 +17,11 @@ type FileLock = {
 
 export default class DataManager {
   private static instance: DataManager
+  private logger = new Logger('DataManager')
   static init(): DataManager {
     if (DataManager.instance) return DataManager.instance
     DataManager.instance = new DataManager()
-    new Logger('DataManager').info('初始化')
+    DataManager.instance.logger.info('初始化')
     return DataManager.instance
   }
 
@@ -36,15 +37,26 @@ export default class DataManager {
     this.appDataPath = join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
     this.localFileLockPath = join(this.appDataPath, Common.APP_DATA_FILE_LOCK)
     this.initialization = this.checkUpdate()
+    console.log('数据文件地址(cmd+shift+G):', this.appDataPath)
   }
 
   async checkUpdate() {
     // 检查版本文件
     const isHasLocalFileLock = readFile(this.localFileLockPath) as string
-    const localFileLock: FileLock = isHasLocalFileLock === '' ? {} : JSON.parse(isHasLocalFileLock)
+    let localFileLock: FileLock = {}
+    let remoteFileLock: FileLock = {}
+    try {
+      localFileLock = isHasLocalFileLock === '' ? {} : JSON.parse(isHasLocalFileLock)
+    } catch (error) {
+      this.logger.error('本地数据版本读取失败', error)
+    }
 
     // 从远端检查更新
-    const remoteFileLock = JSON.parse(await getGithubFile(Common.APP_DATA_FILE_LOCK))
+    try {
+      remoteFileLock = JSON.parse(await getGithubFile(Common.APP_DATA_FILE_LOCK))
+    } catch (error) {
+      this.logger.error('远端数据版本读取失败', error)
+    }
 
     // 比对版本
     const needUpdate = Object.keys(remoteFileLock).filter((key) => {
@@ -54,7 +66,7 @@ export default class DataManager {
     // 没有更新
     if (needUpdate.length === 0) {
       this.fileLock = localFileLock
-      new Logger('ImageManager').info('没有更新')
+      this.logger.info('没有更新')
       return
     }
 
@@ -62,7 +74,7 @@ export default class DataManager {
     await Promise.all(
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
-        new Logger('ImageManager').info(`${item.path} 下载中...`)
+        this.logger.info(`${item.path} 下载中...`)
         const data = await getGithubFile(item.path) // 下载
         // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
         const localHash = hash(data)
@@ -76,7 +88,7 @@ export default class DataManager {
         localFileLock[key] = item // 更新本地版本
       })
     ).catch((error) => {
-      new Logger('ImageManager').error('更新失败', error)
+      this.logger.error('更新失败', error)
       throw error
     })
 
@@ -84,7 +96,7 @@ export default class DataManager {
     writeFile(this.localFileLockPath, JSON.stringify(localFileLock, null, 2))
 
     // 更新完成
-    new Logger('DataManager').info('更新完成')
+    this.logger.info('更新完成')
     this.isInit = true
     this.fileLock = localFileLock
   }

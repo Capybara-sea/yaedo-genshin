@@ -16,7 +16,7 @@ export class Common {
 
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
     show: false,
-    width: 800,
+    width: 960,
     height: 600,
     minWidth: 600,
     minHeight: 400,

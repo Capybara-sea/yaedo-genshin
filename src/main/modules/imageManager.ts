@@ -1,7 +1,7 @@
 import { app } from 'electron'
 import fs from 'fs'
 import fsExtra from 'fs-extra'
-import { basename, extname, join, relative } from 'path'
+import { basename, join, relative } from 'path'
 import { Common } from '../common'
 import { hasDir, hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
@@ -18,10 +18,11 @@ type imageLockItem = {
 
 export default class ImageManager {
   private static instance: ImageManager
+  private logger = new Logger('ImageManager')
   static init(): ImageManager {
     if (ImageManager.instance) return ImageManager.instance
     ImageManager.instance = new ImageManager()
-    new Logger('ImageManager').info('初始化')
+    ImageManager.instance.logger.info('初始化')
     return ImageManager.instance
   }
 
@@ -40,7 +41,11 @@ export default class ImageManager {
 
   private initImageLock() {
     const imageLock = readFile(this.localImageLockPath) as string
-    this.imageLock = imageLock === '' ? {} : JSON.parse(imageLock)
+    try {
+      this.imageLock = imageLock === '' ? {} : JSON.parse(imageLock)
+    } catch (error) {
+      this.logger.error('本地图片版本读取失败', error)
+    }
 
     getGithubFile(Common.APP_DATA_IMAGE_LOCK).then((imageLock) => {
       writeFile(this.localImageLockPath, imageLock)
@@ -73,10 +78,6 @@ export default class ImageManager {
   }
 
   async getPath(path): Promise<string> {
-    // 检查path是否有文件类型后缀,使用Path.extname(path)获取
-    if (extname(path) === '') {
-      path = path + '.webp'
-    }
     if (!this.fileList.includes(path)) {
       await this.download(path)
     }
@@ -93,6 +94,7 @@ export default class ImageManager {
     // 检查图片是否完整 和 hash是否一致
     const isHashSame = imageLockItem.hash === hash(file)
     if (!isHashSame) {
+      this.logger.warn('图片损坏,重新下载', path)
       const res = await this.download(path)
       return res.file
     }
