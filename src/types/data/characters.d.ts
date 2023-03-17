@@ -14,7 +14,7 @@ export interface Character {
   /** 元素属性 */
   element: Element
   /** 武器类型 */
-  weapontype: string
+  weapontype: Weapontype
   /** 副词条 */
   substat: string
   /** 性别 */
@@ -33,6 +33,8 @@ export interface Character {
   birthday: string
   /** 命星 */
   constellation: string
+  /** 基础数据 */
+  stats: Stats
   /** 声优 */
   cv: Cv
   /** 花费 */
@@ -47,10 +49,14 @@ export interface Character {
   constellations: Constellations
 }
 
-export type Rarity = '1' | '2' | '3' | '4' | '5'
+// 稀有度
+type Rarity = '1' | '2' | '3' | '4' | '5'
 
 // 元素属性
-export type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
+type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
+
+// 武器类型
+type Weapontype = '单手剑' | '双手剑' | '长柄武器' | '法器' | '弓'
 
 // 声优
 interface Cv {
@@ -71,7 +77,7 @@ interface Costs {
 }
 
 /** 角色图片 */
-export interface Images {
+interface Images {
   splash: string
   card: string
   icon: string
@@ -79,7 +85,7 @@ export interface Images {
 }
 
 /** 命座 */
-export interface Constellations {
+interface Constellations {
   name: string
   c1: Constellation
   c2: Constellation
@@ -92,7 +98,7 @@ export interface Constellations {
 }
 
 /** 命座图片 */
-export interface ConstellationsImages {
+interface ConstellationsImages {
   c1: string
   c2: string
   c3: string
@@ -100,16 +106,17 @@ export interface ConstellationsImages {
   c5: string
   c6: string
   constellation: string
+  constellation2?: string
 }
 
 /** 命座详情 */
-export interface Constellation {
+interface Constellation {
   name: string
   effect: string
 }
 
 /** 天赋 */
-export interface Talents {
+interface Talents {
   name: string
   combat1: Combat1
   combat2: Combat2
@@ -125,16 +132,16 @@ export interface Talents {
 }
 
 /** 普通攻击 */
-export interface Combat1 {
+interface Combat1 {
   name: string
   info: string
   attributes: Attributes
 }
-export interface Attributes {
+interface Attributes {
   labels: string[]
   parameters: Parameters
 }
-export interface Parameters {
+interface Parameters {
   param1: number[]
   param2: number[]
   param3: number[]
@@ -158,17 +165,17 @@ export interface Parameters {
 }
 
 /** 元素战技 */
-export interface Combat2 {
+interface Combat2 {
   name: string
   info: string
   description: string
   attributes: Attributes2
 }
-export interface Attributes2 {
+interface Attributes2 {
   labels: string[]
   parameters: Parameters2
 }
-export interface Parameters2 {
+interface Parameters2 {
   param1: number[]
   param2: number[]
   param3?: number[]
@@ -188,34 +195,34 @@ export interface Parameters2 {
 }
 
 /** 战斗天赋 */
-export interface Combatsp {
+interface Combatsp {
   name: string
   info: string
   description: string
   attributes: Attributes3
 }
-export interface Attributes3 {
+interface Attributes3 {
   labels: string[]
   parameters: Parameters3
 }
-export interface Parameters3 {
+interface Parameters3 {
   param1: number[]
   param2: number[]
   param3?: number[]
 }
 
 /** 元素爆发 */
-export interface Combat3 {
+interface Combat3 {
   name: string
   info: string
   description: string
   attributes: Attributes4
 }
-export interface Attributes4 {
+interface Attributes4 {
   labels: string[]
   parameters: Parameters4
 }
-export interface Parameters4 {
+interface Parameters4 {
   param1: number[]
   param2?: number[]
   param3?: number[]
@@ -239,13 +246,13 @@ export interface Parameters4 {
 }
 
 /** 固有天赋 */
-export interface Passive {
+interface Passive {
   name: string
   info: string
 }
 
 /** 天赋升级花费 */
-export interface TalentCosts {
+interface TalentCosts {
   lvl2: Ascend[]
   lvl3: Ascend[]
   lvl4: Ascend[]
@@ -258,7 +265,7 @@ export interface TalentCosts {
 }
 
 /** 天赋图片 */
-export interface TalentsImages {
+interface TalentsImages {
   combat1: string
   combat2: string
   combatsp?: string
@@ -270,7 +277,40 @@ export interface TalentsImages {
 }
 
 /** 花费 */
-export interface Ascend {
+interface Ascend {
   name: string
   count: number
+}
+
+/** 基础数据 */
+interface Stats {
+  base: Base
+  curve: Curve
+  specialized: string
+  promotion: Promotion[]
+}
+
+/** 等级突破 */
+interface Promotion {
+  maxlevel: number
+  hp: number
+  attack: number
+  defense: number
+  specialized: number
+}
+
+/** 曲线 */
+interface Curve {
+  hp: string
+  attack: string
+  defense: string
+}
+
+/** 基础数据 */
+interface Base {
+  hp: number
+  attack: number
+  defense: number
+  critrate: number
+  critdmg: number
 }

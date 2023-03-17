@@ -1,8 +1,8 @@
 <template>
-  <div v-if="character" class="character-container" :style="pageStyle">
+  <div v-if="character" class="character-container">
     <div class="header">
+      <div class="cover-background" :style="`background-image: url(${character.images.card})`" />
       <img class="cover-img" :src="character.images.splash" />
-      <div class="cover-background" />
       <div class="base">
         <div class="name">
           <img :src="uiMapping(character.element)" />
@@ -31,10 +31,28 @@
       title="基本信息"
       label-placement="left"
     >
-      <n-descriptions-item label="名称" v-for="i in 10" :key="i">
-        {{ character.name }}
-      </n-descriptions-item>
+      <n-descriptions-item label="所属">{{ character.affiliation }}</n-descriptions-item>
+      <n-descriptions-item label="命星">{{ character.constellation }}</n-descriptions-item>
+      <n-descriptions-item label="生日">{{ character.birthday }}</n-descriptions-item>
+      <n-descriptions-item label="版本">{{ character.version }}</n-descriptions-item>
     </n-descriptions>
+
+    <n-grid>
+      <n-grid-item span="12">
+        <!-- <n-descriptions bordered :column="2" size="small" title="基础属性">
+          <n-descriptions-item label="生命">{{ character }}</n-descriptions-item>
+          <n-descriptions-item label="攻击">{{ character }}</n-descriptions-item>
+          <n-descriptions-item label="防御">{{ character }}</n-descriptions-item>
+        </n-descriptions> -->
+      </n-grid-item>
+      <n-grid-item span="12">
+        <!-- <n-descriptions bordered :column="2" size="small" title="成长属性">
+          <n-descriptions-item label="生命">{{ character }}</n-descriptions-item>
+          <n-descriptions-item label="攻击">{{ character }}</n-descriptions-item>
+          <n-descriptions-item label="防御">{{ character }}</n-descriptions-item>
+        </n-descriptions> -->
+      </n-grid-item>
+    </n-grid>
   </div>
 </template>
 
@@ -43,8 +61,8 @@ import type { AppData } from '@/types'
 
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { NDescriptions, NDescriptionsItem, NTag } from 'naive-ui'
-import { uiMapping, colorMapping } from '@/utils/ui'
+import { NDescriptions, NDescriptionsItem, NTag, NGrid, NGridItem } from 'naive-ui'
+import { uiMapping } from '@/utils/ui'
 
 const route = useRoute()
 
@@ -59,11 +77,6 @@ const character = computed(() => {
   const id = route.params.id as string
   return id ? characters.value.find((character) => character.id === id) : undefined
 })
-
-// 头图背景颜色
-const pageStyle = computed(() => ({
-  '--header-bg-color': colorMapping(character.value?.element) + '40',
-}))
 </script>
 
 <style lang="scss" scoped>
@@ -71,8 +84,9 @@ const pageStyle = computed(() => ({
   .header {
     position: relative;
     display: flex;
-    border: 2px solid #ffffff10;
+    // border: 2px solid #ffffff10;
     border-radius: 12px;
+
     margin-top: 50px;
 
     .cover-background {
@@ -82,29 +96,31 @@ const pageStyle = computed(() => ({
       height: 100%;
       border-radius: 10px;
       overflow: hidden;
-      background-repeat: no-repeat;
-      background-image: linear-gradient(
-          45deg,
-          #ffffff10 25%,
-          transparent 25%,
-          transparent 75%,
-          #ffffff10 75%,
-          #ffffff10
-        ),
-        linear-gradient(0deg, var(--header-bg-color), #a6363600);
+      filter: brightness(0.8) contrast(0.9);
+      background-size: cover;
+      background-position: center;
     }
     .cover-img {
+      --over-top: 90px;
+      --over-left: 40px;
       z-index: 1;
-      width: 65%;
-      height: 50vw;
-      object-fit: cover;
+      margin-top: calc(var(--over-top) * -1);
+      margin-left: calc(var(--over-left) * -1);
+      width: calc(80% + var(--over-left));
+      height: clamp(100px, calc(40vw + var(--over-top)), 600px);
+      object-fit: contain;
+      object-position: left bottom;
       overflow: visible;
-      margin-top: -70px;
-      // margin-left: -40px;
+      transition: all 0.3s ease-in-out;
+      filter: drop-shadow(16px 16px 4px rgba(0, 0, 0, 0.3));
+      &:hover {
+        filter: drop-shadow(20px 20px 2px rgba(0, 0, 0, 0.3));
+      }
     }
     .base {
       z-index: 2;
       padding: 1rem 2rem;
+      pointer-events: none;
 
       position: absolute;
       top: 0;
@@ -137,22 +153,21 @@ const pageStyle = computed(() => ({
         height: 1.6rem;
       }
       .tag {
-        margin-top: .8rem;
+        margin-top: 0.8rem;
         display: flex;
         gap: 0.6rem;
       }
       .description {
-        width: 35%;
-        font-size: 1rem;
-        font-weight: 400;
-        filter: brightness(0.8);
+        max-width: 35%;
         margin-top: auto;
-        margin-bottom: .8rem;
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
         text-align: end;
         color: #fff;
         background-color: #0002;
-        padding: .4rem;
+        padding: 0.4rem;
         border-radius: 8px;
+        filter: brightness(0.8);
         backdrop-filter: blur(4px);
       }
     }

@@ -26,7 +26,7 @@ export class Common {
   static GITHUB = {
     name: 'Capybara-sea',
     repo: 'yaedo-metadata',
-    branch: 'latest',
+    branch: 'main',
   }
 
   static USER_AGENT = {

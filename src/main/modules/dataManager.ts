@@ -53,7 +53,8 @@ export default class DataManager {
 
     // 从远端检查更新
     try {
-      remoteFileLock = JSON.parse(await getGithubFile(Common.APP_DATA_FILE_LOCK))
+      const remoteData = await getGithubFile(Common.APP_DATA_FILE_LOCK)
+      remoteFileLock = JSON.parse(remoteData.toString())
     } catch (error) {
       this.logger.error('远端数据版本读取失败', error)
     }
@@ -75,7 +76,7 @@ export default class DataManager {
       needUpdate.map(async (key) => {
         const item = remoteFileLock[key]
         this.logger.info(`${item.path} 下载中...`)
-        const data = await getGithubFile(item.path) // 下载
+        const data = (await getGithubFile(item.path)).toString() // 下载
         // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
         const localHash = hash(data)
         if (localHash !== item.hash) {

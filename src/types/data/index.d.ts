@@ -1,8 +1,10 @@
 export * from './characters'
+export * from './charactersCurve'
 
 import { Character } from './characters'
-export type AppDataType = 'characters' | 'weapons'
+import { CharactersCurve } from './charactersCurve'
+export type AppDataType = 'characters' | 'charactersCurve'
 export interface AppData {
   characters: Character[]
-  weapons: any[]  // TODO
+  charactersCurve: CharactersCurve
 }
