@@ -30,20 +30,17 @@
 </template>
 
 <script lang="ts" setup>
-import type { AppData } from '@/types'
-
 import { ref, computed } from 'vue'
 import { NCollapseTransition, NPageHeader } from 'naive-ui'
 import ItemCard from '@/components/ItemCard.vue'
+import { useAppDataStore } from '@/store'
 
-const characters = ref<AppData['characters']>([])
-window.api.AppData.get('characters').then((data) => {
-  characters.value = data
-})
+const AppDataStore = useAppDataStore()
 
 const search = ref('')
 const filterCharacters = computed(() => {
-  return characters.value.filter((character) => {
+  const { characters } = AppDataStore
+  return characters.filter((character) => {
     return character.name.includes(search.value)
   })
 })

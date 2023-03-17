@@ -1,24 +1,27 @@
 <template>
-  <div v-if="character" class="character-container">
+  <div v-if="selectedCharacter" class="character-container">
     <div class="header">
-      <div class="cover-background" :style="`background-image: url(${character.images.card})`" />
-      <img class="cover-img" :src="character.images.splash" />
+      <div
+        class="cover-background"
+        :style="`background-image: url(${selectedCharacter.images.card})`"
+      />
+      <img class="cover-img" :src="selectedCharacter.images.splash" />
       <div class="base">
         <div class="name">
-          <img :src="uiMapping(character.element)" />
-          {{ character.name }}
+          <img :src="uiMapping(selectedCharacter.element)" />
+          {{ selectedCharacter.name }}
         </div>
-        <div class="title">{{ character.title }}</div>
-        <img class="rarity" :src="uiMapping('rarity' + character.rarity)" />
+        <div class="title">{{ selectedCharacter.title }}</div>
+        <img class="rarity" :src="uiMapping('rarity' + selectedCharacter.rarity)" />
         <div class="tag">
-          <n-tag v-if="character.region" :bordered="false" round strong>{{
-            character.region
+          <n-tag v-if="selectedCharacter.region" :bordered="false" round strong>{{
+            selectedCharacter.region
           }}</n-tag>
-          <n-tag v-if="character.weapontype" :bordered="false" round strong>{{
-            character.weapontype
+          <n-tag v-if="selectedCharacter.weapontype" :bordered="false" round strong>{{
+            selectedCharacter.weapontype
           }}</n-tag>
         </div>
-        <div class="description">{{ character.description }}</div>
+        <div class="description">{{ selectedCharacter.description }}</div>
       </div>
     </div>
 
@@ -31,19 +34,24 @@
       title="基本信息"
       label-placement="left"
     >
-      <n-descriptions-item label="所属">{{ character.affiliation }}</n-descriptions-item>
-      <n-descriptions-item label="命星">{{ character.constellation }}</n-descriptions-item>
-      <n-descriptions-item label="生日">{{ character.birthday }}</n-descriptions-item>
-      <n-descriptions-item label="版本">{{ character.version }}</n-descriptions-item>
+      <n-descriptions-item label="所属">{{ selectedCharacter.affiliation }}</n-descriptions-item>
+      <n-descriptions-item label="命星">{{ selectedCharacter.constellation }}</n-descriptions-item>
+      <n-descriptions-item label="生日">{{ selectedCharacter.birthday }}</n-descriptions-item>
+      <n-descriptions-item label="版本">{{ selectedCharacter.version }}</n-descriptions-item>
     </n-descriptions>
 
     <n-grid>
       <n-grid-item span="12">
-        <!-- <n-descriptions bordered :column="2" size="small" title="基础属性">
-          <n-descriptions-item label="生命">{{ character }}</n-descriptions-item>
-          <n-descriptions-item label="攻击">{{ character }}</n-descriptions-item>
-          <n-descriptions-item label="防御">{{ character }}</n-descriptions-item>
-        </n-descriptions> -->
+        {{ calculatedLevelSlider.str }}
+        {{ calculatedLevelSlider.level }}
+        {{ calculatedLevelSlider.ascension }}
+        <n-slider
+          v-model:value="currentLevelSliderValue"
+          :min="1"
+          :max="96"
+          :format-tooltip="() => calculatedLevelSlider.str"
+        />
+        <div>{{ stats }}</div>
       </n-grid-item>
       <n-grid-item span="12">
         <!-- <n-descriptions bordered :column="2" size="small" title="成长属性">
@@ -57,26 +65,24 @@
 </template>
 
 <script lang="ts" setup>
-import type { AppData } from '@/types'
-
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { NDescriptions, NDescriptionsItem, NTag, NGrid, NGridItem } from 'naive-ui'
+import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
+import { NDescriptions, NDescriptionsItem, NTag, NGrid, NGridItem, NSlider } from 'naive-ui'
+import { useStats } from './Character'
 
 const route = useRoute()
+const appDataStore = useAppDataStore()
 
 // 获取角色数据
-const characters = ref<AppData['characters']>([])
-window.api.AppData.get('characters').then((data) => {
-  characters.value = data
-})
-
-// 获取角色数据
-const character = computed(() => {
+const selectedCharacter = computed(() => {
+  const { characters } = appDataStore
   const id = route.params.id as string
-  return id ? characters.value.find((character) => character.id === id) : undefined
+  return id ? characters.find((character) => character.id === id) : undefined
 })
+
+const { currentLevelSliderValue, calculatedLevelSlider, stats } = useStats(selectedCharacter)
 </script>
 
 <style lang="scss" scoped>

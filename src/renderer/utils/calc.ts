@@ -1,17 +1,8 @@
-import type { Character, CharactersCurve, Promotion } from '@/types'
+import { useAppDataStore } from '@/store'
+import type { Character, Promotion } from '@/types'
 
 // 突破等级
 type Ascension = number | '-' | '+'
-
-// 成长曲线
-const charactersCurve: CharactersCurve = {}
-
-async function getCurve() {
-  if (JSON.stringify(charactersCurve) === '{}') {
-    Object.assign(charactersCurve, await window.api.AppData.get('charactersCurve'))
-  }
-  return charactersCurve
-}
 
 /**
  * @param level: 整数
@@ -38,9 +29,10 @@ function getPromotionBonus(
   return [0, promotions[0]]
 }
 
-export async function calcStatsCharacter(character: Character) {
+export function calcStatsCharacter(character: Character) {
+  const appDataStore = useAppDataStore()
   const mystats = character.stats
-  const mycurve = await getCurve()
+  const mycurve = appDataStore.charactersCurve
   if (mystats === undefined || mycurve === undefined) return undefined
   /**
    * 计算角色在特定等级和突破阶段的属性值。

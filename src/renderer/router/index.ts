@@ -6,18 +6,18 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue'),
+    component: () => import('../views/Home/Home.vue'),
     meta: { label: 'Home' },
   },
   {
     path: '/Characters',
     name: 'Characters',
-    component: () => import('../views/Characters.vue'),
+    component: () => import('../views/Characters/Characters.vue'),
     meta: { label: 'Characters' },
     children: [
       {
         path: '/:id',
-        component: () => import('../views/Character.vue'),
+        component: () => import('../views/Characters/Character.vue'),
         name: 'Character',
       },
     ],
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/Setting',
     name: 'Setting',
-    component: () => import('../views/Setting.vue'),
+    component: () => import('../views/Setting/Setting.vue'),
     meta: { label: 'Setting' },
   },
   {

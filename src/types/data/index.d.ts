@@ -3,7 +3,7 @@ export * from './charactersCurve'
 
 import { Character } from './characters'
 import { CharactersCurve } from './charactersCurve'
-export type AppDataType = 'characters' | 'charactersCurve'
+export type AppDataType = keyof AppData
 export interface AppData {
   characters: Character[]
   charactersCurve: CharactersCurve
