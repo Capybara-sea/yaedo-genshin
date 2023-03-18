@@ -1,6 +1,6 @@
 module.exports = {
   productName: '八重堂',
-  appId: 'com.electron.app',
+  appId: 'yaedo.capybara-sea.app',
   artifactName: '${productName}.${ext}',
   directories: {
     output: 'dist',
