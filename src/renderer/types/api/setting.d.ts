@@ -1,4 +1,4 @@
-export default interface UserData {
+export interface Setting {
   /**
    * 将会覆盖原有的数据
    * @param object

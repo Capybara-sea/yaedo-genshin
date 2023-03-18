@@ -1,1 +1,1 @@
-export * from '@/../types/data'
+export * from './data'

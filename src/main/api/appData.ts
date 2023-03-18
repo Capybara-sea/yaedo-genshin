@@ -1,5 +1,5 @@
 import type { IpcMainInvokeEvent } from 'electron'
-import type { AppDataType } from '../../types/data'
+import type { AppDataType } from '../../renderer/types/data'
 import DataManager from '../modules/dataManager'
 
 export default class AppData {

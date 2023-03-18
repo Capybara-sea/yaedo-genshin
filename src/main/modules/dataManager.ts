@@ -1,10 +1,10 @@
-import type { AppDataType, AppData } from '../../types/data'
+import type { AppDataType, AppData } from '../../renderer/types/data'
+import Logger from '../utils/logger'
 import { app } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
-import { hash, readFile, writeFile } from '../utils/files'
 import { getGithubFile } from '../utils/github'
-import Logger from '../utils/logger'
+import { hash, readFile, writeFile } from '../utils/files'
 
 type FileLockItem = {
   path: string
