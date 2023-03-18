@@ -1,9 +1,9 @@
-import type { Character, Ascend } from '@/types'
+import type { Character, Items } from '@/types'
 
 import { zipWith } from 'lodash-es'
 import { ref, computed } from 'vue'
 import { calcStatsCharacter } from '@/utils/calc'
-import { SpecializedProperty } from '@/types/data/characters'
+import { Attributes, AttributesName } from '@/types/data/characters'
 
 export function useStats(character: Character) {
   /** 突破等级 */
@@ -69,8 +69,11 @@ export function useStats(character: Character) {
       hp: Math.round(hp || 0),
       attack: Math.round(attack || 0),
       defense: Math.round(defense || 0),
-      specialized: Math.round((specialized || 0) * 1000) / 10,
-      specializedName: (SpecializedProperty as any)[specializedCode] || '未知',
+      specialized:
+        specializedCode === Attributes.FIGHT_PROP_ELEMENT_MASTERY
+          ? '' + Math.round(specialized || 0)
+          : '' + Math.round((specialized || 0) * 1000) / 10 + '%',
+      specializedName: (AttributesName as any)[specializedCode] || '未知',
     }
   })
 
@@ -103,7 +106,7 @@ export function useStats(character: Character) {
     const mergedAscendCosts = zipWith(...allAscendCosts, (...args) => args)
       // 扁平化 把每个阶段的数组对象合并成一个数组对象
       .flat()
-      .reduce<Ascend[]>((prev, curr) => {
+      .reduce<Items[]>((prev, curr) => {
         if (!curr) return prev
         // 找到相同的name，count累加
         const index = prev.findIndex((item) => item.name == curr?.name)
@@ -130,4 +133,8 @@ export function useStats(character: Character) {
     /** 拖动条数据 */
     currentLevelSliderValue,
   }
+}
+
+export function useTalents(character: Character) {
+  return character.talents
 }

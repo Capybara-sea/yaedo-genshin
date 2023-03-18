@@ -25,6 +25,8 @@
       </div>
     </div>
 
+    <n-divider />
+
     <n-descriptions
       bordered
       :column="4"
@@ -39,6 +41,8 @@
       <n-descriptions-item label="生日">{{ selectedCharacter.birthday }}</n-descriptions-item>
       <n-descriptions-item label="版本">{{ selectedCharacter.version }}</n-descriptions-item>
     </n-descriptions>
+
+    <n-divider />
 
     <n-grid>
       <n-grid-item span="12">
@@ -70,7 +74,7 @@
           <n-descriptions-item label="攻击力">{{ statsFormat?.defense }}</n-descriptions-item>
           <n-descriptions-item label="防御力">{{ statsFormat?.attack }}</n-descriptions-item>
           <n-descriptions-item :label="statsFormat?.specializedName">
-            {{ statsFormat?.specialized }}%
+            {{ statsFormat?.specialized }}
           </n-descriptions-item>
         </n-descriptions>
       </n-grid-item>
@@ -84,6 +88,28 @@
         </transition-group>
       </n-grid-item>
     </n-grid>
+
+    <n-divider />
+
+    <div>
+      <img
+        v-for="image in selectedCharacter.talents.images"
+        :key="image"
+        :src="image"
+        style="height: 3rem"
+      />
+    </div>
+
+    <n-divider />
+
+    <div>
+      <img
+        v-for="image in selectedCharacter.constellations.images"
+        :key="image"
+        :src="image"
+        style="height: 3rem"
+      />
+    </div>
   </div>
 </template>
 
@@ -92,15 +118,16 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
-import { useStats } from './Character'
+import { useStats, useTalents } from './Character'
 import {
-  NDescriptions,
-  NDescriptionsItem,
   NTag,
   NGrid,
   NGridItem,
   NSlider,
   NSwitch,
+  NDivider,
+  NDescriptions,
+  NDescriptionsItem,
 } from 'naive-ui'
 
 const route = useRoute()
@@ -120,6 +147,9 @@ const {
   calculatedLevelSlider,
   currentLevelSliderValue,
 } = useStats(selectedCharacter!)
+
+// 天赋数据
+const talents = useTalents(selectedCharacter!)
 </script>
 
 <style lang="scss" scoped>

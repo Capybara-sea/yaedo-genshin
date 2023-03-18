@@ -1,3 +1,7 @@
+import type { Talents } from './talents'
+import type { Constellations } from './constellations'
+import { Items } from '.'
+
 export interface Character {
   /** id */
   id: string
@@ -36,9 +40,21 @@ export interface Character {
   /** 基础数据 */
   stats: Stats
   /** 声优 */
-  cv: Cv
+  cv: {
+    english: string
+    chinese: string
+    japanese: string
+    korean: string
+  }
   /** 花费 */
-  costs: Costs
+  costs: {
+    ascend1: Items[]
+    ascend2: Items[]
+    ascend3: Items[]
+    ascend4: Items[]
+    ascend5: Items[]
+    ascend6: Items[]
+  }
   /** 图片 */
   images: Images
   /** 版本 */
@@ -58,24 +74,6 @@ export type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
 // 武器类型
 export type Weapontype = '单手剑' | '双手剑' | '长柄武器' | '法器' | '弓'
 
-// 声优
-export interface Cv {
-  english: string
-  chinese: string
-  japanese: string
-  korean: string
-}
-
-/** 突破费用 */
-export interface Costs {
-  ascend1: Ascend[]
-  ascend2: Ascend[]
-  ascend3: Ascend[]
-  ascend4: Ascend[]
-  ascend5: Ascend[]
-  ascend6: Ascend[]
-}
-
 /** 角色图片 */
 export interface Images {
   splash: string
@@ -84,209 +82,11 @@ export interface Images {
   sideIcon: string
 }
 
-/** 命座 */
-export interface Constellations {
-  name: string
-  c1: Constellation
-  c2: Constellation
-  c3: Constellation
-  c4: Constellation
-  c5: Constellation
-  c6: Constellation
-  images: ConstellationsImages
-  version: string
-}
-
-/** 命座图片 */
-export interface ConstellationsImages {
-  c1: string
-  c2: string
-  c3: string
-  c4: string
-  c5: string
-  c6: string
-  constellation: string
-  constellation2?: string
-}
-
-/** 命座详情 */
-export interface Constellation {
-  name: string
-  effect: string
-}
-
-/** 天赋 */
-export interface Talents {
-  name: string
-  combat1: Combat1
-  combat2: Combat2
-  combatsp?: Combatsp
-  combat3: Combat3
-  passive1: Passive
-  passive2: Passive
-  passive3: Passive
-  passive4?: Passive
-  costs: TalentCosts
-  images: TalentsImages
-  version: string
-}
-
-/** 普通攻击 */
-export interface Combat1 {
-  name: string
-  info: string
-  attributes: Attributes
-}
-export interface Attributes {
-  labels: string[]
-  parameters: Parameters
-}
-export interface Parameters {
-  param1: number[]
-  param2: number[]
-  param3: number[]
-  param4: number[]
-  param5?: number[]
-  param6?: number[]
-  param7: number[]
-  param8?: number[]
-  param9?: number[]
-  param10?: number[]
-  param11?: number[]
-  param12?: number[]
-  param13?: number[]
-  param14?: number[]
-  param15?: number[]
-  param16?: number[]
-  param17?: number[]
-  param18?: number[]
-  param19?: number[]
-  param20?: number[]
-}
-
-/** 元素战技 */
-export interface Combat2 {
-  name: string
-  info: string
-  description: string
-  attributes: Attributes2
-}
-export interface Attributes2 {
-  labels: string[]
-  parameters: Parameters2
-}
-export interface Parameters2 {
-  param1: number[]
-  param2: number[]
-  param3?: number[]
-  param4?: number[]
-  param5?: number[]
-  param6?: number[]
-  param7?: number[]
-  param8?: number[]
-  param9?: number[]
-  param10?: number[]
-  param11?: number[]
-  param12?: number[]
-  param13?: number[]
-  param14?: number[]
-  param15?: number[]
-  param16?: number[]
-}
-
-/** 战斗天赋 */
-export interface Combatsp {
-  name: string
-  info: string
-  description: string
-  attributes: Attributes3
-}
-export interface Attributes3 {
-  labels: string[]
-  parameters: Parameters3
-}
-export interface Parameters3 {
-  param1: number[]
-  param2: number[]
-  param3?: number[]
-}
-
-/** 元素爆发 */
-export interface Combat3 {
-  name: string
-  info: string
-  description: string
-  attributes: Attributes4
-}
-export interface Attributes4 {
-  labels: string[]
-  parameters: Parameters4
-}
-export interface Parameters4 {
-  param1: number[]
-  param2?: number[]
-  param3?: number[]
-  param4?: number[]
-  param5?: number[]
-  param6?: number[]
-  param7?: number[]
-  param8?: number[]
-  param9?: number[]
-  param10?: number[]
-  param11?: number[]
-  param12?: number[]
-  param13?: number[]
-  param14?: number[]
-  param15?: number[]
-  param16?: number[]
-  param17?: number[]
-  param18?: number[]
-  param19?: number[]
-  param20?: number[]
-}
-
-/** 固有天赋 */
-export interface Passive {
-  name: string
-  info: string
-}
-
-/** 天赋升级花费 */
-export interface TalentCosts {
-  lvl2: Ascend[]
-  lvl3: Ascend[]
-  lvl4: Ascend[]
-  lvl5: Ascend[]
-  lvl6: Ascend[]
-  lvl7: Ascend[]
-  lvl8: Ascend[]
-  lvl9: Ascend[]
-  lvl10: Ascend[]
-}
-
-/** 天赋图片 */
-export interface TalentsImages {
-  combat1: string
-  combat2: string
-  combatsp?: string
-  combat3: string
-  passive1: string
-  passive2: string
-  passive3: string
-  passive4?: string
-}
-
-/** 花费 */
-export interface Ascend {
-  name: string
-  count: number
-}
-
 /** 基础数据 */
 export interface Stats {
   base: Base
   curve: Curve
-  specialized: keyof typeof SpecializedProperty
+  specialized: Attributes
   promotion: Promotion[]
 }
 
@@ -315,21 +115,72 @@ export interface Base {
   critdmg: number
 }
 
-export enum SpecializedProperty {
+export enum Attributes {
+  /** 生命值加成 */
+  FIGHT_PROP_HP_PERCENT = 'FIGHT_PROP_HP_PERCENT',
+  /** 防御力加成 */
+  FIGHT_PROP_DEFENSE_PERCENT = 'FIGHT_PROP_DEFENSE_PERCENT',
+  /** 攻击力加成 */
+  FIGHT_PROP_ATTACK_PERCENT = 'FIGHT_PROP_ATTACK_PERCENT',
+  /** 元素充能效率 */
+  FIGHT_PROP_CHARGE_EFFICIENCY = 'FIGHT_PROP_CHARGE_EFFICIENCY',
+  /** 治疗加成 */
+  FIGHT_PROP_HEAL_ADD = 'FIGHT_PROP_HEAL_ADD',
+  /** 暴击率 */
+  FIGHT_PROP_CRITICAL = 'FIGHT_PROP_CRITICAL',
+  /** 暴击伤害 */
+  FIGHT_PROP_CRITICAL_HURT = 'FIGHT_PROP_CRITICAL_HURT',
+  /** 元素精通 */
+  FIGHT_PROP_ELEMENT_MASTERY = 'FIGHT_PROP_ELEMENT_MASTERY',
+  /** 岩伤加成 */
+  FIGHT_PROP_ROCK_ADD_HURT = 'FIGHT_PROP_ROCK_ADD_HURT',
+  /** 风伤加成 */
+  FIGHT_PROP_WIND_ADD_HURT = 'FIGHT_PROP_WIND_ADD_HURT',
+  /** 水伤加成 */
+  FIGHT_PROP_WATER_ADD_HURT = 'FIGHT_PROP_WATER_ADD_HURT',
+  /** 火伤加成 */
+  FIGHT_PROP_FIRE_ADD_HURT = 'FIGHT_PROP_FIRE_ADD_HURT',
+  /** 雷伤加成 */
+  FIGHT_PROP_ELEC_ADD_HURT = 'FIGHT_PROP_ELEC_ADD_HURT',
+  /** 冰伤加成 */
+  FIGHT_PROP_ICE_ADD_HURT = 'FIGHT_PROP_ICE_ADD_HURT',
+  /** 草伤加成 */
+  FIGHT_PROP_GRASS_ADD_HURT = 'FIGHT_PROP_GRASS_ADD_HURT',
+  /** 物伤加成 */
+  FIGHT_PROP_PHYSICAL_ADD_HURT = 'FIGHT_PROP_PHYSICAL_ADD_HURT',
+}
+
+export enum AttributesName {
+  /** 生命值加成 */
   FIGHT_PROP_HP_PERCENT = '生命值加成',
+  /** 防御力加成 */
   FIGHT_PROP_DEFENSE_PERCENT = '防御力加成',
+  /** 攻击力加成 */
   FIGHT_PROP_ATTACK_PERCENT = '攻击力加成',
+  /** 元素充能效率 */
   FIGHT_PROP_CHARGE_EFFICIENCY = '元素充能效率',
+  /** 治疗加成 */
   FIGHT_PROP_HEAL_ADD = '治疗加成',
+  /** 暴击率 */
   FIGHT_PROP_CRITICAL = '暴击率',
+  /** 暴击伤害 */
   FIGHT_PROP_CRITICAL_HURT = '暴击伤害',
+  /** 元素精通 */
   FIGHT_PROP_ELEMENT_MASTERY = '元素精通',
+  /** 岩伤加成 */
   FIGHT_PROP_ROCK_ADD_HURT = '岩伤加成',
+  /** 风伤加成 */
   FIGHT_PROP_WIND_ADD_HURT = '风伤加成',
+  /** 水伤加成 */
   FIGHT_PROP_WATER_ADD_HURT = '水伤加成',
+  /** 火伤加成 */
   FIGHT_PROP_FIRE_ADD_HURT = '火伤加成',
+  /** 雷伤加成 */
   FIGHT_PROP_ELEC_ADD_HURT = '雷伤加成',
+  /** 冰伤加成 */
   FIGHT_PROP_ICE_ADD_HURT = '冰伤加成',
+  /** 草伤加成 */
   FIGHT_PROP_GRASS_ADD_HURT = '草伤加成',
+  /** 物伤加成 */
   FIGHT_PROP_PHYSICAL_ADD_HURT = '物伤加成',
 }
