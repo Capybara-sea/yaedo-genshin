@@ -1,5 +1,5 @@
-import { useAppDataStore } from '@/store'
 import type { Character, Promotion } from '@/types'
+import { useAppDataStore } from '@/store'
 
 // 突破等级
 type Ascension = number | '-' | '+'
@@ -54,7 +54,6 @@ export function calcStatsCharacter(character: Character) {
       defense: mystats.base.defense * mycurve[level][mystats.curve.defense] + promotion.defense,
       specialized: promotion.specialized,
     }
-    console.log(promotion.specialized)
     if (mystats.specialized === 'FIGHT_PROP_CRITICAL') output.specialized += mystats.base.critrate
     else if (mystats.specialized === 'FIGHT_PROP_CRITICAL_HURT')
       output.specialized += mystats.base.critdmg

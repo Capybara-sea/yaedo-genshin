@@ -50,16 +50,16 @@ export interface Character {
 }
 
 // 稀有度
-type Rarity = '1' | '2' | '3' | '4' | '5'
+export type Rarity = '1' | '2' | '3' | '4' | '5'
 
 // 元素属性
-type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
+export type Element = '火' | '水' | '风' | '雷' | '草' | '冰' | '岩'
 
 // 武器类型
-type Weapontype = '单手剑' | '双手剑' | '长柄武器' | '法器' | '弓'
+export type Weapontype = '单手剑' | '双手剑' | '长柄武器' | '法器' | '弓'
 
 // 声优
-interface Cv {
+export interface Cv {
   english: string
   chinese: string
   japanese: string
@@ -67,7 +67,7 @@ interface Cv {
 }
 
 /** 突破费用 */
-interface Costs {
+export interface Costs {
   ascend1: Ascend[]
   ascend2: Ascend[]
   ascend3: Ascend[]
@@ -77,7 +77,7 @@ interface Costs {
 }
 
 /** 角色图片 */
-interface Images {
+export interface Images {
   splash: string
   card: string
   icon: string
@@ -85,7 +85,7 @@ interface Images {
 }
 
 /** 命座 */
-interface Constellations {
+export interface Constellations {
   name: string
   c1: Constellation
   c2: Constellation
@@ -98,7 +98,7 @@ interface Constellations {
 }
 
 /** 命座图片 */
-interface ConstellationsImages {
+export interface ConstellationsImages {
   c1: string
   c2: string
   c3: string
@@ -110,13 +110,13 @@ interface ConstellationsImages {
 }
 
 /** 命座详情 */
-interface Constellation {
+export interface Constellation {
   name: string
   effect: string
 }
 
 /** 天赋 */
-interface Talents {
+export interface Talents {
   name: string
   combat1: Combat1
   combat2: Combat2
@@ -132,16 +132,16 @@ interface Talents {
 }
 
 /** 普通攻击 */
-interface Combat1 {
+export interface Combat1 {
   name: string
   info: string
   attributes: Attributes
 }
-interface Attributes {
+export interface Attributes {
   labels: string[]
   parameters: Parameters
 }
-interface Parameters {
+export interface Parameters {
   param1: number[]
   param2: number[]
   param3: number[]
@@ -165,17 +165,17 @@ interface Parameters {
 }
 
 /** 元素战技 */
-interface Combat2 {
+export interface Combat2 {
   name: string
   info: string
   description: string
   attributes: Attributes2
 }
-interface Attributes2 {
+export interface Attributes2 {
   labels: string[]
   parameters: Parameters2
 }
-interface Parameters2 {
+export interface Parameters2 {
   param1: number[]
   param2: number[]
   param3?: number[]
@@ -195,34 +195,34 @@ interface Parameters2 {
 }
 
 /** 战斗天赋 */
-interface Combatsp {
+export interface Combatsp {
   name: string
   info: string
   description: string
   attributes: Attributes3
 }
-interface Attributes3 {
+export interface Attributes3 {
   labels: string[]
   parameters: Parameters3
 }
-interface Parameters3 {
+export interface Parameters3 {
   param1: number[]
   param2: number[]
   param3?: number[]
 }
 
 /** 元素爆发 */
-interface Combat3 {
+export interface Combat3 {
   name: string
   info: string
   description: string
   attributes: Attributes4
 }
-interface Attributes4 {
+export interface Attributes4 {
   labels: string[]
   parameters: Parameters4
 }
-interface Parameters4 {
+export interface Parameters4 {
   param1: number[]
   param2?: number[]
   param3?: number[]
@@ -246,13 +246,13 @@ interface Parameters4 {
 }
 
 /** 固有天赋 */
-interface Passive {
+export interface Passive {
   name: string
   info: string
 }
 
 /** 天赋升级花费 */
-interface TalentCosts {
+export interface TalentCosts {
   lvl2: Ascend[]
   lvl3: Ascend[]
   lvl4: Ascend[]
@@ -265,7 +265,7 @@ interface TalentCosts {
 }
 
 /** 天赋图片 */
-interface TalentsImages {
+export interface TalentsImages {
   combat1: string
   combat2: string
   combatsp?: string
@@ -277,21 +277,21 @@ interface TalentsImages {
 }
 
 /** 花费 */
-interface Ascend {
+export interface Ascend {
   name: string
   count: number
 }
 
 /** 基础数据 */
-interface Stats {
+export interface Stats {
   base: Base
   curve: Curve
-  specialized: SpecializedProperty
+  specialized: keyof typeof SpecializedProperty
   promotion: Promotion[]
 }
 
 /** 等级突破 */
-interface Promotion {
+export interface Promotion {
   maxlevel: number
   hp: number
   attack: number
@@ -300,14 +300,14 @@ interface Promotion {
 }
 
 /** 曲线 */
-interface Curve {
+export interface Curve {
   hp: string
   attack: string
   defense: string
 }
 
 /** 基础数据 */
-interface Base {
+export interface Base {
   hp: number
   attack: number
   defense: number
