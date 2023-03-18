@@ -49,8 +49,8 @@
           label-placement="left"
           title="基础属性"
           label-align="center"
-          label-style="width: 20%"
-          content-style="width: 30%"
+          label-style="width: 25%"
+          content-style="width: 25%"
         >
           <n-descriptions-item :span="2">
             <template #label>
@@ -66,10 +66,12 @@
               :format-tooltip="() => calculatedLevelSlider.str"
             />
           </n-descriptions-item>
-          <n-descriptions-item label="生命">{{ stats.hp }}</n-descriptions-item>
-          <n-descriptions-item label="攻击">{{ stats.defense }}</n-descriptions-item>
-          <n-descriptions-item label="防御">{{ stats.attack }}</n-descriptions-item>
-          <n-descriptions-item label="防御">{{ stats.specialized }}</n-descriptions-item>
+          <n-descriptions-item label="生命值">{{ statsFormat?.hp }}</n-descriptions-item>
+          <n-descriptions-item label="攻击力">{{ statsFormat?.defense }}</n-descriptions-item>
+          <n-descriptions-item label="防御力">{{ statsFormat?.attack }}</n-descriptions-item>
+          <n-descriptions-item :label="statsFormat?.specializedName"
+            >{{ statsFormat?.specialized }}%</n-descriptions-item
+          >
         </n-descriptions>
       </n-grid-item>
       <n-grid-item span="12">
@@ -96,8 +98,8 @@ const appDataStore = useAppDataStore()
 // 获取角色数据
 const selectedCharacter = appDataStore.getCharacterById(route.params.id as string)
 
-const { stats, sliderConfig, calculatedLevelSlider, currentLevelSliderValue } =
-  useStats(selectedCharacter)
+const { statsFormat, sliderConfig, calculatedLevelSlider, currentLevelSliderValue } =
+  useStats(selectedCharacter!)
 </script>
 
 <style lang="scss" scoped>

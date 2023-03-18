@@ -286,7 +286,7 @@ interface Ascend {
 interface Stats {
   base: Base
   curve: Curve
-  specialized: string
+  specialized: SpecializedProperty
   promotion: Promotion[]
 }
 
@@ -313,4 +313,23 @@ interface Base {
   defense: number
   critrate: number
   critdmg: number
+}
+
+export enum SpecializedProperty {
+  FIGHT_PROP_HP_PERCENT = '生命值加成',
+  FIGHT_PROP_DEFENSE_PERCENT = '防御力加成',
+  FIGHT_PROP_ATTACK_PERCENT = '攻击力加成',
+  FIGHT_PROP_CHARGE_EFFICIENCY = '元素充能效率',
+  FIGHT_PROP_HEAL_ADD = '治疗加成',
+  FIGHT_PROP_CRITICAL = '暴击率',
+  FIGHT_PROP_CRITICAL_HURT = '暴击伤害',
+  FIGHT_PROP_ELEMENT_MASTERY = '元素精通',
+  FIGHT_PROP_ROCK_ADD_HURT = '岩伤加成',
+  FIGHT_PROP_WIND_ADD_HURT = '风伤加成',
+  FIGHT_PROP_WATER_ADD_HURT = '水伤加成',
+  FIGHT_PROP_FIRE_ADD_HURT = '火伤加成',
+  FIGHT_PROP_ELEC_ADD_HURT = '雷伤加成',
+  FIGHT_PROP_ICE_ADD_HURT = '冰伤加成',
+  FIGHT_PROP_GRASS_ADD_HURT = '草伤加成',
+  FIGHT_PROP_PHYSICAL_ADD_HURT = '物伤加成',
 }
