@@ -69,28 +69,39 @@
           <n-descriptions-item label="生命值">{{ statsFormat?.hp }}</n-descriptions-item>
           <n-descriptions-item label="攻击力">{{ statsFormat?.defense }}</n-descriptions-item>
           <n-descriptions-item label="防御力">{{ statsFormat?.attack }}</n-descriptions-item>
-          <n-descriptions-item :label="statsFormat?.specializedName"
-            >{{ statsFormat?.specialized }}%</n-descriptions-item
-          >
+          <n-descriptions-item :label="statsFormat?.specializedName">
+            {{ statsFormat?.specialized }}%
+          </n-descriptions-item>
         </n-descriptions>
       </n-grid-item>
       <n-grid-item span="12">
-        <!-- <n-descriptions bordered :column="2" size="small" title="成长属性">
-          <n-descriptions-item label="生命">{{ character }}</n-descriptions-item>
-          <n-descriptions-item label="攻击">{{ character }}</n-descriptions-item>
-          <n-descriptions-item label="防御">{{ character }}</n-descriptions-item>
-        </n-descriptions> -->
+        显示全部
+        <n-switch v-model:value="displayAllCosts"></n-switch>
+        <transition-group name="list">
+          <div v-for="item in displayAllCosts ? allCosts : costs" :key="item.name">
+            {{ item.name }} * {{ item.count }}
+          </div>
+        </transition-group>
       </n-grid-item>
     </n-grid>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
-import { NDescriptions, NDescriptionsItem, NTag, NGrid, NGridItem, NSlider } from 'naive-ui'
 import { useStats } from './Character'
+import {
+  NDescriptions,
+  NDescriptionsItem,
+  NTag,
+  NGrid,
+  NGridItem,
+  NSlider,
+  NSwitch,
+} from 'naive-ui'
 
 const route = useRoute()
 const appDataStore = useAppDataStore()
@@ -98,8 +109,17 @@ const appDataStore = useAppDataStore()
 // 获取角色数据
 const selectedCharacter = appDataStore.getCharacterById(route.params.id as string)
 
-const { statsFormat, sliderConfig, calculatedLevelSlider, currentLevelSliderValue } =
-  useStats(selectedCharacter!)
+// 是否显示全部材料
+const displayAllCosts = ref(false)
+// 角色基础数据的一些 UI 映射
+const {
+  costs,
+  allCosts,
+  statsFormat,
+  sliderConfig,
+  calculatedLevelSlider,
+  currentLevelSliderValue,
+} = useStats(selectedCharacter!)
 </script>
 
 <style lang="scss" scoped>
@@ -194,6 +214,17 @@ const { statsFormat, sliderConfig, calculatedLevelSlider, currentLevelSliderValu
         backdrop-filter: blur(4px);
       }
     }
+  }
+
+  .list-move,
+  .list-enter-active,
+  .list-leave-active {
+    transition: all 0.3s ease-in-out;
+  }
+  .list-enter-from,
+  .list-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
   }
 }
 </style>

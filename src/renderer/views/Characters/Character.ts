@@ -1,5 +1,6 @@
-import type { Character } from '@/types'
+import type { Character, Ascend } from '@/types'
 
+import { zipWith } from 'lodash-es'
 import { ref, computed } from 'vue'
 import { calcStatsCharacter } from '@/utils/calc'
 import { SpecializedProperty } from '@/types/data/characters'
@@ -73,11 +74,60 @@ export function useStats(character: Character) {
     }
   })
 
+  /** 找到键名中的数字部分 */
+  const findDigital = (str: string): number => Number(str.match(/\d+/)?.[0])
+
+  /** 单阶段花费 */
+  const costs = computed(() => {
+    if (!character) return undefined
+    // 找到键名中的数字部分
+    const key = Object.keys(character.costs).filter(
+      (ascend) => findDigital(ascend) == stats.value?.ascension
+    )?.[0] as keyof typeof character.costs
+    // 返回对应的花费
+    return key ? character.costs[key] : character.costs.ascend1
+  })
+
+  /** 所有阶段花费 */
+  const allCosts = computed(() => {
+    if (!character) return undefined
+    // 找到截止到目前阶段的花费 返回一个二维数组
+    // [[ascend1], [ascend2], ...] 直到当前阶段
+    const allAscendCosts = Object.keys(character.costs).map((ascend) => {
+      // 如果当前阶段小于等于角色当前阶段，则返回该阶段的花费
+      return findDigital(ascend) <= (stats.value?.ascension || 0) + 1
+        ? character.costs[ascend as keyof typeof character.costs]
+        : []
+    })
+    // 按顺序合并数组（目的是让同类型材料能并拢）
+    const mergedAscendCosts = zipWith(...allAscendCosts, (...args) => args)
+      // 扁平化 把每个阶段的数组对象合并成一个数组对象
+      .flat()
+      .reduce<Ascend[]>((prev, curr) => {
+        if (!curr) return prev
+        // 找到相同的name，count累加
+        const index = prev.findIndex((item) => item.name == curr?.name)
+        if (index != -1) prev[index].count += curr.count
+        else prev.push({ ...curr }) // 需要解构，否则会引用同一个对象
+        return prev
+      }, [])
+    return mergedAscendCosts
+  })
+
   return {
+    /** 单阶段花费 */
+    costs,
+    /** 所有阶段花费 */
+    allCosts,
+    /** 角色属性 */
     stats,
+    /** 角色属性格式化 */
     statsFormat,
+    /** 拖动条配置 */
     sliderConfig,
+    /** 计算后的拖动条数据 */
     calculatedLevelSlider,
+    /** 拖动条数据 */
     currentLevelSliderValue,
   }
 }
