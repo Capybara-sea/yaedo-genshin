@@ -7,5 +7,4 @@
 </template>
 
 <script lang="ts" setup>
-import { NResult } from 'naive-ui'
 </script>

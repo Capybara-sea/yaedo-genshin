@@ -117,16 +117,6 @@
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
 import { useCharacterStats } from '../hooks/useAppData'
-import {
-  NTag,
-  NGrid,
-  NGridItem,
-  NSlider,
-  NSwitch,
-  NDivider,
-  NDescriptions,
-  NDescriptionsItem,
-} from 'naive-ui'
 
 const route = useRoute()
 const appDataStore = useAppDataStore()

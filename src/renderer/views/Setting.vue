@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 import { useAppStore } from '@/store'
 import { LightModeRound, DarkModeRound } from '@vicons/material'
-import { NList, NListItem, NThing, NSwitch, NIcon } from 'naive-ui'
 
 const { $state, setTheme } = useAppStore()
 const darkSwitch = Boolean($state.theme === 'dark')
