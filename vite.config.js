@@ -26,7 +26,7 @@ const config = defineConfig({
     vuePlugin(),
     AutoImport({
       dts: 'types/auto-imports.d.ts',
-      imports: ['vue'],
+      imports: ['vue', 'vue-router'],
       eslintrc: {
         enabled: true, // Default `false`
         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`

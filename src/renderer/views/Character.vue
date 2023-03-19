@@ -114,7 +114,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
 import { useCharacterStats } from '../hooks/useAppData'
