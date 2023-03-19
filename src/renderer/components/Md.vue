@@ -5,7 +5,14 @@
 <script lang="ts" setup>
 import markdownIt from 'markdown-it'
 
-const props = defineProps<{ content: string; strongColor?: string }>()
+type Props = {
+  content: string
+  strongColor?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  strongColor: '#cfc263',
+})
 
 const md = markdownIt({ breaks: true })
 const html = computed(() => md.render(props.content?.replace(/\n\n/g, '\n\v\n')))

@@ -14,22 +14,71 @@
       </div>
     </n-scrollbar>
     <my-transition>
-      <md :content="talent.info" class="tabs-content" :key="talent.info" />
+      <div :key="talentDetail.info" class="tabs-content">
+        <md :content="talentDetail.info" />
+        <md :content="talentDetail.description || ''" />
+
+        <n-collapse>
+          <n-collapse-item title="详细属性">
+            {{ labelCompiling(talentDetail.attributes, 9) }}
+          </n-collapse-item>
+        </n-collapse>
+      </div>
     </my-transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { Character, Talents, CombatTalentDetail, PassiveTalentDetail } from '@/types/data'
+import type { Character, TalentKey, TalentDetail } from '@/types/data'
 
 const props = defineProps<{ character: Character }>()
 
-const currentTabKey = ref<keyof Talents>('combat1')
+const currentTabKey = ref<TalentKey>('combat1')
 
-const talent = computed(() => {
-  const talent = props.character.talents[currentTabKey.value] || {}
-  return talent as CombatTalentDetail | PassiveTalentDetail
+const talentDetail = computed(() => {
+  const talentDetail = props.character.talents[currentTabKey.value] || {}
+  return talentDetail
 })
+
+function labelCompiling(attributes: TalentDetail['attributes'], talentLevel: number) {
+  if (!(talentLevel >= 1 && talentLevel <= 15)) throw '技能等级必须在1-15之间'
+  if (!attributes) return []
+
+  let outLabels = []
+
+  const rx = /{(.*?)}/g
+  for (let label of attributes.labels) {
+    let matches = label.matchAll(rx)
+
+    for (let match of matches) {
+      const grab = match[1] // example: param5:F1
+      const [paramnum, format] = grab.split(':')
+
+      let value = attributes.parameters[paramnum][talentLevel - 1].toString()
+      if (format === 'I') {
+        // 整数
+        label = label.replace(match[0], value)
+        continue
+      }
+      if (format.includes('P'))
+        // 百分比
+        value = (Number(value) * 100).toString()
+      if (format.includes('F')) {
+        // 小数
+        const precision = parseInt(format[1])
+        if (!isNaN(precision)) {
+          value = Number(value).toFixed(precision)
+        }
+      }
+      if (format.includes('P'))
+        // 百分比
+        value = value + '%'
+      label = label.replace(match[0], value)
+    }
+    outLabels.push(label)
+  }
+  return outLabels
+}
 </script>
 
 <style lang="scss" scoped>
@@ -46,9 +95,6 @@ const talent = computed(() => {
         width: 3.5rem;
         height: 3.5rem;
         object-fit: contain;
-        // border: 1px solid #000000;
-        // border-radius: 3rem;
-        // padding: .5rem;
       }
 
       &.active {

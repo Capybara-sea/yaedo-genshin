@@ -1,15 +1,8 @@
 import { Items } from '.'
 
-export interface Talents {
+export type Talents = {
   name: string
-  combat1: CombatTalentDetail
-  combat2: CombatTalentDetail
-  combatsp?: CombatTalentDetail // for mona/ayaka
-  combat3: CombatTalentDetail
-  passive1: PassiveTalentDetail
-  passive2: PassiveTalentDetail
-  passive3?: PassiveTalentDetail // player character doesn't have a third talent
-  passive4?: PassiveTalentDetail // for kokomi
+  version: string
   costs: {
     lvl2: Items[]
     lvl3: Items[]
@@ -22,23 +15,19 @@ export interface Talents {
     lvl10: Items[]
   }
   images?: {
-    // images for talents aren't available yet
-    combat1: string
-    combat2: string
-    combatsp?: string // for mona/ayaka
-    combat3: string
-    passive1: string
-    passive2: string
-    passive3?: string // player character doesn't have a third talent
+    [key in TalentKey]: string
   }
-  version: string
+} & {
+  [key in TalentKey]: TalentDetail
 }
 
-export interface CombatTalentDetail {
+export interface TalentDetail {
   name: string
   info: string
-  description?: string // no description for combat1
-  attributes: {
+  // no description for combat1 and passive
+  description?: string
+  // no attributes for passive
+  attributes?: {
     labels: string[]
     parameters: {
       [key: string]: number[]
@@ -46,7 +35,12 @@ export interface CombatTalentDetail {
   }
 }
 
-export interface PassiveTalentDetail {
-  name: string
-  info: string
-}
+export type TalentKey =
+  | 'combat1'
+  | 'combat2'
+  | 'combatsp' // for mona/ayaka
+  | 'combat3'
+  | 'passive1'
+  | 'passive2'
+  | 'passive3' // player character doesn't have a third talent
+  | 'passive4' // for kokomi

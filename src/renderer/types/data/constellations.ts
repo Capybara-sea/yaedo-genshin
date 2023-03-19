@@ -1,25 +1,22 @@
-export interface Constellations {
+export type Constellations = {
   name: string
-  c1: ConstellationDetail
-  c2: ConstellationDetail
-  c3: ConstellationDetail
-  c4: ConstellationDetail
-  c5: ConstellationDetail
-  c6: ConstellationDetail
-  images: {
-    constellation: string
-    constellation2?: string // only for player characters. shows girl constellation image
-    c1: string
-    c2: string
-    c3: string
-    c4: string
-    c5: string
-    c6: string
-  }
+  images: ConstellationImages
   version: string
+} & {
+  [key in ConstellationKey]: ConstellationDetail
 }
 
 export interface ConstellationDetail {
   name: string
   effect: string
 }
+
+export type ConstellationImages = {
+  constellation: string
+  // only for player characters. shows girl constellation image
+  constellation2?: string
+} & {
+  [key in ConstellationKey]: string
+}
+
+export type ConstellationKey = 'c1' | 'c2' | 'c3' | 'c4' | 'c5' | 'c6'

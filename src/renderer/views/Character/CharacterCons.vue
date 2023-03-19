@@ -1,47 +1,53 @@
 <template>
   <div class="cons-container">
-    <n-scrollbar x-scrollable>
-      <div class="tabs-bar">
-        <img
-          v-for="(image, key) in character.constellations.images"
-          :key="image"
-          :src="image"
-          @click="currentTabKey = key"
-        />
+    <div class="cons-list">
+      <div class="cons-list-item" v-for="con in cons" :key="con.name">
+        <img class="cons-list-item-icon" :src="con.image" />
+        <div class="cons-list-item-name">{{ con.name }}</div>
+        <md class="cons-list-item-content" :content="con.effect" />
       </div>
-    </n-scrollbar>
-    <div class="taps-content">
-      {{ constellation }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { Character } from '@/types/data'
+import type { Character, ConstellationKey, ConstellationDetail } from '@/types/data'
 
 const props = defineProps<{ character: Character }>()
 
-const currentTabKey = ref('c1')
-
-const constellation = computed(() => {
-  return props.character.constellations[currentTabKey.value]
+const consKey: Array<ConstellationKey> = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6']
+const cons = computed(() => {
+  const cons = props.character.constellations
+  return consKey.map((key) => {
+    const { name, effect } = cons[key] as ConstellationDetail
+    const image = cons.images[key]
+    return { name, effect, image }
+  })
 })
 </script>
 
 <style lang="scss" scoped>
 .cons-container {
-  width: 100%;
-  .tabs-bar {
-    display: flex;
-    gap: 2rem;
-    padding: 0 1rem 1rem;
-    > img {
-      height: 3rem;
-    }
-  }
+  .cons-list {
+    &-item {
+      display: grid;
+      grid-template-columns: 5rem 9rem 1fr;
+      align-items: center;
+      gap: 2rem;
+      min-height: 4rem;
 
-  .tabs-content {
-    padding: 0 1rem;
+      &-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        object-fit: contain;
+        justify-self: end;
+      }
+
+      &-name,
+      &-content {
+        text-align: left;
+      }
+    }
   }
 }
 </style>
