@@ -3,9 +3,9 @@
     <side-menu />
     <n-layout-content content-style="padding: 24px;">
       <router-view v-slot="{ Component, route }" keep-alive>
-        <transition name="slide-fade" mode="out-in">
+        <my-transition>
           <component :is="Component" :key="getRouteFirstName(route)" />
-        </transition>
+        </my-transition>
       </router-view>
     </n-layout-content>
   </n-layout>

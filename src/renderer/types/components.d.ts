@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ItemCard: typeof import('./../components/ItemCard.vue')['default']
     Md: typeof import('./../components/Md.vue')['default']
+    MyTransition: typeof import('./../components/MyTransition.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']

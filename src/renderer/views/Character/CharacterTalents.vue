@@ -13,9 +13,9 @@
         </div>
       </div>
     </n-scrollbar>
-    <transition name="slide-fade" mode="out-in">
+    <my-transition>
       <md :content="talent.info" class="tabs-content" :key="talent.info" />
-    </transition>
+    </my-transition>
   </div>
 </template>
 
@@ -62,22 +62,6 @@ const talent = computed(() => {
   .tabs-content {
     padding: 0 1rem;
     text-align: left;
-  }
-
-  .slide-fade- {
-    &enter-active,
-    &leave-active {
-      transition: opacity 0.15s ease-in-out 0.05s, transform 0.2s ease-in;
-    }
-    &enter-from,
-    &leave-to {
-      transform: translateX(20px);
-      opacity: 0;
-    }
-    &enter-to,
-    &leave-from {
-      opacity: 1;
-    }
   }
 }
 </style>
