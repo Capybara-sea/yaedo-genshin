@@ -1,7 +1,6 @@
 import type { Character, Items } from '@/types'
 
 import { zipWith } from 'lodash-es'
-import { ref, computed } from 'vue'
 import { calcStatsCharacter } from '@/utils/calc'
 import { Attributes, AttributesName } from '@/types/data/characters'
 

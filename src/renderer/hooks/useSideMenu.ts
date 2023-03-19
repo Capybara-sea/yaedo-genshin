@@ -1,6 +1,5 @@
 import type { MenuOption } from 'naive-ui'
 import type { RouteRecordName } from 'vue-router'
-import { h, ref, computed } from 'vue'
 import { getRouteFirstName } from '@/utils/router'
 import { RouterLink, useRoute } from 'vue-router'
 import { menu_home, menu_setting, menu_characters } from '@/assets/icons'

@@ -11,7 +11,7 @@
   >
     <n-menu
       :inverted="!isDark"
-      :value="currentRoute as string"
+      :value="(currentRoute as string)"
       :collapsed="collapsed"
       :collapsed-width="menuWidth.close"
       :icon-size="iconSize.open"
@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useSideMenu } from '@/hooks/useSideMenu'
 import { NMenu, NLayoutSider } from 'naive-ui'
 import { useTheme } from '@/hooks/useTheme'

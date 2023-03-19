@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
 import { NCollapseTransition, NPageHeader } from 'naive-ui'
 import ItemCard from '@/components/ItemCard.vue'
 import { useAppDataStore } from '@/store'

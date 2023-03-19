@@ -1,7 +1,6 @@
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { useAppStore } from '@/store'
 import { useOsTheme, darkTheme } from 'naive-ui'
-import { computed, watch } from 'vue'
 import { customDarkTheme, customLightTheme } from '@/styles/theme'
 
 export function useTheme() {

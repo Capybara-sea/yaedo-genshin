@@ -17,7 +17,6 @@
 import type { StyleValue } from 'vue'
 import type { Rarity, Element } from '@/types'
 
-import { computed } from 'vue'
 import { NCard } from 'naive-ui'
 import { uiMapping } from '@/utils/ui'
 
