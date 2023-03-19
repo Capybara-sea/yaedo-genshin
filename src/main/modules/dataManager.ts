@@ -77,7 +77,6 @@ export default class DataManager {
         const item = remoteFileLock[key]
         this.logger.info(`${item.path} 下载中...`)
         const data = (await getGithubFile(item.path)).toString() // 下载
-        // TODO: 临时解决方案，hash值只有在写入的文件读取后才会正确
         const localHash = hash(data)
         if (localHash !== item.hash) {
           throw new Error(`[DataManager] hash is not equal

@@ -27,7 +27,7 @@ const config = defineConfig({
   plugins: [
     vuePlugin(),
     AutoImport({
-      dts: 'types/auto-imports.d.ts',
+      dts: './types/auto-imports.d.ts',
       imports: [
         'vue',
         'vue-router',
@@ -36,13 +36,14 @@ const config = defineConfig({
         },
       ],
       eslintrc: {
-        enabled: true, // Default `false`
-        filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
-        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        enabled: true,
+        filepath: './.eslintrc-auto-import.json',
+        globalsPropValue: true,
       },
     }),
     Components({
-      dts: 'types/components.d.ts',
+      dirs: ['./components'],
+      dts: './types/components.d.ts',
       resolvers: [NaiveUiResolver()],
     }),
   ],
