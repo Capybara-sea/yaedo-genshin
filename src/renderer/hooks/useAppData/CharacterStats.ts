@@ -4,7 +4,7 @@ import { zipWith } from 'lodash-es'
 import { calcStatsCharacter } from '@/utils/calc'
 import { Attributes, AttributesName } from '@/types/data/characters'
 
-export function useStats(character: Character) {
+export function useCharacterStats(character: Character) {
   /** 突破等级 */
   const ascensionList = [20, 40, 50, 60, 70, 80]
 
@@ -132,8 +132,4 @@ export function useStats(character: Character) {
     /** 拖动条数据 */
     currentLevelSliderValue,
   }
-}
-
-export function useTalents(character: Character) {
-  return character.talents
 }

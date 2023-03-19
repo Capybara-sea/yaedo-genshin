@@ -117,7 +117,7 @@
 import { useRoute } from 'vue-router'
 import { useAppDataStore } from '@/store'
 import { uiMapping } from '@/utils/ui'
-import { useStats, useTalents } from './Character'
+import { useCharacterStats } from '../hooks/useAppData'
 import {
   NTag,
   NGrid,
@@ -145,10 +145,7 @@ const {
   sliderConfig,
   calculatedLevelSlider,
   currentLevelSliderValue,
-} = useStats(selectedCharacter!)
-
-// 天赋数据
-const talents = useTalents(selectedCharacter!)
+} = useCharacterStats(selectedCharacter!)
 </script>
 
 <style lang="scss" scoped>
