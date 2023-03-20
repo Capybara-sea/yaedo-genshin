@@ -5,6 +5,7 @@ import { useAppDataStore } from '@/store'
 type Ascension = number | '-' | '+'
 
 /**
+ * 返回角色在特定等级和突破阶段的属性表。
  * @param level: 整数
  * @param ascension: 突破阶段，可以为数字或'-'、'+'。默认为'-'。
  *                   只有在等级达到某些特定值时才会决定返回哪些统计数据
@@ -59,4 +60,64 @@ export function calcStatsCharacter(character: Character) {
       output.specialized += mystats.base.critdmg
     return output
   }
+}
+
+/**
+ * 处理天赋标签，返回一个标签名和对应的值表
+ */
+export function labelCompiling(
+  label: string,
+  parameters: { [key: string]: number[] }
+): { label: string; value: string[] } {
+  const [labelName, valueTemplate] = label.split('|')
+
+  const labelValue: string[] = []
+
+  let isContinue: boolean = true
+  while (labelValue.length < 15 && isContinue) {
+    const matches = valueTemplate.matchAll(/{(.*?)}/g)
+    let tempValue = valueTemplate
+
+    for (const match of matches) {
+      const grab = match[1] // example: param5:F1
+      const [paramnum, format] = grab.split(':')
+      const level = labelValue.length // 这里因为等级是从数组长度开始的所以是从0开始的
+
+      let value = parameters[paramnum][level]?.toString()
+      if (!value || value === 'undefined') {
+        // 如果没有值，那么就退出循环
+        isContinue = false
+        break
+      }
+
+      if (format === 'I') {
+        // 整数不参与其他处理
+        label = label.replace(match[0], value)
+      } else {
+        if (format.includes('P')) {
+          // 把小数转换为百分比
+          value = (Number(value) * 100).toString()
+        }
+        if (format.includes('F')) {
+          // 保留小数后，因为有百分比所以要在百分比处理之后
+          const precision = 10 ** parseInt(format[1])
+          if (!isNaN(precision)) {
+            value = (Math.round(Number(value) * precision) / precision).toString()
+          }
+        }
+        if (format.includes('P') && !format.includes('F')) {
+          // 如果有P但是没有指定F，那么就默认只保留整数部分
+          value = Math.round(Number(value)).toString()
+        }
+        if (format.includes('P')) {
+          // 最后再加上百分比
+          value = value + '%'
+        }
+      }
+      tempValue = tempValue.replace(match[0], value)
+    }
+    console.log(isContinue)
+    if (isContinue) labelValue.push(tempValue)
+  }
+  return { label: labelName, value: labelValue }
 }

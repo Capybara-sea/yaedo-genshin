@@ -1,5 +1,6 @@
 <template>
   <div class="talents-container">
+    <!-- 技能列表 -->
     <n-scrollbar x-scrollable>
       <div class="tabs-bar">
         <div
@@ -13,14 +14,28 @@
         </div>
       </div>
     </n-scrollbar>
+    <!-- 技能介绍 -->
     <my-transition>
       <div :key="talentDetail.info" class="tabs-content">
         <md :content="talentDetail.info" />
         <md :content="talentDetail.description || ''" />
-
-        <n-collapse>
+        <!-- 详细属性 -->
+        <n-collapse v-if="talentDetail.attributes">
           <n-collapse-item title="详细属性">
-            {{ labelCompiling(talentDetail.attributes, 9) }}
+            <n-scrollbar x-scrollable>
+              <n-table :bordered="false" :single-line="false" size="small">
+                <thead>
+                  <tr>
+                    <th v-for="str in talentDetail.table?.header" :key="str">{{ str }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in talentDetail.table?.body" :key="row[0]">
+                    <td v-for="col in row" :key="col">{{ col }}</td>
+                  </tr>
+                </tbody>
+              </n-table>
+            </n-scrollbar>
           </n-collapse-item>
         </n-collapse>
       </div>
@@ -29,56 +44,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { Character, TalentKey, TalentDetail } from '@/types/data'
+import type { Character } from '@/types/data'
+
+import { useTalents } from '@/hooks/useAppData'
 
 const props = defineProps<{ character: Character }>()
 
-const currentTabKey = ref<TalentKey>('combat1')
-
-const talentDetail = computed(() => {
-  const talentDetail = props.character.talents[currentTabKey.value] || {}
-  return talentDetail
-})
-
-function labelCompiling(attributes: TalentDetail['attributes'], talentLevel: number) {
-  if (!(talentLevel >= 1 && talentLevel <= 15)) throw '技能等级必须在1-15之间'
-  if (!attributes) return []
-
-  let outLabels = []
-
-  const rx = /{(.*?)}/g
-  for (let label of attributes.labels) {
-    let matches = label.matchAll(rx)
-
-    for (let match of matches) {
-      const grab = match[1] // example: param5:F1
-      const [paramnum, format] = grab.split(':')
-
-      let value = attributes.parameters[paramnum][talentLevel - 1].toString()
-      if (format === 'I') {
-        // 整数
-        label = label.replace(match[0], value)
-        continue
-      }
-      if (format.includes('P'))
-        // 百分比
-        value = (Number(value) * 100).toString()
-      if (format.includes('F')) {
-        // 小数
-        const precision = parseInt(format[1])
-        if (!isNaN(precision)) {
-          value = Number(value).toFixed(precision)
-        }
-      }
-      if (format.includes('P'))
-        // 百分比
-        value = value + '%'
-      label = label.replace(match[0], value)
-    }
-    outLabels.push(label)
-  }
-  return outLabels
-}
+const { currentTabKey, talentDetail } = useTalents(props.character)
 </script>
 
 <style lang="scss" scoped>
