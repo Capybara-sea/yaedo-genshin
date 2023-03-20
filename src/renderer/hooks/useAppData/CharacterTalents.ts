@@ -10,8 +10,10 @@ interface ExtendedTalentDetail extends TalentDetail {
 }
 
 export function useTalents(character: Character) {
+  // 当前已选择天赋
   const currentTabKey = ref<TalentKey>('combat1')
 
+  // 当前天赋的详情
   const talentDetail = computed<ExtendedTalentDetail>(() => {
     // 获取当前天赋
     const talentDetail = character.talents[currentTabKey.value]

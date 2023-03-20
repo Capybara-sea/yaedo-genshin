@@ -116,7 +116,6 @@ export function labelCompiling(
       }
       tempValue = tempValue.replace(match[0], value)
     }
-    console.log(isContinue)
     if (isContinue) labelValue.push(tempValue)
   }
   return { label: labelName, value: labelValue }
