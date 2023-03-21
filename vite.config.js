@@ -47,6 +47,13 @@ const config = defineConfig({
       resolvers: [NaiveUiResolver()],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: "@import '@/styles/variables.scss';",
+      },
+    },
+  },
 })
 
 module.exports = config

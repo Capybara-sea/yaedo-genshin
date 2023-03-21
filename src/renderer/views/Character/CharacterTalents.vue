@@ -68,6 +68,10 @@ const { currentTabKey, talentDetail } = useTalents(props.character)
         width: 3.5rem;
         height: 3.5rem;
         object-fit: contain;
+        background: #a0a5d6;
+        border-radius: 9999px;
+        padding: 0.2rem;
+        filter: invert($invert-lightness);
       }
 
       &.active {

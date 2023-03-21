@@ -4,7 +4,7 @@
     <n-list-item>
       <n-thing
         title="深色模式"
-        description="写样式真的好麻烦..."
+        description="写样式真的好麻烦...浅色模式实在不会设计凑合着看吧..."
         description-style="text-align: left"
       />
       <template #suffix>
