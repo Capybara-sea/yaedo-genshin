@@ -25,3 +25,5 @@ build
 *.sw?
 
 # my files
+src/renderer/types/auto-imports.d.ts
+src/renderer/types/components.d.ts
