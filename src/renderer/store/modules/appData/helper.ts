@@ -4,5 +4,6 @@ export function defaultData(): AppData {
   return {
     characters: [],
     charactersCurve: {},
+    materials: [],
   }
 }

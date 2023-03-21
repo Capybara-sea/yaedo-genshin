@@ -1,13 +1,20 @@
-import { AppData, AppDataType } from '@/types'
+import { AppData, AppDataType, Character, Material } from '@/types'
 import { defineStore } from 'pinia'
 import { defaultData } from './helper'
 
 export const useAppDataStore = defineStore('appData-store', {
   state: (): AppData => defaultData(),
   getters: {
-    getCharacterById: (state) => (id: string) => {
-      return state.characters.find((c) => c.id === id)
-    },
+    getCharacterById:
+      (state) =>
+      (id: string): Character | undefined => {
+        return state.characters.find((c) => c.id === id)
+      },
+    getMaterial:
+      (state) =>
+      (filterKey: keyof Material, filter: string | number): Material | undefined => {
+        return state.materials.find((m) => m[filterKey] === filter)
+      },
   },
   actions: {
     async init() {

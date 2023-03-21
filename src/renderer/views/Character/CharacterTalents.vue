@@ -8,8 +8,9 @@
           :class="{ active: currentTabKey === key }"
           v-for="(image, key) in character.talents.images"
           :key="image"
+          @click="currentTabKey = key"
         >
-          <img class="icon" :src="image" @click="currentTabKey = key" />
+          <img class="icon" :src="image" />
           <div class="name">{{ character.talents[key]?.name }}</div>
         </div>
       </div>
