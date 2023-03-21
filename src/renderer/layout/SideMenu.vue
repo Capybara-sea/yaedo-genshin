@@ -10,7 +10,6 @@
     @expand="collapsed = false"
   >
     <n-menu
-      :inverted="!isDark"
       :value="(currentRoute as string)"
       :collapsed="collapsed"
       :collapsed-width="menuWidth.close"
@@ -23,11 +22,6 @@
 
 <script lang="ts" setup>
 import { useSideMenu } from '@/hooks/useSideMenu'
-import { NMenu, NLayoutSider } from 'naive-ui'
-import { useTheme } from '@/hooks/useTheme'
-
-// theme
-const { isDark } = useTheme()
 
 // menu
 const { menuOptions, currentRoute } = useSideMenu()

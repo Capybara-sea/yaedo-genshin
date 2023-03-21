@@ -14,7 +14,7 @@ export const common: ThemeConfig<'common'> = {
     primaryColorPressed: '#389477', // 主色 - 鼠标按下
   },
   dark: {
-    bodyColor: '#2b2b45', // 主体颜色-layout的背景颜色
-    cardColor: '#2b2b45', // 主体颜色-一般样式的背景颜色
+    bodyColor: '#2d2d4b', // 主体颜色-layout的背景颜色
+    cardColor: '#2d2d4b', // 主体颜色-一般样式的背景颜色
   },
 }
