@@ -1,8 +1,8 @@
 import type { IpcMainInvokeEvent } from 'electron'
-import SettingManager from '../modules/settingManager'
-import { Common } from '../common'
+import SettingManager from '@/modules/settingManager'
+import { Common } from '@/common'
 
-export default class Setting {
+export class Setting {
   private store: SettingManager
 
   constructor() {

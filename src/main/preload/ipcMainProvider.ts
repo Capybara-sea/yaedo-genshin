@@ -1,7 +1,7 @@
 import type { IpcMainInvokeEvent } from 'electron'
 import { ipcMain } from 'electron'
 import IpcBase from './ipcBase'
-import Logger from '../utils/logger'
+import Logger from '@/utils/logger'
 const logger = new Logger('IpcMainProvider')
 
 export class IpcMainProvider extends IpcBase {

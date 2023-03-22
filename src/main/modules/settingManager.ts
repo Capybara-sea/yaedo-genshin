@@ -1,5 +1,5 @@
-const { app } = require('electron')
-const Path = require('path')
+import Path from 'path'
+import { app } from 'electron'
 import { Common } from '../common'
 import { readFile, writeFile } from '../utils/files'
 

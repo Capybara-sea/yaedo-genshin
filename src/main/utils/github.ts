@@ -1,5 +1,5 @@
 import { Http } from './request'
-import { Common } from '../common'
+import { Common } from '@/common'
 
 const github = Common.GITHUB
 

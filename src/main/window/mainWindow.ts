@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
-import { Common } from '../common'
-import Logger from '../utils/logger'
+import { Common } from '@/common'
+import Logger from '@/utils/logger'
 const logger = new Logger('mainWindow')
 
 export function createMainWindow() {

@@ -1,8 +1,8 @@
 import { app, BrowserWindow } from 'electron'
-import { bindIpcApi } from './api'
+import { bindIpcApi } from '@/api'
 import { injectWebRequest, keyboardListener } from './inject'
-import { createMainWindow } from './window/mainWindow'
-import Logger from './utils/logger'
+import { createMainWindow } from '@/window/mainWindow'
+import Logger from '@/utils/logger'
 const logger = new Logger('Main')
 
 process.on('uncaughtException', (error: Error) => {
