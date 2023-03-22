@@ -1,7 +1,7 @@
-import { app } from 'electron'
 import fs from 'fs'
 import fsExtra from 'fs-extra'
 import Logger from '../utils/logger'
+import { app } from 'electron'
 import { Common } from '../common'
 import { basename, join, relative } from 'path'
 import { getGithubFile } from '../utils/github'

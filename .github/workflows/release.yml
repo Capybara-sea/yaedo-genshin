@@ -1,0 +1,77 @@
+name: Build and Release App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        include:
+          - os: windows-latest
+            name: win
+            ext: ext
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Checkout the code
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      # Install dependencies and build the app
+      - name: Install dependencies and build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          pnpm install
+          pnpm build:${{ matrix.name }}
+
+      # Create a new release with the new version tag
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ secrets.APP_VERSION }}
+          release_name: Release v${{ secrets.APP_VERSION }}
+          draft: false
+          prerelease: false
+
+      # Upload the artifact to the release
+      - name: Upload artifact to release
+        uses: actions/upload-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: 八重堂-${{ secrets.APP_VERSION }}-${{ matrix.name }}
+          path: dist/八重堂.${{ matrix.ext }}

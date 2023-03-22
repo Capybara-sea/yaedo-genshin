@@ -1,7 +1,7 @@
 import type { IpcMainInvokeEvent } from 'electron'
 import DataManager from '../modules/dataManager'
 
-export default class AppData {
+export class AppData {
   dataManager: DataManager
 
   constructor() {

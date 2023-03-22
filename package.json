@@ -5,10 +5,10 @@
   "main": "build/main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build.js && electron-builder --config scripts/electron-builder.config.js",
-    "build:win": "node scripts/build.js && electron-builder --win --config scripts/electron-builder.config.js",
-    "build:mac": "node scripts/build.js && electron-builder --mac --config scripts/electron-builder.config.js",
-    "build:linux": "node scripts/build.js && electron-builder --linux --config scripts/electron-builder.config.js",
+    "build": "node scripts/build.js && electron-builder --config scripts/electron-builder.config.js -p always",
+    "build:win": "node scripts/build.js && electron-builder --win --config scripts/electron-builder.config.js -p always",
+    "build:mac": "node scripts/build.js && electron-builder --mac --config scripts/electron-builder.config.js -p always",
+    "build:linux": "node scripts/build.js && electron-builder --linux --config scripts/electron-builder.config.js -p always",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
@@ -17,6 +17,14 @@
     "name": "Capybara-sea",
     "url": "https://github.com/Capybara-sea"
   },
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "Capybara-sea",
+      "repo": "yaedo-genshin",
+      "token": "${{ secrets.GH_TOKEN }}"
+    }
+  ],
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/lodash-es": "^4.17.7",
