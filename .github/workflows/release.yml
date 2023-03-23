@@ -84,5 +84,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: 八重堂-${{ github.ref }}-${{ matrix.name }}
+          name: 八重堂_${{ matrix.name }}
           path: ./dist/八重堂.${{ matrix.ext }}
