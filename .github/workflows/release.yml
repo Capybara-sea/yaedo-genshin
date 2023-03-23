@@ -18,27 +18,29 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      # Checkout the code
+      # 检出分支
       - name: Checkout
         uses: actions/checkout@v3
 
+      # 初始化Node环境
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
+      # 初始化pnpm
       - name: pnpm setup
         uses: pnpm/action-setup@v2
         with:
           version: 7
           run_install: false
 
+      # 加载pnpm缓存
       - name: Get pnpm store directory
         id: pnpm_cache
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -47,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      # Install dependencies and build the app
+      # 构建应用
       - name: Install dependencies and build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -55,18 +57,7 @@ jobs:
           pnpm install
           pnpm build:${{ matrix.name }}
 
-      # Create a new release with the new version tag
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: v${{ secrets.APP_VERSION }}
-      #     release_name: Release v${{ secrets.APP_VERSION }}
-      #     draft: false
-      #     prerelease: false
-
+      # 新建release,如果有重复则跳过
       - name: Create Release
         uses: actions/create-release@v1
         id: create_release
@@ -78,11 +69,18 @@ jobs:
           draft: false
           prerelease: false
 
-      # Upload the artifact to the release
-      - name: Upload artifact to release
-        uses: actions/upload-artifact@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload the release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     tag: ${{ github.ref }}
+      #     file: ./dist/八重堂.${{ matrix.ext }}
+      #     asset_name: yaedo_${{ matrix.name }}.${{ matrix.ext }}
+      #     repo_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Upload the release
+        uses: softprops/action-gh-release@v1
         with:
-          name: 八重堂_${{ matrix.name }}
-          path: ./dist/八重堂.${{ matrix.ext }}
+          token: ${{ secrets.GH_TOKEN }}
+          files: |
+            ./dist/**.${{ matrix.ext }}
+            ./dist/latest.yml
