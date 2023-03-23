@@ -15,7 +15,7 @@ export class Common {
   static REQUEST_SCHEMES = 'yaedo'
 
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
-    show: false,
+    // show: false,
     width: 960,
     height: 600,
     minWidth: 600,
