@@ -1,9 +1,9 @@
-import Logger from '@/utils/logger'
+import Logger from '../utils/logger'
 import { app } from 'electron'
 import { join } from 'path'
-import { Common } from '@/common'
-import { getGithubFile } from '@/utils/github'
-import { hash, readFile, writeFile } from '@/utils/files'
+import { Common } from '../common'
+import { getGithubFile } from '../utils/github'
+import { hash, readFile, writeFile } from '../utils/files'
 
 type FileLockItem = {
   path: string

@@ -1,8 +1,9 @@
 import { app, BrowserWindow } from 'electron'
-import { bindIpcApi } from '@/api'
+import { bindIpcApi } from './api'
+import { autoUpdater } from './modules/autoUpdater'
+import { createMainWindow } from './window/mainWindow'
 import { injectWebRequest, keyboardListener } from './inject'
-import { createMainWindow } from '@/window/mainWindow'
-import Logger from '@/utils/logger'
+import Logger from './utils/logger'
 const logger = new Logger('Main')
 
 process.on('uncaughtException', (error: Error) => {
@@ -16,6 +17,7 @@ process.on('unhandledRejection', (reason: any) => {
   // app.quit()
 })
 
+autoUpdater() // 检查更新
 injectWebRequest() // 注入本地图片的协议
 keyboardListener() // 注册快捷键监听
 bindIpcApi() // 注册所有的api

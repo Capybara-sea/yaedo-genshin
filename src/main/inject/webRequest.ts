@@ -1,6 +1,6 @@
-import { Common } from '@/common'
+import { Common } from '../common'
 import { app, protocol, session } from 'electron'
-import ImageManager from '@/modules/imageManager'
+import ImageManager from '../modules/imageManager'
 
 const imageManager = ImageManager.init()
 

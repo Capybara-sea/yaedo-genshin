@@ -1,5 +1,5 @@
 import { app, globalShortcut } from 'electron'
-import { Common } from '@/common'
+import { Common } from '../common'
 
 export function keyboardListener() {
   app.whenReady().then(() => {

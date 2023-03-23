@@ -1,6 +1,6 @@
 import { app } from 'electron'
 import { join } from 'path'
-import { Common } from '@/common'
+import { Common } from '../common'
 import winston, { format, Logger as WinstonLogger } from 'winston'
 
 /** 获取日志文件地址 */

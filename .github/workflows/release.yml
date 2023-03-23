@@ -2,8 +2,8 @@ name: Build and Release App
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build-and-release:
@@ -67,18 +67,14 @@ jobs:
       #     draft: false
       #     prerelease: false
 
-      - name: Get version from package.json
-        id: get_version
-        run: echo "::set-output name=version::$(node -p 'require("./package.json").version')"
-
       - name: Create Release
         uses: actions/create-release@v1
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           draft: false
           prerelease: false
 
@@ -88,5 +84,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: 八重堂-${{ steps.get_version.outputs.version }}-${{ matrix.name }}
+          name: 八重堂-${{ github.ref }}-${{ matrix.name }}
           path: ./dist/八重堂.${{ matrix.ext }}
