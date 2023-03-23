@@ -32,4 +32,6 @@ export function createMainWindow() {
     logger.info('ready-to-show')
     mainWindow.show()
   })
+
+  return mainWindow
 }

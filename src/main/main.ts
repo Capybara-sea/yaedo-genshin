@@ -17,13 +17,13 @@ process.on('unhandledRejection', (reason: any) => {
   // app.quit()
 })
 
-autoUpdater() // 检查更新
 injectWebRequest() // 注入本地图片的协议
 keyboardListener() // 注册快捷键监听
 bindIpcApi() // 注册所有的api
 
 app.whenReady().then(() => {
-  createMainWindow() // 创建主窗口
+  const mainWindow = createMainWindow() // 创建主窗口
+  autoUpdater(mainWindow) // 检查更新
 })
 
 app.on('activate', function () {

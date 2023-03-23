@@ -1,6 +1,6 @@
 import { join } from 'path'
 import { Common } from '../common'
-import { dialog } from 'electron'
+import { BrowserWindow, dialog } from 'electron'
 import { autoUpdater as updater } from 'electron-updater'
 import Logger from '../utils/logger'
 const logger = new Logger('autoUpdater')
@@ -13,11 +13,11 @@ const message = {
   updateNotAva: '现在使用的就是最新版本，不用更新',
 }
 
-export function autoUpdater() {
+export function autoUpdater(window: BrowserWindow) {
   // 这里是为了在本地做应用升级测试使用
-  if (Common.isDev) {
-    updater.updateConfigPath = join(__dirname, 'dev-app-update.yml')
-  }
+  // if (Common.isDev) {
+  //   updater.updateConfigPath = join(__dirname, '..', 'dev-app-update.yml')
+  // }
   // 主进程跟渲染进程通信
   // const sendUpdateMessage = (text) => {
   //   // 发送消息给渲染进程
@@ -27,6 +27,9 @@ export function autoUpdater() {
 
   // 设置自动下载为false，也就是说不开始自动下载
   updater.autoDownload = false
+
+  updater.checkForUpdates()
+
   // 检测下载错误
   updater.on('error', (error) => {
     logger.error(message.error, error)
