@@ -23,10 +23,10 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/Setting',
-    name: 'Setting',
-    component: () => import('../views/Setting.vue'),
-    meta: { label: 'Setting' },
+    path: '/Settins',
+    name: 'Settings',
+    component: () => import('../views/Settings.vue'),
+    meta: { label: 'Settings' },
   },
   {
     path: '/:pathMatch(.*)',

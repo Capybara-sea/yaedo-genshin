@@ -9,13 +9,13 @@ export class Common {
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
   static APP_DATA_IMAGE_LOCK = 'imageLock.json'
-  static USER_SETTING = 'userSetting.json'
+  static USER_SETTINGS = 'userSettings.json'
   static LOG_PATH = 'log'
 
   static REQUEST_SCHEMES = 'yaedo'
 
   static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
-    show: false,
+    // show: false,
     width: 960,
     height: 600,
     minWidth: 600,

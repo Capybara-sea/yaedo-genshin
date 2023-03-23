@@ -1,4 +1,4 @@
-export interface Setting {
+export interface Settings {
   /**
    * 将会覆盖原有的数据
    * @param object

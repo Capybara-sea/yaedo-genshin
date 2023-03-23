@@ -1,12 +1,12 @@
 import type { IpcMainInvokeEvent } from 'electron'
-import SettingManager from '@/modules/settingManager'
-import { Common } from '@/common'
+import SettingsManager from '../modules/settingsManager'
+import { Common } from '../common'
 
-export class Setting {
-  private store: SettingManager
+export class Settings {
+  private store: SettingsManager
 
   constructor() {
-    this.store = new SettingManager({ name: Common.USER_SETTING })
+    this.store = new SettingsManager({ name: Common.USER_SETTINGS })
   }
 
   async set(e: IpcMainInvokeEvent, key: string | object, value: any) {
