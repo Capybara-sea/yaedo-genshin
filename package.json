@@ -5,10 +5,10 @@
   "main": "build/main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build.js && electron-builder --config scripts/electron-builder.config.js -p always",
-    "build:win": "node scripts/build.js && electron-builder --win --config scripts/electron-builder.config.js -p always",
-    "build:mac": "node scripts/build.js && electron-builder --mac --config scripts/electron-builder.config.js -p always",
-    "build:linux": "node scripts/build.js && electron-builder --linux --config scripts/electron-builder.config.js -p always",
+    "build": "node scripts/build.js && electron-builder --config scripts/electron-builder.config.js -p never",
+    "build:win": "node scripts/build.js && electron-builder --win --config scripts/electron-builder.config.js -p never",
+    "build:mac": "node scripts/build.js && electron-builder --mac --config scripts/electron-builder.config.js -p never",
+    "build:linux": "node scripts/build.js && electron-builder --linux --config scripts/electron-builder.config.js -p never",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },

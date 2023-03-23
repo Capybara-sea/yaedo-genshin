@@ -13,7 +13,7 @@ jobs:
         include:
           - os: windows-latest
             name: win
-            ext: ext
+            ext: exe
 
     runs-on: ${{ matrix.os }}
 
@@ -34,7 +34,7 @@ jobs:
           run_install: false
 
       - name: Get pnpm store directory
-        id: pnpm-cache
+        id: pnpm_cache
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          path: ${{ steps.pnpm_cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -67,11 +67,26 @@ jobs:
       #     draft: false
       #     prerelease: false
 
+      - name: Get version from package.json
+        id: get_version
+        run: echo "::set-output name=version::$(node -p 'require("./package.json").version')"
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+
       # Upload the artifact to the release
-      # - name: Upload artifact to release
-      #   uses: actions/upload-artifact@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     name: 八重堂-${{ secrets.APP_VERSION }}-${{ matrix.name }}
-      #     path: dist/八重堂.${{ matrix.ext }}
+      - name: Upload artifact to release
+        uses: actions/upload-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: 八重堂-${{ steps.get_version.outputs.version }}-${{ matrix.name }}
+          path: ./dist/八重堂.${{ matrix.ext }}
