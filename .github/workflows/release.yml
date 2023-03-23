@@ -56,22 +56,22 @@ jobs:
           pnpm build:${{ matrix.name }}
 
       # Create a new release with the new version tag
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ secrets.APP_VERSION }}
-          release_name: Release v${{ secrets.APP_VERSION }}
-          draft: false
-          prerelease: false
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: v${{ secrets.APP_VERSION }}
+      #     release_name: Release v${{ secrets.APP_VERSION }}
+      #     draft: false
+      #     prerelease: false
 
       # Upload the artifact to the release
-      - name: Upload artifact to release
-        uses: actions/upload-artifact@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: 八重堂-${{ secrets.APP_VERSION }}-${{ matrix.name }}
-          path: dist/八重堂.${{ matrix.ext }}
+      # - name: Upload artifact to release
+      #   uses: actions/upload-artifact@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     name: 八重堂-${{ secrets.APP_VERSION }}-${{ matrix.name }}
+      #     path: dist/八重堂.${{ matrix.ext }}

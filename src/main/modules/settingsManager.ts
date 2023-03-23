@@ -3,7 +3,7 @@ import { app } from 'electron'
 import { Common } from '../common'
 import { readFile, writeFile } from '../utils/files'
 
-export default class SettingManager {
+export default class SettingsManager {
   path: string
   store: object
 

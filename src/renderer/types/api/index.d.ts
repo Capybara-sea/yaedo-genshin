@@ -1,9 +1,9 @@
 import type { AppData } from './appData'
-import type { Setting } from './setting'
+import type { Settings } from './settings'
 
 export interface API {
   ready2show: () => void
 
   AppData: AppData
-  Setting: Setting
+  Settings: Settings
 }

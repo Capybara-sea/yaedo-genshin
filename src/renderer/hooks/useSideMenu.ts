@@ -2,7 +2,7 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordName } from 'vue-router'
 import { getRouteFirstName } from '@/utils/router'
 import { RouterLink } from 'vue-router'
-import { menu_home, menu_setting, menu_characters } from '@/assets/icons'
+import { menu_home, menu_settings, menu_characters } from '@/assets/icons'
 import { useTheme } from '@/hooks/useTheme'
 
 export interface RenderMenuOption {
@@ -30,10 +30,10 @@ const renderMenuOptions: RenderMenuOption[] = [
   },
   {
     el: RouterLink,
-    to: 'Setting',
+    to: 'Settings',
     label: '设置',
-    key: 'Setting',
-    icon: menu_setting,
+    key: 'Settings',
+    icon: menu_settings,
   },
 ]
 
