@@ -58,6 +58,7 @@
     "pinia": "^2.0.33",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
   }
 }

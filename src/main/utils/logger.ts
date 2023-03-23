@@ -2,6 +2,7 @@ import { app } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
 import winston, { format, Logger as WinstonLogger } from 'winston'
+import DailyRotateFile from 'winston-daily-rotate-file'
 
 /** 获取日志文件地址 */
 function n(name) {
@@ -35,8 +36,21 @@ class Logger {
       transports: Common.isDev
         ? [new winston.transports.Console()]
         : [
-            new winston.transports.File({ filename: n('error.log'), level: 'error' }),
-            new winston.transports.File({ filename: n('combined.log') }),
+            new DailyRotateFile({
+              filename: n('log-%DATE%.log'),
+              maxSize: '20m',
+              maxFiles: '14d',
+              datePattern: 'YYYY-MM-DD',
+              zippedArchive: true,
+            }),
+            new DailyRotateFile({
+              filename: n('error-%DATE%.log'),
+              maxSize: '20m',
+              maxFiles: '90d',
+              datePattern: 'YYYY-MM-DD',
+              level: 'error',
+              zippedArchive: true,
+            }),
           ],
     })
   }
