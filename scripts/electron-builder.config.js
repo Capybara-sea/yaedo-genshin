@@ -9,7 +9,8 @@ module.exports = {
     oneClick: false,
     perMachine: false,
     allowToChangeInstallationDirectory: true,
-    shortcutName: '八重堂',
+    artifactName: 'yaedo_Setup_${version}.${ext}', // 安装包名称，不能有中文，否则release时名称会缺少
+    shortcutName: '八重堂', // 快捷方式名称
   },
   win: {
     target: 'nsis',

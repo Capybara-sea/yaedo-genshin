@@ -18,7 +18,6 @@ export function autoUpdater() {
   if (Common.isDev) {
     updater.updateConfigPath = join(__dirname, 'dev-app-update.yml')
   }
-  console.log(__dirname)
   // 主进程跟渲染进程通信
   // const sendUpdateMessage = (text) => {
   //   // 发送消息给渲染进程
