@@ -24,6 +24,7 @@ build
 *.sln
 *.sw?
 
-# my files
+# auto-generated files
 src/renderer/types/auto-imports.d.ts
 src/renderer/types/components.d.ts
+.eslintrc-auto-import.json
