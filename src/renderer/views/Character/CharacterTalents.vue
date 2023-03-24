@@ -10,7 +10,7 @@
           :key="image"
           @click="currentTabKey = key"
         >
-          <img class="icon" :src="image" />
+          <img class="icon auto-icon-color" :src="image" />
           <div class="name">{{ character.talents[key]?.name }}</div>
         </div>
       </div>
@@ -68,15 +68,16 @@ const { currentTabKey, talentDetail } = useTalents(props.character)
         width: 3.5rem;
         height: 3.5rem;
         object-fit: contain;
-        background: #a0a5d6;
+        // background: #a0a5d6;
         border-radius: 9999px;
         padding: 0.2rem;
-        filter: invert($invert-lightness);
+        transition: all 0.3s ease;
       }
 
       &.active {
         .icon {
-          filter: drop-shadow(0 0 0.2rem #ffffff);
+          filter: unset;
+          background: #a0a5d6;
         }
       }
     }

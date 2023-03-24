@@ -1,10 +1,11 @@
 import type { ThemeConfig } from './types'
+import { bgSubColor } from './variable'
 
 export const Layout: ThemeConfig<'Layout'> = {
   light: {
-    siderColor: '#f3f6fc', // 边栏颜色
+    siderColor: bgSubColor.light, // 边栏颜色
   },
   dark: {
-    siderColor: '#1d1d30', // 边栏颜色
+    siderColor: bgSubColor.dark, // 边栏颜色
   },
 }

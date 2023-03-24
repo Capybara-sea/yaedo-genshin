@@ -69,14 +69,7 @@ jobs:
           draft: false
           prerelease: false
 
-      # - name: Upload the release
-      #   uses: svenstaro/upload-release-action@v2
-      #   with:
-      #     tag: ${{ github.ref }}
-      #     file: ./dist/八重堂.${{ matrix.ext }}
-      #     asset_name: yaedo_${{ matrix.name }}.${{ matrix.ext }}
-      #     repo_token: ${{ secrets.GH_TOKEN }}
-
+      # 上传文件
       - name: Upload the release
         uses: softprops/action-gh-release@v1
         with:

@@ -2,7 +2,7 @@
   <div class="cons-container">
     <div class="cons-list">
       <div class="cons-list-item" v-for="con in cons" :key="con.name">
-        <img class="cons-list-item-icon" :src="con.image" />
+        <img class="cons-list-item-icon auto-icon-color" :src="con.image" />
         <div class="cons-list-item-name">{{ con.name }}</div>
         <md class="cons-list-item-content" :content="con.effect" />
       </div>

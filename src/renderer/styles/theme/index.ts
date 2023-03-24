@@ -2,10 +2,12 @@ import type { ThemeType, ThemeConfigMap, ThemeConfigKeys, GlobalThemeOverrides }
 
 import { common } from './common'
 import { Layout } from './layout'
+import { Switch } from './switch'
 
 const themeConfigMap: ThemeConfigMap = {
   common,
   Layout,
+  Switch,
 }
 
 function margeTheme(theme: Exclude<ThemeType, 'all'>) {

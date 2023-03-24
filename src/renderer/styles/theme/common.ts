@@ -1,20 +1,23 @@
 import type { ThemeConfig } from './types'
+import { mainColor, bgColor } from './variable'
 
 export const common: ThemeConfig<'common'> = {
-  all:{
+  all: {
     fontWeight: '400',
     fontWeightStrong: '600',
   },
   light: {
-    bodyColor: '#ffffff', // 主体颜色-layout的背景颜色
-    cardColor: '#ffffff', // 主体颜色-一般样式的背景颜色
+    bodyColor: bgColor.light, // 主体颜色-layout的背景颜色
+    cardColor: bgColor.light, // 主体颜色-一般样式的背景颜色
 
-    primaryColor: '#7022b3', // 主色 - 用于按钮、链接等
+    primaryColor: mainColor.light, // 主色 - 用于按钮、链接等
     // primaryColorHover: '#40bf95', // 主色 - 鼠标悬浮
     // primaryColorPressed: '#389477', // 主色 - 鼠标按下
   },
   dark: {
-    bodyColor: '#2d2d4b', // 主体颜色-layout的背景颜色
-    cardColor: '#2d2d4b', // 主体颜色-一般样式的背景颜色
+    bodyColor: bgColor.dark, // 主体颜色-layout的背景颜色
+    cardColor: bgColor.dark, // 主体颜色-一般样式的背景颜色
+
+    primaryColor: mainColor.dark, // 主色 - 用于按钮、链接等
   },
 }

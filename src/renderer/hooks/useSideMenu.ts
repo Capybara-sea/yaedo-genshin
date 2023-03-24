@@ -54,7 +54,7 @@ export function useSideMenu() {
         h('img', {
           src: option.icon,
           alt: 'icon',
-          style: `width: 1em; height: 1em; ${isDark.value ? '' : 'filter: invert(.56)'}`,
+          style: `width: 1em; height: 1em; ${isDark.value ? '' : 'filter: invert(40%)'}`,
         }),
     }
   }
