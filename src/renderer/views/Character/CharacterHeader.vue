@@ -32,10 +32,9 @@ defineProps<{ character: Character }>()
 .header {
   position: relative;
   display: flex;
-  // border: 2px solid #ffffff10;
   border-radius: 12px;
-
   margin-top: 50px;
+  color: #ffffffee;
 
   .cover-background {
     z-index: 0;
