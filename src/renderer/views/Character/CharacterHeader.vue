@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header-container">
     <div class="cover-background" :style="`background-image: url(${character.images.card})`" />
     <img class="cover-img" :src="character.images.splash" />
     <div class="base">
@@ -29,7 +29,7 @@ defineProps<{ character: Character }>()
 </script>
 
 <style lang="scss" scoped>
-.header {
+.header-container {
   position: relative;
   display: flex;
   border-radius: 12px;

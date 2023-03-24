@@ -6,7 +6,6 @@
         :column="2"
         size="small"
         label-placement="left"
-        title="基础属性"
         label-align="center"
         label-style="width: 25%"
         content-style="width: 25%"
@@ -32,29 +31,26 @@
           {{ statsFormat?.specialized }}
         </n-descriptions-item>
       </n-descriptions>
-      <n-row>
-        <n-col :span="12"><n-statistic label="生命值" :value="statsFormat?.hp" /></n-col>
-        <n-col :span="12"><n-statistic label="攻击力" :value="statsFormat?.defense" /></n-col>
-      </n-row>
-      <n-row>
-        <n-col :span="12"> <n-statistic label="防御力" :value="statsFormat?.attack" /></n-col>
-        <n-col :span="12">
-          <n-statistic :label="statsFormat?.specializedName" :value="statsFormat?.specialized" />
-        </n-col>
-      </n-row>
     </n-grid-item>
     <n-grid-item span="12">
-      显示全部
-      <n-switch v-model:value="displayAllCosts"></n-switch>
-      <transition-group name="list">
-        <div v-for="item in displayAllCosts ? allCosts : costs" :key="item.name">
-          <img
-            :src="getMaterial('name', item.name)?.images.icon"
-            style="width: 2rem; height: 2rem; object-fit: contain"
-          />
-          {{ item.name }} * {{ item.count }}
+      <n-card class="cost-box" title="突破材料" size="small" header-style="text-align: left">
+        <template #header-extra>
+          <div>显示全部</div>
+          <n-switch v-model:value="displayAllCosts"></n-switch>
+        </template>
+        <div class="cost-box-container">
+          <transition-group name="list">
+            <div
+              class="cost-box-container-item"
+              v-for="item in displayAllCosts ? allCosts : costs"
+              :key="item.name"
+            >
+              <img :src="getMaterial('name', item.name)?.images.icon" />
+              {{ item.name }} * {{ item.count }}
+            </div>
+          </transition-group>
         </div>
-      </transition-group>
+      </n-card>
     </n-grid-item>
   </n-grid>
 </template>
@@ -83,6 +79,22 @@ const {
 </script>
 
 <style lang="scss" scoped>
+.cost-box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  grid-gap: 0.5rem;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    img {
+      object-fit: contain;
+      width: 1.8rem;
+      height: 1.8rem;
+      margin-right: 0.5rem;
+    }
+  }
+}
 .list {
   &-move,
   &-enter-active,

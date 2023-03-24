@@ -1,22 +1,18 @@
 <template>
-  <div v-if="selectedCharacter" class="character-container">
+  <div v-if="selectedCharacter" style="padding: 0 calc(50% - 800px)">
     <!-- 角色头部组件 -->
     <character-header :character="selectedCharacter" />
 
-    <!-- 基本信息 -->
-    <n-divider />
+    <n-divider>基本信息</n-divider>
     <character-info :character="selectedCharacter" />
 
-    <n-divider />
-    <!-- 基础属性 -->
+    <n-divider>基础属性</n-divider>
     <character-stats :character="selectedCharacter" />
 
-    <n-divider />
-    <!-- 天赋 -->
+    <n-divider>天赋</n-divider>
     <character-talents :character="selectedCharacter" />
 
-    <n-divider />
-    <!-- 命座 -->
+    <n-divider>命座</n-divider>
     <character-cons :character="selectedCharacter" />
   </div>
 </template>

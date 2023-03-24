@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <!-- 基本信息 -->
-    <n-descriptions
-      ref="description"
-      bordered
-      :column="descriptionColumn"
-      style="margin-top: 20px"
-      label-align="center"
-      size="small"
-      title="基本信息"
-      label-placement="left"
-    >
-      <n-descriptions-item label="所属">{{ character.affiliation }}</n-descriptions-item>
-      <n-descriptions-item label="命星">{{ character.constellation }}</n-descriptions-item>
-      <n-descriptions-item label="生日">{{ character.birthday }}</n-descriptions-item>
-      <n-descriptions-item label="版本">{{ character.version }}</n-descriptions-item>
-    </n-descriptions>
-  </div>
+  <!-- 基本信息 -->
+  <n-descriptions
+    bordered
+    ref="info"
+    :column="desColumn"
+    label-align="center"
+    size="small"
+    label-placement="left"
+    :label-style="`width: ${50 / desColumn}%`"
+    :content-style="`width: ${50 / desColumn}%`"
+  >
+    <n-descriptions-item label="所属">{{ character.affiliation }}</n-descriptions-item>
+    <n-descriptions-item label="命星">{{ character.constellation }}</n-descriptions-item>
+    <n-descriptions-item label="生日">{{ character.birthday }}</n-descriptions-item>
+    <n-descriptions-item label="版本">{{ character.version }}</n-descriptions-item>
+    <n-descriptions-item label="中文cv">{{ character.cv.chinese }}</n-descriptions-item>
+    <n-descriptions-item label="日语cv">{{ character.cv.japanese }}</n-descriptions-item>
+    <n-descriptions-item label="英语cv">{{ character.cv.english }}</n-descriptions-item>
+    <n-descriptions-item label="韩语cv">{{ character.cv.korean }}</n-descriptions-item>
+  </n-descriptions>
 </template>
 
 <script lang="ts" setup>
@@ -25,6 +27,6 @@ import { useBreakpoints } from '@/hooks'
 
 defineProps<{ character: Character }>()
 
-const description = ref<HTMLElement>()
-const descriptionColumn = useBreakpoints({ s: 1, m: 2, l: 4 }, description)
+const info = ref<HTMLElement>()
+const desColumn = useBreakpoints({ s: 1, m: 2, l: 4 }, info)
 </script>
