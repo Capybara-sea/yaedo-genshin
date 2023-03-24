@@ -3,7 +3,7 @@ import type { RouteRecordName } from 'vue-router'
 import { getRouteFirstName } from '@/utils/router'
 import { RouterLink } from 'vue-router'
 import { menu_home, menu_settings, menu_characters } from '@/assets/icons'
-import { useTheme } from '@/hooks/useTheme'
+import { useTheme } from '@/hooks'
 
 export interface RenderMenuOption {
   el: any

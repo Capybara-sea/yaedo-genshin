@@ -31,6 +31,7 @@ const config = defineConfig({
       imports: [
         'vue',
         'vue-router',
+        '@vueuse/core',
         {
           'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'],
         },
@@ -47,6 +48,9 @@ const config = defineConfig({
       resolvers: [NaiveUiResolver()],
     }),
   ],
+  optimizeDeps: {
+    include: ['markdown-it'],
+  },
   // css: {
   //   preprocessorOptions: {
   //     scss: {

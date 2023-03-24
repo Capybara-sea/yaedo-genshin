@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useSideMenu } from '@/hooks/useSideMenu'
+import { useSideMenu } from '@/hooks'
 
 // menu
 const { menuOptions, currentRoute } = useSideMenu()

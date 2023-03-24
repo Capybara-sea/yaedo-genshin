@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Layout from '@/layout/Layout.vue'
-import { useTheme } from '@/hooks/useTheme'
+import { useTheme } from '@/hooks'
 const { theme, themeOverrides } = useTheme()
 </script>
 

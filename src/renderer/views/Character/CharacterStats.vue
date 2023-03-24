@@ -62,9 +62,9 @@
 <script lang="ts" setup>
 import type { Character } from '@/types/data'
 
-import { useCharacterStats } from '@/hooks/useAppData'
-
 import { useAppDataStore } from '@/store'
+import { useCharacterStats } from '@/hooks'
+
 const { getMaterial } = useAppDataStore()
 
 const props = defineProps<{ character: Character }>()

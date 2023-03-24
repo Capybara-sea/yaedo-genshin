@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import type { Character } from '@/types/data'
 
-import { useTalents } from '@/hooks/useAppData'
+import { useTalents } from '@/hooks'
 
 const props = defineProps<{ character: Character }>()
 
