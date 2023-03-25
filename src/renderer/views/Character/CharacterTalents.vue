@@ -18,27 +18,50 @@
     <!-- 技能介绍 -->
     <my-transition>
       <div :key="talentDetail.info" class="tabs-content">
-        <md :content="talentDetail.info" />
-        <md :content="talentDetail.description || ''" />
+        <div class="tabs-content-md">
+          <md :content="talentDetail.info" />
+          <md :content="talentDetail.description || ''" />
+        </div>
         <!-- 详细属性 -->
-        <n-collapse v-if="talentDetail.attributes">
-          <n-collapse-item title="详细属性">
-            <n-scrollbar x-scrollable>
-              <n-table :bordered="false" :single-line="false" size="small">
-                <thead>
-                  <tr>
-                    <th v-for="str in talentDetail.table?.header" :key="str">{{ str }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in talentDetail.table?.body" :key="row[0]">
-                    <td v-for="col in row" :key="col">{{ col }}</td>
-                  </tr>
-                </tbody>
-              </n-table>
-            </n-scrollbar>
-          </n-collapse-item>
-        </n-collapse>
+        <n-card class="tabs-content-data">
+          <n-tabs class="tabs-content-data-change" type="line" v-model:value="dataType">
+            <!-- 表格 -->
+            <n-tab-pane name="表格">
+              <div class="tabs-content-data-body">
+                <n-collapse v-if="talentDetail.attributes" style="margin: -8px">
+                  <n-collapse-item title="详细属性">
+                    <n-scrollbar x-scrollable>
+                      <n-table
+                        :bordered="false"
+                        :single-line="false"
+                        size="small"
+                        striped
+                        style="word-break: keep-all"
+                      >
+                        <thead>
+                          <tr>
+                            <th v-for="str in talentDetail.table?.header" :key="str">{{ str }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="row in talentDetail.table?.body" :key="row[0]">
+                            <td v-for="col in row" :key="col">{{ col }}</td>
+                          </tr>
+                        </tbody>
+                      </n-table>
+                    </n-scrollbar>
+                  </n-collapse-item>
+                </n-collapse>
+              </div>
+            </n-tab-pane>
+            <!-- 计算 -->
+            <n-tab-pane name="计算">
+              <div class="tabs-content-data-body"></div>
+            </n-tab-pane>
+            <!-- 材料 -->
+            <n-tab-pane name="材料"> </n-tab-pane>
+          </n-tabs>
+        </n-card>
       </div>
     </my-transition>
   </div>
@@ -52,6 +75,8 @@ import { useTalents } from '@/hooks'
 const props = defineProps<{ character: Character }>()
 
 const { currentTabKey, talentDetail } = useTalents(props.character)
+
+const dataType = ref('表格')
 </script>
 
 <style lang="scss" scoped>
@@ -79,6 +104,20 @@ const { currentTabKey, talentDetail } = useTalents(props.character)
   .tabs-content {
     padding: 0 1rem;
     text-align: left;
+
+    &-md {
+      margin-bottom: 1rem;
+    }
+
+    &-data {
+      &-change {
+        margin-top: -0.6rem;
+      }
+
+      &-body {
+        margin-top: 0.5rem;
+      }
+    }
   }
 }
 </style>

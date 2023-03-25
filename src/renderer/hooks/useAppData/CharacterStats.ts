@@ -29,11 +29,12 @@ export function useCharacterStats(character: Character) {
 
   /** 拖动条数据 */
   const currentLevelSliderValue = ref<number>(sliderConfig.max)
+  const currentLevelSliderThrottled = refThrottled(currentLevelSliderValue, 300)
 
   /** 计算后的拖动条数据 */
   const calculatedLevelSlider = computed<{ level: number; ascension: '+' | '-'; str: string }>(
     () => {
-      let tempLevel = currentLevelSliderValue.value
+      let tempLevel = currentLevelSliderThrottled.value
       let ascensionCount = 0
       ascensionList.forEach((ascension) => {
         if (tempLevel > ascension) {
