@@ -1,7 +1,7 @@
 import type { Character, Items } from '@/types'
 
 import { zipWith } from 'lodash-es'
-import { calcStatsCharacter } from '@/utils/calc'
+import { calcStatsCharacter } from '../utils'
 import { Attributes, AttributesName } from '@/types/data/characters'
 
 export function useCharacterStats(character: Character) {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="selectedCharacter" style="padding: 0 calc(50% - 800px)">
+  <div ref="characterRef" v-if="selectedCharacter" style="padding: 0 calc(50% - 800px)">
     <!-- 角色头部组件 -->
     <character-header :character="selectedCharacter" />
 
@@ -7,18 +7,19 @@
     <character-info :character="selectedCharacter" />
 
     <n-divider>基础属性</n-divider>
-    <character-stats :character="selectedCharacter" />
+    <character-stats :character="selectedCharacter" :single-column="isSingleColumn" />
 
     <n-divider>天赋</n-divider>
-    <character-talents :character="selectedCharacter" />
+    <character-talents :character="selectedCharacter" :single-column="isSingleColumn" />
 
     <n-divider>命座</n-divider>
-    <character-cons :character="selectedCharacter" />
+    <character-cons :character="selectedCharacter" :single-column="isSingleColumn" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useAppDataStore } from '@/store'
+import { useBreakpoints } from '@/hooks'
 import CharacterHeader from './CharacterHeader.vue'
 import CharacterInfo from './CharacterInfo.vue'
 import CharacterStats from './CharacterStats.vue'
@@ -30,4 +31,7 @@ const appDataStore = useAppDataStore()
 
 // 获取角色数据
 const selectedCharacter = appDataStore.getCharacterById(route.params.id as string)
+
+const characterRef = ref<HTMLElement>()
+const isSingleColumn = useBreakpoints({ s: true }, characterRef)
 </script>
