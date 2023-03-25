@@ -2,7 +2,7 @@
   <div class="cons-container">
     <div class="cons-list">
       <div class="cons-list-item" v-for="con in cons" :key="con.name">
-        <img class="cons-list-item-icon auto-icon-color" :src="con.image" />
+        <my-talent-icon class="cons-list-item-icon" :src="con.image" />
         <div class="cons-list-item-name">{{ con.name }}</div>
         <md class="cons-list-item-content" :content="con.effect" />
       </div>
@@ -39,7 +39,6 @@ const cons = computed(() => {
       &-icon {
         width: 3.5rem;
         height: 3.5rem;
-        object-fit: contain;
         justify-self: end;
       }
 

@@ -7,8 +7,8 @@
     label-align="center"
     size="small"
     label-placement="left"
-    :label-style="`width: ${50 / desColumn}%`"
-    :content-style="`width: ${50 / desColumn}%`"
+    :label-style="`width: ${50 / desColumn - 5}%`"
+    :content-style="`width: ${50 / desColumn + 5}%`"
   >
     <n-descriptions-item label="所属">{{ character.affiliation }}</n-descriptions-item>
     <n-descriptions-item label="命星">{{ character.constellation }}</n-descriptions-item>

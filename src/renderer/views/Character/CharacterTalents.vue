@@ -10,8 +10,8 @@
           :key="image"
           @click="currentTabKey = key"
         >
-          <img class="icon auto-icon-color" :src="image" />
-          <div class="name">{{ character.talents[key]?.name }}</div>
+          <my-talent-icon class="tabs-bar-item-icon" :src="image" :active="currentTabKey === key" />
+          <div class="tabs-bar-item-name">{{ character.talents[key]?.name }}</div>
         </div>
       </div>
     </n-scrollbar>
@@ -60,25 +60,18 @@ const { currentTabKey, talentDetail } = useTalents(props.character)
   .tabs-bar {
     display: flex;
     gap: 2rem;
-    padding: 0 1rem 1rem;
+    padding: 1rem;
 
     .tabs-bar-item {
       min-width: 5rem;
-      .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &-icon {
         width: 3.5rem;
         height: 3.5rem;
-        object-fit: contain;
-        // background: #a0a5d6;
-        border-radius: 9999px;
-        padding: 0.2rem;
-        transition: all 0.3s ease;
-      }
-
-      &.active {
-        .icon {
-          filter: unset;
-          background: #a0a5d6;
-        }
+        margin-bottom: 0.5rem;
       }
     }
   }
