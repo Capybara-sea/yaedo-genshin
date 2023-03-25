@@ -60,6 +60,7 @@ const singleColumn = useBreakpoints({ s: true }, SliderCostsLayoutRef)
   .slider-box {
     grid-area: slider;
     display: grid;
+    align-items: center;
     grid-template-columns: 4rem 1fr;
     background-color: var(--table-header-color);
 
