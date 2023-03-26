@@ -11,6 +11,12 @@ export interface ExtendedTalentDetail extends TalentDetail {
 }
 
 export function useTalents(character: Character) {
+  const sliderConfig = {
+    min: 1,
+    max: 15,
+    marks: { 1: '1', 6: '6', 10: '10', 13: '13', 15: '15' },
+  }
+
   // 当前已选择天赋
   const currentTabKey = ref<TalentKey>('combat1')
 
@@ -71,5 +77,13 @@ export function useTalents(character: Character) {
     return mergedTalentCosts
   })
 
-  return { currentTabKey, talentDetail, talentLevel, talentCalc, talentCost, talentCostAll }
+  return {
+    sliderConfig,
+    currentTabKey,
+    talentDetail,
+    talentLevel,
+    talentCalc,
+    talentCost,
+    talentCostAll,
+  }
 }

@@ -7,19 +7,18 @@
     <character-info :character="selectedCharacter" />
 
     <n-divider>基础属性</n-divider>
-    <character-stats :character="selectedCharacter" :single-column="isSingleColumn" />
+    <character-stats :character="selectedCharacter" />
 
     <n-divider>天赋</n-divider>
-    <character-talents :character="selectedCharacter" :single-column="isSingleColumn" />
+    <character-talents :character="selectedCharacter" />
 
     <n-divider>命座</n-divider>
-    <character-cons :character="selectedCharacter" :single-column="isSingleColumn" />
+    <character-cons :character="selectedCharacter" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useAppDataStore } from '@/store'
-import { useBreakpoints } from '@/hooks'
 import CharacterHeader from './CharacterHeader.vue'
 import CharacterInfo from './CharacterInfo.vue'
 import CharacterStats from './CharacterStats.vue'
@@ -31,7 +30,4 @@ const appDataStore = useAppDataStore()
 
 // 获取角色数据
 const selectedCharacter = appDataStore.getCharacterById(route.params.id as string)
-
-const characterRef = ref<HTMLElement>()
-const isSingleColumn = useBreakpoints({ s: true }, characterRef)
 </script>

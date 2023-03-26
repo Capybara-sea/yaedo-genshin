@@ -1,5 +1,5 @@
 <template>
-  <div v-html="html" />
+  <div v-html="html" :style="mdStyle" />
 </template>
 
 <script lang="ts" setup>
@@ -10,9 +10,11 @@ type Props = {
   strongColor?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  strongColor: '#cfc263',
-})
+const props = defineProps<Props>()
+
+const mdStyle = computed(() => ({
+  '--yg-strong-color': props.strongColor,
+}))
 
 const md = markdownIt({ breaks: true })
 const html = computed(() => md.render(props.content?.replace(/\n\n/g, '\n\v\n')))
@@ -20,6 +22,6 @@ const html = computed(() => md.render(props.content?.replace(/\n\n/g, '\n\v\n'))
 
 <style>
 strong {
-  color: v-bind('props.strongColor');
+  color: var(--yg-strong-color);
 }
 </style>

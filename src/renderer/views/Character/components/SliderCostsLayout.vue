@@ -1,10 +1,5 @@
 <template>
-  <n-el
-    tag="div"
-    class="slider-costs-layout-container"
-    :class="{ singleColumn }"
-    ref="SliderCostsLayoutRef"
-  >
+  <div class="slider-costs-layout-container" :class="{ singleColumn }" ref="SliderCostsLayoutRef">
     <!-- 拖动条 -->
     <div class="slider-box">
       <div class="slider-box-label">
@@ -22,7 +17,7 @@
     <slot name="costs">
       <costs-box class="costs-box" v-bind="$attrs" />
     </slot>
-  </n-el>
+  </div>
 </template>
 
 <script lang="ts" setup>

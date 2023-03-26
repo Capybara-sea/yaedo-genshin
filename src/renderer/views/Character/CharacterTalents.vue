@@ -22,12 +22,12 @@
           <md :content="talentDetail.info" />
           <md
             v-if="talentDetail.description"
-            :content="`「${talentDetail.description}」`"
+            :content="`${talentDetail.description}`"
             class="tabs-content-md-des"
           />
         </div>
         <!-- 详细属性 -->
-        <n-card class="tabs-content-data">
+        <n-card class="tabs-content-data" v-if="talentDetail.attributes">
           <n-tabs class="tabs-content-data-change" type="line" v-model:value="dataType">
             <!-- 计算 -->
             <n-tab-pane name="计算" display-directive="show:lazy">
@@ -37,11 +37,19 @@
                   <p style="color: #dc5">{{ talentLevel }}</p>
                 </template>
                 <template #slider>
-                  <n-slider v-model:value="talentLevel" :min="1" :max="15" />
+                  <n-slider
+                    v-model:value="talentLevel"
+                    :min="sliderConfig.min"
+                    :max="sliderConfig.max"
+                    :marks="sliderConfig.marks"
+                    :tooltip="false"
+                  />
                 </template>
                 <template #grid>
                   <div v-for="item in talentCalc" :key="item.label">
-                    {{ item.label }}: {{ item.value }}
+                    <span>{{ item.label }}</span>
+                    <span style="float: right">{{ item.value }}</span>
+                    <n-divider dashed style="margin: 0.4rem 0" />
                   </div>
                 </template>
               </slider-costs-layout>
@@ -50,7 +58,7 @@
             <!-- 表格 -->
             <n-tab-pane name="表格" display-directive="show:lazy">
               <div class="tabs-content-data-body">
-                <n-collapse v-if="talentDetail.attributes" style="margin: -8px">
+                <n-collapse style="margin: -8px">
                   <n-collapse-item title="详细属性">
                     <n-scrollbar x-scrollable>
                       <talent-detail-grid :talent-detail="talentDetail" />
@@ -77,8 +85,15 @@ const props = defineProps<{
   character: Character
 }>()
 
-const { currentTabKey, talentDetail, talentLevel, talentCalc, talentCost, talentCostAll } =
-  useTalents(props.character)
+const {
+  sliderConfig,
+  currentTabKey,
+  talentDetail,
+  talentLevel,
+  talentCalc,
+  talentCost,
+  talentCostAll,
+} = useTalents(props.character)
 
 const dataType = ref('计算')
 </script>

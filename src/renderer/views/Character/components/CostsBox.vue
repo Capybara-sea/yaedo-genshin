@@ -1,9 +1,9 @@
 <template>
-  <n-el tag="div" class="costs-box">
+  <div class="costs-box">
     <div class="costs-box-header">
       <h4>突破材料</h4>
       <div class="costs-box-header-switch">
-        <div style="margin-right: 0.5rem">显示全部</div>
+        <div style="margin-right: 0.5rem">显示累计</div>
         <n-switch v-model:value="displayAllCosts" />
       </div>
     </div>
@@ -23,7 +23,7 @@
       </transition-group>
     </div>
     <div v-else class="costs-box-container"><br /></div>
-  </n-el>
+  </div>
 </template>
 
 <script lang="ts" setup>

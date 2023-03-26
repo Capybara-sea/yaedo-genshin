@@ -2,7 +2,7 @@
   <slider-costs-layout class="stats-container" :costs="costs" :all-costs="allCosts">
     <template #slider-label>
       <h4>等级</h4>
-      <p style="color: #dc5">{{ calculatedLevelSlider.str }}</p>
+      <p style="color: var(--yg-strong-color)">{{ calculatedLevelSlider.str }}</p>
     </template>
     <template #slider>
       <n-slider
@@ -45,7 +45,6 @@ import SliderCostsLayout from './components/SliderCostsLayout.vue'
 
 const props = defineProps<{
   character: Character
-  singleColumn: Boolean // 是否单行，用于响应式布局
 }>()
 
 // 角色基础数据的一些 UI 映射

@@ -6,6 +6,8 @@ const { theme, themeOverrides } = useTheme()
 
 <template>
   <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
-    <Layout></Layout>
+    <n-el tag="div">
+      <Layout></Layout>
+    </n-el>
   </n-config-provider>
 </template>

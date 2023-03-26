@@ -21,9 +21,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { isDark } = useTheme()
 const containerStyle = computed(() => ({
-  '--background-color': props.bgColor,
-  '--background-hover-color': chroma(props.bgColor).brighten(0.5).luminance(0.1).hex(),
-  '--background-active-color': isDark.value
+  '--mti-background-color': props.bgColor,
+  '--mti-background-hover-color': chroma(props.bgColor).brighten(0.5).luminance(0.1).hex(),
+  '--mti-background-active-color': isDark.value
     ? chroma(props.bgColor).mix('#fff', 0.4).hex()
     : chroma(props.bgColor).mix('#000', 0.5).hex(),
 }))
@@ -56,18 +56,18 @@ const containerStyle = computed(() => ({
     left: 0;
     bottom: 0;
     right: 0;
-    background: var(--background-color, #00000047);
+    background: var(--mti-background-color, #00000047);
     border-radius: 9999px;
     transition: all 0.2s ease-in-out;
   }
 
   &:hover .bg {
     transform: scale(1.03);
-    background: var(--background-hover-color, #1d1d1d57);
+    background: var(--mti-background-hover-color, #1d1d1d57);
   }
 
   &.active .bg {
-    box-shadow: inset 0 0 1.5rem var(--background-active-color, #1d1d1d57);
+    box-shadow: inset 0 0 1.5rem var(--mti-background-active-color, #1d1d1d57);
   }
 }
 </style>
