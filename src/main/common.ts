@@ -1,11 +1,10 @@
-import type { BrowserWindowConstructorOptions } from 'electron'
-// import { join } from 'path'
-// import { app } from 'electron'
+import { join } from 'path'
+import { app } from 'electron'
 
 export class Common {
   static isDev = process.env.NODE_ENV === 'development'
 
-  // static APP_ROOT_PATH = join(app.getPath('appData'), app.getName())
+  static GET_APP_ROOT_PATH = () => join(app.getPath('appData'), app.getName())
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
   static APP_DATA_IMAGE_LOCK = 'imageLock.json'
@@ -13,15 +12,6 @@ export class Common {
   static LOG_PATH = 'log'
 
   static REQUEST_SCHEMES = 'yaedo'
-
-  static WINDOW_DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
-    // show: false,
-    width: 960,
-    height: 600,
-    minWidth: 600,
-    minHeight: 400,
-    backgroundColor: '#888',
-  }
 
   static GITHUB = {
     name: 'Capybara-sea',

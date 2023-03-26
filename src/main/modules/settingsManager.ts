@@ -1,5 +1,4 @@
 import Path from 'path'
-import { app } from 'electron'
 import { Common } from '../common'
 import { readFile, writeFile } from '../utils/files'
 
@@ -8,7 +7,7 @@ export default class SettingsManager {
   store: object
 
   constructor(options: { name: string }) {
-    this.path = Path.join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH, options.name)
+    this.path = Path.join(Common.GET_APP_ROOT_PATH(), Common.APP_DATA_PATH, options.name)
     const temp = readFile(this.path) as string
     this.store = temp === '' ? {} : JSON.parse(temp)
   }

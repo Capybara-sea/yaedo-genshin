@@ -1,5 +1,4 @@
 import Logger from '../utils/logger'
-import { app } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
 import { getGithubFile } from '../utils/github'
@@ -33,7 +32,7 @@ export default class DataManager {
   private localFileLockPath: string
 
   private constructor() {
-    this.appDataPath = join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
+    this.appDataPath = join(Common.GET_APP_ROOT_PATH(), Common.APP_DATA_PATH)
     this.localFileLockPath = join(this.appDataPath, Common.APP_DATA_FILE_LOCK)
     this.initialization = this.checkUpdate()
     console.log('数据文件地址(cmd+shift+G):', this.appDataPath)

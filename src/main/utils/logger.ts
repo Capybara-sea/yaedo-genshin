@@ -1,4 +1,3 @@
-import { app } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
 import winston, { format, Logger as WinstonLogger } from 'winston'
@@ -6,7 +5,7 @@ import DailyRotateFile from 'winston-daily-rotate-file'
 
 /** 获取日志文件地址 */
 function n(name) {
-  return join(app.getPath('appData'), app.getName(), Common.LOG_PATH, name)
+  return join(Common.GET_APP_ROOT_PATH(), Common.LOG_PATH, name)
 }
 
 /** 格式化日志输出格式 */

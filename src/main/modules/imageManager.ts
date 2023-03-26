@@ -1,7 +1,6 @@
 import fs from 'fs'
 import fsExtra from 'fs-extra'
 import Logger from '../utils/logger'
-import { app } from 'electron'
 import { Common } from '../common'
 import { basename, join, relative } from 'path'
 import { getGithubFile } from '../utils/github'
@@ -32,7 +31,7 @@ export default class ImageManager {
   private fileList: string[] = []
 
   private constructor() {
-    this.appDataPath = join(app.getPath('appData'), app.getName(), Common.APP_DATA_PATH)
+    this.appDataPath = join(Common.GET_APP_ROOT_PATH(), Common.APP_DATA_PATH)
     this.localImageLockPath = join(this.appDataPath, Common.APP_DATA_IMAGE_LOCK)
 
     this.initImageLock()

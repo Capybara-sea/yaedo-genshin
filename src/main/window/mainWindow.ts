@@ -7,12 +7,19 @@ const logger = new Logger('mainWindow')
 export function createMainWindow() {
   logger.info('createMainWindow')
   const mainWindow = new BrowserWindow({
-    ...Common.WINDOW_DEFAULT_OPTIONS,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       nodeIntegration: true,
       contextIsolation: true,
     },
+
+    // show: false,
+    width: 960,
+    height: 600,
+    minWidth: 600,
+    minHeight: 400,
+    backgroundColor: '#888',
+    // 开发环境
     ...(Common.isDev && {
       x: 1700,
       y: 800,
@@ -26,6 +33,8 @@ export function createMainWindow() {
   } else {
     mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
   }
+
+  mainWindow.setMenuBarVisibility(false)
 
   // 监听渲染进程的ready-to-show事件，等待渲染进程加载完毕后再显示窗口
   ipcMain.once('ready-to-show', () => {
