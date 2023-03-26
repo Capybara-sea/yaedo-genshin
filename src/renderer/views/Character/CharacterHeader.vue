@@ -4,11 +4,11 @@
     <img class="cover-img" :src="character.images.splash" />
     <div class="base">
       <div class="name">
-        <img :src="uiMapping(character.element)" />
+        <img :src="Element.get(character.element)?.icon.s" />
         {{ character.name }}
       </div>
       <div class="title">{{ character.title }}</div>
-      <img class="rarity" :src="uiMapping('rarity' + character.rarity)" />
+      <img class="rarity" :src="Rarity.get(character.rarity)?.icon" />
       <div class="tag">
         <n-tag v-if="character.region" :bordered="false" round strong>{{ character.region }}</n-tag>
         <n-tag v-if="character.weapontype" :bordered="false" round strong>{{
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import type { Character } from '@/types/data'
 
-import { uiMapping } from '@/utils/ui'
+import { Element, Rarity } from '@/models'
 
 defineProps<{ character: Character }>()
 </script>

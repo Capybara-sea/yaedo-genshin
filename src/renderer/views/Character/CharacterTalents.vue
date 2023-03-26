@@ -46,10 +46,10 @@
                   />
                 </template>
                 <template #grid>
-                  <div v-for="item in talentCalc" :key="item.label">
+                  <div v-for="(item, i) in talentCalc" :key="item.label">
+                    <n-divider v-if="i !== 0" dashed style="margin: 0.4rem 0" />
                     <span>{{ item.label }}</span>
                     <span style="float: right">{{ item.value }}</span>
-                    <n-divider dashed style="margin: 0.4rem 0" />
                   </div>
                 </template>
               </slider-costs-layout>

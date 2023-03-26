@@ -1,6 +1,6 @@
 import type { Talents } from './talents'
 import type { Constellations } from './constellations'
-import { Items, Element, Rarity, Weapontype } from '.'
+import { Items } from '.'
 
 export interface Character {
   /** id */
@@ -14,11 +14,11 @@ export interface Character {
   /** 描述 */
   description: string
   /** 稀有度 */
-  rarity: Rarity
+  rarity: string
   /** 元素属性 */
-  element: Element
+  element: string
   /** 武器类型 */
-  weapontype: Weapontype
+  weapontype: string
   /** 副词条 */
   substat: string
   /** 性别 */

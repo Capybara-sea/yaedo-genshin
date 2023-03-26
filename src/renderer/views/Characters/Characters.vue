@@ -4,6 +4,7 @@
     <div style="z-index: 10">
       <!-- 未折叠 -->
       <n-collapse-transition :show="!$route.params.id">
+        <filter-bar class="filter-bar" :origin="characters" v-model:value="filterCharacters" />
         <div class="characters-box">
           <div v-for="Character in filterCharacters" :key="Character.id">
             <item-card
@@ -30,24 +31,23 @@
 </template>
 
 <script lang="ts" setup>
+import type { Character } from '@/types'
 import ItemCard from '@/components/ItemCard.vue'
+import FilterBar from './components/FilterBar.vue'
 import { useAppDataStore } from '@/store'
 
-const AppDataStore = useAppDataStore()
-
-const search = ref('')
-const filterCharacters = computed(() => {
-  const { characters } = AppDataStore
-  return characters.filter((character) => {
-    return character.name.includes(search.value)
-  })
-})
+const { characters } = useAppDataStore()
+const filterCharacters = ref<Character[]>(characters)
 </script>
 
 <style lang="scss" scoped>
 .characters-container {
   > div {
     position: relative;
+  }
+
+  .filter-bar {
+    margin-bottom: 16px;
   }
 
   .characters-box {

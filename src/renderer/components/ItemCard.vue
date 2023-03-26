@@ -15,37 +15,29 @@
 
 <script lang="ts" setup>
 import type { StyleValue } from 'vue'
-import type { Rarity, Element } from '@/types'
 
-import { uiMapping } from '@/utils/ui'
+import { Element, Rarity } from '@/models'
 
 const props = defineProps<{
   name: string
   icon?: string
-  rarity?: Rarity
+  rarity?: string
   subIcon?: string
-  element?: Element
+  element?: string
 }>()
 
 // 星星的图片地址
-const starIcon = computed(() => uiMapping('rarity' + props.rarity))
+const starIcon = computed(() => Rarity.get(props.rarity || '')?.icon)
 // 文字框的样式
 const contentStyle = { padding: '0.5rem' }
 
-const rarityColor = {
-  1: '#818486',
-  2: '#5a977a',
-  3: '#5987ad',
-  4: '#9470bb',
-  5: '#c87c24',
-}
 const iconBackground = computed<StyleValue>(() => ({
-  background: rarityColor[props.rarity || '1'],
+  background: Rarity.get(props.rarity || '')?.color,
 }))
 
 const _subIcon = computed(() => {
   if (props.subIcon) return props.subIcon
-  if (props.element) return uiMapping(props.element)
+  if (props.element) return Element.get(props.element)?.icon.s
   return undefined
 })
 </script>
