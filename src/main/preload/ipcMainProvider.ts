@@ -32,7 +32,7 @@ export class IpcMainProvider extends IpcBase {
     this.instanceMap.set(namespace, instance)
   }
 
-  unHandleRegister(instance: object): void {
+  handleUnregister(instance: object): void {
     const namespace = IpcMainProvider.getNamespace(instance)
     const methods = IpcMainProvider.getMethodKeys(instance)
     methods.forEach((method) => {
@@ -47,17 +47,22 @@ export class IpcMainProvider extends IpcBase {
     logger.info('ipcMain.sendRegister')
   }
 
+  sendUnregister(): void {
+    this.window = null
+    logger.info('ipcMain.sendUnregister')
+  }
+
   static sender(namespace: string) {
     return (method: string, ...args: any[]) => {
       new IpcMainProvider().send(IpcMainProvider.getKey(namespace, method), ...args)
     }
   }
 
-  send(channel: string, ...args: any[]): void {
-    if (this.window === null) {
-      logger.error('ipcMain.send: window is not registered')
-      return
+  async send(channel: string, ...args: any[]): Promise<void> {
+    while (!this.window) {
+      await new Promise((resolve) => setTimeout(resolve, 100))
     }
+
     this.window.webContents.send(IpcMainProvider.mainWindowName, channel, args)
   }
 }

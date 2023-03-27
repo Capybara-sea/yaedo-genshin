@@ -18,7 +18,7 @@ export class IpcListener extends IpcBase {
   private listener(event: Electron.IpcRendererEvent, channel: string, args: any[]) {
     const callback = this.listenerMap.get(channel)
     if (callback) {
-      callback(args)
+      callback(event, args)
     }
   }
 
@@ -32,8 +32,8 @@ export class IpcListener extends IpcBase {
     methods.forEach((method) => {
       const key = IpcListener.getKey(namespace, method)
       // 创建一个箭头函数，使得this指向当前实例
-      this.listenerMap.set(key, (args: any[]) => {
-        return (instance as any)[method](...args)
+      this.listenerMap.set(key, (event: Electron.IpcRendererEvent, args: any[]) => {
+        return (instance as any)[method](event, ...args)
       })
     })
   }

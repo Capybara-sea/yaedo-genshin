@@ -1,10 +1,8 @@
-import { Rarity } from '.'
-
 export interface Material {
   id: string
   name: string
   description: string
-  rarity?: Rarity
+  rarity?: string
   source: string[]
   version: string
   category: string

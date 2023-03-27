@@ -10,7 +10,3 @@ export function bindIpcHandleApi() {
   ipcMainProvider.handleRegister(new AppData())
   ipcMainProvider.handleRegister(new Settings())
 }
-
-export function bindIpcSendApi(window: Electron.BrowserWindow) {
-  ipcMainProvider.sendRegister(window)
-}
