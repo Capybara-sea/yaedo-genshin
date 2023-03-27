@@ -1,6 +1,6 @@
 {
   "name": "yaedo-genshin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Genshin Impact Tools with Vue+Electron",
   "main": "build/main/main.js",
   "scripts": {
