@@ -1,4 +1,3 @@
-import type { IpcMainInvokeEvent } from 'electron'
 import DataManager from '../modules/dataManager'
 
 export class AppData {
@@ -8,7 +7,7 @@ export class AppData {
     this.dataManager = DataManager.init()
   }
 
-  async get(e: IpcMainInvokeEvent, dataType: string) {
+  async get(e: Electron.IpcMainInvokeEvent, dataType: string) {
     return this.dataManager.get(dataType)
   }
 }

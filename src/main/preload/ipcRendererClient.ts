@@ -6,7 +6,7 @@ type IpcRendererApi = {
 }
 
 export class IpcRendererClient extends IpcBase {
-  static gen(api: any): IpcRendererApi {
+  static invokeRegister(api: any): IpcRendererApi {
     const client: IpcRendererApi = {}
     const namespace = IpcRendererClient.getNamespace(api.prototype)
     const methods = IpcRendererClient.getMethodKeysByPrototype(api.prototype)
@@ -20,5 +20,9 @@ export class IpcRendererClient extends IpcBase {
       }
     })
     return client
+  }
+
+  static onRegister() {
+    return (callback) => ipcRenderer.on(IpcRendererClient.mainWindowName, callback)
   }
 }

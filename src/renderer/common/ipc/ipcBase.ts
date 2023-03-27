@@ -1,7 +1,4 @@
-export default class IpcBase {
-  // 主窗口的名称
-  protected static mainWindowName = 'mainWindow'
-
+export class IpcBase {
   /**
    * 计算主进程监听的 key
    * @param namespace
@@ -28,7 +25,7 @@ export default class IpcBase {
   protected static getMethodKeysByPrototype(prototype: object) {
     const Keys = (Reflect.ownKeys(prototype) || []) as PropertyKey[]
     return Keys.filter((key) =>
-      key === 'constructor' ? false : typeof prototype[key] === 'function'
+      key === 'constructor' ? false : typeof (prototype as any)[key] === 'function'
     )
   }
 

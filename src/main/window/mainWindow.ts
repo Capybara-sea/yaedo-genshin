@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { Common } from '../common'
+import { bindIpcSendApi } from '../api'
 import Logger from '../utils/logger'
 const logger = new Logger('mainWindow')
 
@@ -35,6 +36,9 @@ export function createMainWindow() {
   }
 
   mainWindow.setMenuBarVisibility(false)
+
+  // 注册sendApi
+  bindIpcSendApi(mainWindow)
 
   // 监听渲染进程的ready-to-show事件，等待渲染进程加载完毕后再显示窗口
   ipcMain.once('ready-to-show', () => {

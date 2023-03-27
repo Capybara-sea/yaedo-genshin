@@ -5,7 +5,8 @@ import { Settings } from '../api/settings'
 
 contextBridge.exposeInMainWorld('api', {
   ready2show: () => ipcRenderer.send('ready-to-show'),
+  ipcListener: IpcRendererClient.onRegister(),
 
-  AppData: IpcRendererClient.gen(AppData),
-  Settings: IpcRendererClient.gen(Settings),
+  AppData: IpcRendererClient.invokeRegister(AppData),
+  Settings: IpcRendererClient.invokeRegister(Settings),
 })

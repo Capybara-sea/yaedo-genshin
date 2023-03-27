@@ -1,9 +1,7 @@
-import { join } from 'path'
-import { Common } from '../common'
-import { BrowserWindow, dialog } from 'electron'
-import { autoUpdater as updater } from 'electron-updater'
+import { dialog } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import Logger from '../utils/logger'
-const logger = new Logger('autoUpdater')
+const logger = new Logger('appUpdater')
 
 // 定义返回给渲染层的相关提示文案
 const message = {
@@ -13,10 +11,12 @@ const message = {
   updateNotAva: '现在使用的就是最新版本，不用更新',
 }
 
-export function autoUpdater(window: BrowserWindow) {
+export function appUpdater() {
   // 这里是为了在本地做应用升级测试使用
   // if (Common.isDev) {
-  //   updater.updateConfigPath = join(__dirname, '..', 'dev-app-update.yml')
+  //   const path = join(process.cwd(), 'src', 'main', 'modules', 'dev-app-mac-update.yml')
+  //   console.log(require(path))
+  //   updater.updateConfigPath = path
   // }
   // 主进程跟渲染进程通信
   // const sendUpdateMessage = (text) => {
@@ -26,22 +26,22 @@ export function autoUpdater(window: BrowserWindow) {
   // }
 
   // 设置自动下载为false，也就是说不开始自动下载
-  updater.autoDownload = false
+  autoUpdater.autoDownload = false
 
-  updater.checkForUpdates()
+  autoUpdater.checkForUpdates()
 
   // 检测下载错误
-  updater.on('error', (error) => {
+  autoUpdater.on('error', (error) => {
     logger.error(message.error, error)
   })
 
   // 检测是否需要更新
-  updater.on('checking-for-update', () => {
+  autoUpdater.on('checking-for-update', () => {
     logger.info(message.checking)
   })
 
   // 检测到可以更新时
-  updater.on('update-available', () => {
+  autoUpdater.on('update-available', () => {
     // 这里我们可以做一个提示，让用户自己选择是否进行更新
     dialog
       .showMessageBox({
@@ -53,7 +53,7 @@ export function autoUpdater(window: BrowserWindow) {
       .then(({ response }) => {
         if (response === 0) {
           // 下载更新
-          updater.downloadUpdate()
+          autoUpdater.downloadUpdate()
           logger.info(message.updateAva)
         }
       })
@@ -64,19 +64,19 @@ export function autoUpdater(window: BrowserWindow) {
   })
 
   // 检测到不需要更新时
-  updater.on('update-not-available', () => {
+  autoUpdater.on('update-not-available', () => {
     // 这里可以做静默处理，不给渲染进程发通知，或者通知渲染进程当前已是最新版本，不需要更新
     logger.info(message.updateNotAva)
   })
 
   // 更新下载进度
-  updater.on('download-progress', (progress) => {
+  autoUpdater.on('download-progress', (progress) => {
     // 直接把当前的下载进度发送给渲染进程即可，有渲染层自己选择如何做展示
     logger.info(`下载进度：${progress.percent}`)
   })
 
   // 当需要更新的内容下载完成后
-  updater.on('update-downloaded', () => {
+  autoUpdater.on('update-downloaded', () => {
     // 给用户一个提示，然后重启应用；或者直接重启也可以，只是这样会显得很突兀
     dialog
       .showMessageBox({
@@ -85,7 +85,7 @@ export function autoUpdater(window: BrowserWindow) {
       })
       .then(() => {
         // 退出并安装应用
-        setImmediate(() => updater.quitAndInstall())
+        setImmediate(() => autoUpdater.quitAndInstall())
       })
   })
 }

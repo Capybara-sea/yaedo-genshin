@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
-import { bindIpcApi } from './api'
-import { autoUpdater } from './modules/autoUpdater'
+import { bindIpcHandleApi } from './api'
+import { appUpdater } from './modules/appUpdater'
 import { createMainWindow } from './window/mainWindow'
 import { injectWebRequest, keyboardListener } from './inject'
 import Logger from './utils/logger'
@@ -19,11 +19,11 @@ process.on('unhandledRejection', (reason: any) => {
 
 injectWebRequest() // 注入本地图片的协议
 keyboardListener() // 注册快捷键监听
-bindIpcApi() // 注册所有的api
+bindIpcHandleApi() // 注册所有的api
 
 app.whenReady().then(() => {
-  const mainWindow = createMainWindow() // 创建主窗口
-  autoUpdater(mainWindow) // 检查更新
+  createMainWindow() // 创建主窗口
+  appUpdater() // 检查更新
 })
 
 app.on('activate', function () {
