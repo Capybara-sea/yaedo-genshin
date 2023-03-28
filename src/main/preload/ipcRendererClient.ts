@@ -24,9 +24,9 @@ export class IpcRendererClient extends IpcBase {
 
   static onRegister() {
     return (callback) =>
-      ipcRenderer.on(IpcRendererClient.mainWindowName, (event, channel, args) => {
-        console.log('[Client] ipcRenderer.on', channel, args)
-        callback(event, channel, args)
+      ipcRenderer.on(IpcRendererClient.mainWindowName, (event, channel, data) => {
+        console.log('[Client] ipcRenderer.on', channel, data)
+        callback(event, channel, data)
       })
   }
 }

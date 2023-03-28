@@ -26,7 +26,11 @@ export function appUpdater() {
   // 检测下载错误
   autoUpdater.on('error', (error) => {
     logger.error(message.error, error)
-    mainWindowSender('error', message.error, error)
+    mainWindowSender('info', {
+      type: 'error',
+      title: '提示',
+      content: message.error,
+    })
   })
 
   // 检测是否需要更新
@@ -44,24 +48,28 @@ export function appUpdater() {
   // 检测到不需要更新时
   autoUpdater.on('update-not-available', () => {
     logger.info(message.updateNotAva)
+    mainWindowSender('info', {
+      type: 'success',
+      title: '提示',
+      content: message.updateNotAva,
+    })
   })
 
   // 更新下载进度
   autoUpdater.on('download-progress', (progress) => {
     logger.info(`下载进度：${progress.percent}`)
+    mainWindowSender('downloading', { progress: progress.percent })
   })
 
   // 下载完成
   autoUpdater.on('update-downloaded', () => {
-    mainWindowSender('downloaded')
-    // dialog
-    //   .showMessageBox({
-    //     title: '安装更新',
-    //     message: '更新下载完毕，应用将重启并进行安装',
-    //   })
-    //   .then(() => {
-    //     // 退出并安装应用
-    //     setImmediate(() => autoUpdater.quitAndInstall())
-    //   })
+    mainWindowSender('downloaded', '', (res) => {
+      if (res.update === true) {
+        setImmediate(() => autoUpdater.quitAndInstall())
+      }
+    })
   })
+
+  // 检查更新
+  checkUpdate()
 }

@@ -53,16 +53,25 @@ export class IpcMainProvider extends IpcBase {
   }
 
   static sender(namespace: string) {
-    return (method: string, ...args: any[]) => {
-      new IpcMainProvider().send(IpcMainProvider.getKey(namespace, method), ...args)
+    return (method: string, data?: any, callback?: (data: any) => void) => {
+      new IpcMainProvider().send(IpcMainProvider.getKey(namespace, method), data, callback)
     }
   }
 
-  async send(channel: string, ...args: any[]): Promise<void> {
+  async send(channel: string, data?: any, callback?: (data: any) => void): Promise<void> {
     while (!this.window) {
       await new Promise((resolve) => setTimeout(resolve, 100))
     }
 
-    this.window.webContents.send(IpcMainProvider.mainWindowName, channel, args)
+    if (callback) {
+      const respond = (e, data) => {
+        logger.info(`ipcMain.on.respond: ${channel}`, data)
+        callback(data)
+        ipcMain.off(channel, respond)
+      }
+      ipcMain.on(channel, respond)
+    }
+
+    this.window.webContents.send(IpcMainProvider.mainWindowName, channel, data)
   }
 }
