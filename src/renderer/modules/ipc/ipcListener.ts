@@ -25,7 +25,7 @@ export class IpcListener extends IpcBase {
     const callback = (res: any): void => event.sender.send(channel, res)
 
     const listener = this.listeners.get(channel)
-    console.log(listener, channel, data)
+
     if (listener) listener(callback, data)
   }
 

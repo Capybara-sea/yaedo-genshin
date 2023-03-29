@@ -18,21 +18,43 @@
       <div class="stats-grid">
         <n-row>
           <n-col :span="12">
-            <n-statistic label="生命值" :value="statsFormat?.hp" />
+            <character-statistic
+              label="生命值"
+              :value="statsFormat?.hp"
+              :rank="character?.rank?.hp"
+            />
           </n-col>
           <n-col :span="12">
-            <n-statistic label="攻击力" :value="statsFormat?.defense" />
+            <character-statistic
+              label="攻击力"
+              :value="statsFormat?.attack"
+              :rank="character?.rank?.attack"
+            />
           </n-col>
         </n-row>
         <n-row>
           <n-col :span="12">
-            <n-statistic label="防御力" :value="statsFormat?.attack" />
+            <character-statistic
+              label="防御力"
+              :value="statsFormat?.defense"
+              :rank="character?.rank?.defense"
+            />
           </n-col>
           <n-col :span="12">
-            <n-statistic :label="statsFormat?.specializedName" :value="statsFormat?.specialized" />
+            <character-statistic
+              :label="statsFormat?.specializedName"
+              :value="statsFormat?.specialized"
+            />
           </n-col>
         </n-row>
       </div>
+    </template>
+
+    <template name="test">
+      <div>test</div>
+    </template>
+    <template #test>
+      <div>test</div>
     </template>
   </slider-costs-layout>
 </template>
@@ -40,8 +62,10 @@
 <script lang="ts" setup>
 import type { Character } from '@/types/data'
 
-import { useCharacterStats } from './hooks'
 import SliderCostsLayout from './components/SliderCostsLayout.vue'
+import CharacterStatistic from './components/CharacterStatistic.vue'
+
+import { useCharacterStats } from './hooks'
 
 const props = defineProps<{
   character: Character

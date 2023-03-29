@@ -63,6 +63,12 @@ export interface Character {
   talents: Talents
   /** 命座 */
   constellations: Constellations
+  /** 排行 */
+  rank: {
+    hp: number
+    attack: number
+    defense: number
+  }
 }
 
 /** 角色图片 */

@@ -29,12 +29,11 @@ export function useCharacterStats(character: Character) {
 
   /** 拖动条数据 */
   const currentLevelSliderValue = ref<number>(sliderConfig.max)
-  const currentLevelSliderThrottled = refThrottled(currentLevelSliderValue, 300)
 
   /** 计算后的拖动条数据 */
   const calculatedLevelSlider = computed<{ level: number; ascension: '+' | '-'; str: string }>(
     () => {
-      let tempLevel = currentLevelSliderThrottled.value
+      let tempLevel = currentLevelSliderValue.value
       let ascensionCount = 0
       ascensionList.forEach((ascension) => {
         if (tempLevel > ascension) {
@@ -66,9 +65,9 @@ export function useCharacterStats(character: Character) {
     return {
       level: stats.value.level,
       ascension: stats.value.ascension,
-      hp: Math.round(hp || 0),
-      attack: Math.round(attack || 0),
-      defense: Math.round(defense || 0),
+      hp: Math.round(hp || 0).toString(),
+      attack: Math.round(attack || 0).toString(),
+      defense: Math.round(defense || 0).toString(),
       specialized:
         specializedCode === Attributes.FIGHT_PROP_ELEMENT_MASTERY
           ? '' + Math.round(specialized || 0)
