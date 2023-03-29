@@ -15,4 +15,8 @@ export interface Settings {
    * @param key 可选，不传则返回所有数据
    */
   get<T = any>(key?: string): Promise<T>
+  /**
+   * 打开设置文件夹
+   */
+  openFolder(): Promise<void>
 }

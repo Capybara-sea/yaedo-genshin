@@ -3,6 +3,7 @@ import { app } from 'electron'
 
 export class Common {
   static isDev = process.env.NODE_ENV === 'development'
+  static os = process.platform as 'win32' | 'darwin' | 'linux'
 
   static APP_VERSION = require('../../package.json').version
 
