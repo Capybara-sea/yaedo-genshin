@@ -1,9 +1,14 @@
 import { IpcBase } from './ipcBase'
 
+export interface ListenerCallback {
+  (callback: (response: any) => void, data: any): void
+}
+
 export class IpcListener extends IpcBase {
   private static instance: IpcListener
-  // 注册列表
-  private listenerMap: Map<string, (...arg: any[]) => void> = new Map()
+
+  // 注册列表，用于存放监听器。
+  private listeners: Map<string, ListenerCallback> = new Map()
 
   constructor() {
     if (!IpcListener.instance) {
@@ -17,13 +22,11 @@ export class IpcListener extends IpcBase {
   }
 
   private dispenser(event: Electron.IpcRendererEvent, channel: string, data: any) {
-    const listener = this.listenerMap.get(channel)
-    const callback = (res: any): void => {
-      event.sender.send(channel, res)
-    }
-    if (listener) {
-      listener(callback, data)
-    }
+    const callback = (res: any): void => event.sender.send(channel, res)
+
+    const listener = this.listeners.get(channel)
+    console.log(listener, channel, data)
+    if (listener) listener(callback, data)
   }
 
   static bind(namespace: string, instance: object) {
@@ -32,12 +35,16 @@ export class IpcListener extends IpcBase {
 
   bind(namespace: string, instance: object) {
     const methods = IpcListener.getMethodKeys(instance)
+    console.log(namespace, IpcListener.getMethodKeys(instance))
     methods.forEach((method) => {
       const key = IpcListener.getKey(namespace, method)
+
       // 创建一个箭头函数，使得this指向当前实例
-      this.listenerMap.set(key, (callback: () => void, data: any) => {
-        return (instance as any)[method](callback, data)
-      })
+      const listenerCallback: ListenerCallback = (callback, message) => {
+        return (instance as any)[method](callback, message)
+      }
+
+      this.listeners.set(key, listenerCallback)
     })
   }
 }

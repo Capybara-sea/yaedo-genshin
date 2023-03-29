@@ -1,12 +1,19 @@
 import type { ButtonProps, NotificationReactive } from 'naive-ui'
 
 import { NButton } from 'naive-ui'
+import { IpcListener } from '@/modules'
 import { useDiscreteApi } from '@/hooks'
+
+type Callback = (response: any) => void
 
 export class AppUpdater {
   downloadingNotification: NotificationReactive | undefined = undefined
 
-  hasUpdate(callback: (res: any) => void) {
+  constructor() {
+    IpcListener.bind('AppUpdater', this)
+  }
+
+  hasUpdate(callback: Callback) {
     const note = notificationFactory({
       type: 'info',
       title: '新版本',
@@ -24,8 +31,8 @@ export class AppUpdater {
     })
   }
 
-  downloading(callback: (res: any) => void, data: { progress: number }) {
-    const progressStr = (progress: number = 0) => `当前下载进度：${progress}%`
+  downloading(callback: Callback, data: { progress: number }) {
+    const progressStr = (progress: number = 0) => `当前下载进度：${progress.toFixed(1)}%`
     if (!this.downloadingNotification) {
       this.downloadingNotification = notificationFactory({
         type: 'info',
@@ -37,7 +44,7 @@ export class AppUpdater {
     }
   }
 
-  downloaded(callback: (res: any) => void) {
+  downloaded(callback: Callback) {
     if (this.downloadingNotification) {
       this.downloadingNotification.type = 'success'
       this.downloadingNotification.title = '下载完成'
@@ -62,13 +69,13 @@ export class AppUpdater {
   }
 
   info(
-    callback: (res: any) => void,
+    callback: Callback,
     data: {
       title: string
       content: string
       type: 'default' | 'error' | 'info' | 'success' | 'warning' | undefined
     }
-  ): void {
+  ) {
     notificationFactory({
       type: data.type,
       title: data.title,

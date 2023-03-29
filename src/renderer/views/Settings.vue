@@ -21,13 +21,7 @@
 
     <!-- 版本信息 -->
     <n-list-item>
-      <n-thing title="版本信息">
-        <n-tag v-for="(item, key) in version" :key="key" type="info" style="margin-left: 1rem">
-          <div style="display: flex; align-items: center">
-            {{ key }} <n-divider vertical /> {{ item }}
-          </div>
-        </n-tag>
-      </n-thing>
+      <n-thing title="应用版本" :description="version.app" description-style="text-align: left" />
     </n-list-item>
   </n-list>
 </template>
