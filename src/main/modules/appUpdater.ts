@@ -51,8 +51,12 @@ export function appUpdater() {
   // 检测到可以更新时
   autoUpdater.on('update-available', () => {
     // 这里我们可以做一个提示，让用户自己选择是否进行更新
-    autoUpdater.downloadUpdate()
     logger.info(message.updateAva)
+    mainWindowSender('hasUpdate', message.updateAva, (res) => {
+      if (res.update === true) {
+        autoUpdater.downloadUpdate()
+      }
+    })
   })
 
   // 更新下载进度
@@ -64,7 +68,7 @@ export function appUpdater() {
   // 下载完成
   autoUpdater.on('update-downloaded', () => {
     mainWindowSender('downloaded', '', (res) => {
-      if (res.update === true) {
+      if (res.restart === true) {
         setImmediate(() => autoUpdater.quitAndInstall())
       }
     })

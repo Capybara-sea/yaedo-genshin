@@ -1,4 +1,4 @@
-import { IpcListener } from '@/common'
+import { IpcListener } from '@/modules'
 import { AppUpdater } from './appUpdater'
 
 export function setupAppUpdater() {
