@@ -16,6 +16,16 @@ const message = {
 
 export function checkUpdate() {
   autoUpdater.checkForUpdates()
+
+  // 检测到不需要更新时
+  autoUpdater.once('update-not-available', () => {
+    logger.info(message.updateNotAva)
+    mainWindowSender('info', {
+      type: 'success',
+      title: '提示',
+      content: message.updateNotAva,
+    })
+  })
 }
 
 export function appUpdater() {
@@ -45,16 +55,6 @@ export function appUpdater() {
     logger.info(message.updateAva)
   })
 
-  // 检测到不需要更新时
-  autoUpdater.on('update-not-available', () => {
-    logger.info(message.updateNotAva)
-    mainWindowSender('info', {
-      type: 'success',
-      title: '提示',
-      content: message.updateNotAva,
-    })
-  })
-
   // 更新下载进度
   autoUpdater.on('download-progress', (progress) => {
     logger.info(`下载进度：${progress.percent}`)
@@ -71,5 +71,5 @@ export function appUpdater() {
   })
 
   // 检查更新
-  checkUpdate()
+  autoUpdater.checkForUpdates()
 }

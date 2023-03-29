@@ -21,14 +21,13 @@
 
     <!-- 版本信息 -->
     <n-list-item>
-      <n-tag
-        v-for="(item, key) in version"
-        :key="key"
-        type="info"
-        style="margin-left: 1rem"
-      >
-        {{ key }} <n-divider vertical /> {{ item }}
-      </n-tag>
+      <n-thing title="版本信息">
+        <n-tag v-for="(item, key) in version" :key="key" type="info" style="margin-left: 1rem">
+          <div style="display: flex; align-items: center">
+            {{ key }} <n-divider vertical /> {{ item }}
+          </div>
+        </n-tag>
+      </n-thing>
     </n-list-item>
   </n-list>
 </template>
