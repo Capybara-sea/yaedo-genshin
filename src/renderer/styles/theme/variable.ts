@@ -1,4 +1,4 @@
-// import chroma from 'chroma-js'
+import chroma from 'chroma-js'
 
 export const mainColor = {
   light: '#469fc0',
@@ -13,4 +13,9 @@ export const bgColor = {
 export const bgSubColor = {
   light: '#f5f6fb',
   dark: '#1d1d30',
+}
+
+export const bgSubColorLite = {
+  light: chroma(bgSubColor.light).luminance(0.05).hex(),
+  dark: chroma(bgSubColor.dark).luminance(0.05).hex(),
 }
