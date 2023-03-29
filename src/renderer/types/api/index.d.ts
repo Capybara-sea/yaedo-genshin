@@ -12,4 +12,12 @@ export interface API {
 
   AppData: AppData
   Settings: Settings
+
+  version: {
+    app: string
+    electron: string
+    node: string
+    chrome: string
+    v8: string
+  }
 }

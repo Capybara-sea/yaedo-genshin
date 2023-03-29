@@ -16,6 +16,6 @@ export const bgSubColor = {
 }
 
 export const bgSubColorLite = {
-  light: chroma(bgSubColor.light).luminance(0.05).hex(),
-  dark: chroma(bgSubColor.dark).luminance(0.05).hex(),
+  light: chroma(bgSubColor.light).luminance(0.02).hex(),
+  dark: chroma(bgSubColor.dark).luminance(0.02).hex(),
 }

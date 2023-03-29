@@ -1,5 +1,7 @@
 import type { NotificationApiInjection } from 'naive-ui/es/notification/src/NotificationProvider'
-import { NButton, ButtonProps, NotificationReactive } from 'naive-ui'
+import type { ButtonProps, NotificationReactive } from 'naive-ui'
+
+import { NButton } from 'naive-ui'
 import { useDiscreteApi } from '@/hooks'
 
 export class AppUpdater {
@@ -64,6 +66,7 @@ export class AppUpdater {
       type: 'default' | 'error' | 'info' | 'success' | 'warning' | undefined
     }
   ): void {
+    console.log('info', data)
     this.notification.value.create({
       type: data.type,
       title: data.title,

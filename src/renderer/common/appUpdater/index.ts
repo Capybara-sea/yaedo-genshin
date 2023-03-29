@@ -3,5 +3,5 @@ import { AppUpdater } from './appUpdater'
 
 export function setupAppUpdater() {
   const appUpdater = new AppUpdater()
-  IpcListener.bind(appUpdater)
+  IpcListener.bind('AppUpdater', appUpdater)
 }

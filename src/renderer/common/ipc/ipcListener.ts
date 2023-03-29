@@ -11,6 +11,7 @@ export class IpcListener extends IpcBase {
       window.api.ipcListener((event, channel, args) => {
         this.dispenser(event, channel, args)
       })
+      IpcListener.instance = this
     }
     return IpcListener.instance
   }
@@ -25,12 +26,11 @@ export class IpcListener extends IpcBase {
     }
   }
 
-  static bind(instance: object) {
-    new IpcListener().bind(instance)
+  static bind(namespace: string, instance: object) {
+    new IpcListener().bind(namespace, instance)
   }
 
-  bind(instance: object) {
-    const namespace = IpcListener.getNamespace(instance)
+  bind(namespace: string, instance: object) {
     const methods = IpcListener.getMethodKeys(instance)
     methods.forEach((method) => {
       const key = IpcListener.getKey(namespace, method)

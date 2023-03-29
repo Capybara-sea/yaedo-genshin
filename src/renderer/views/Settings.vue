@@ -18,6 +18,18 @@
         </n-switch>
       </template>
     </n-list-item>
+
+    <!-- 版本信息 -->
+    <n-list-item>
+      <n-tag
+        v-for="(item, key) in version"
+        :key="key"
+        type="info"
+        style="margin-left: 1rem"
+      >
+        {{ key }} <n-divider vertical /> {{ item }}
+      </n-tag>
+    </n-list-item>
   </n-list>
 </template>
 
@@ -28,4 +40,6 @@ import { LightModeRound, DarkModeRound } from '@vicons/material'
 const { $state, setTheme } = useAppStore()
 const darkSwitch = Boolean($state.theme === 'dark')
 const triggerTheme = (val: boolean) => setTheme(val ? 'dark' : 'light')
+
+const version = window.api.version
 </script>

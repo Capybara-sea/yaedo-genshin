@@ -4,6 +4,8 @@ import { app } from 'electron'
 export class Common {
   static isDev = process.env.NODE_ENV === 'development'
 
+  static APP_VERSION = require('../../package.json').version
+
   static GET_APP_ROOT_PATH = () => join(app.getPath('appData'), app.getName())
   static APP_DATA_PATH = 'appData'
   static APP_DATA_FILE_LOCK = 'fileLock.json'
