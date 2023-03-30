@@ -47,6 +47,8 @@ export default class ImageManager {
     }
 
     getGithubFile(Common.APP_DATA_IMAGE_LOCK).then((imageLock) => {
+      if (imageLock === '') return
+      this.imageLock = JSON.parse(imageLock)
       writeFile(this.localImageLockPath, imageLock)
     })
   }
