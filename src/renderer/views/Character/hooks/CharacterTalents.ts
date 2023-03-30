@@ -70,8 +70,10 @@ export function useTalents(character: Character) {
         if (!curr) return prev
         // 找到相同的name，count累加
         const index = prev.findIndex((item) => item.name == curr?.name)
-        if (index != -1) prev[index].count += curr.count
-        else prev.push({ ...curr }) // 需要解构，否则会引用同一个对象
+        if (index != -1) {
+          if (!curr.count) curr.count = 0
+          prev[index].count = prev[index].count ? prev[index].count! + curr.count : curr.count
+        } else prev.push({ ...curr }) // 需要解构，否则会引用同一个对象
         return prev
       }, [])
     return mergedTalentCosts

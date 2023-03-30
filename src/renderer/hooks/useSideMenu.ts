@@ -2,7 +2,7 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordName } from 'vue-router'
 import { getRouteFirstName } from '@/utils/router'
 import { RouterLink } from 'vue-router'
-import { menu_home, menu_settings, menu_characters } from '@/assets/icons'
+import * as icons from '@/assets/icons'
 import { useTheme } from '@/hooks'
 
 export interface RenderMenuOption {
@@ -19,21 +19,28 @@ const renderMenuOptions: RenderMenuOption[] = [
     to: 'Home',
     label: '首页',
     key: 'Home',
-    icon: menu_home,
+    icon: icons.menu_home,
   },
   {
     el: RouterLink,
     to: 'Characters',
     label: '角色',
     key: 'Characters',
-    icon: menu_characters,
+    icon: icons.menu_characters,
+  },
+  {
+    el: RouterLink,
+    to: 'Weapons',
+    label: '武器',
+    key: 'Weapons',
+    icon: icons.menu_weapons,
   },
   {
     el: RouterLink,
     to: 'Settings',
     label: '设置',
     key: 'Settings',
-    icon: menu_settings,
+    icon: icons.menu_settings,
   },
 ]
 

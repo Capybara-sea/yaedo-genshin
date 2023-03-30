@@ -5,5 +5,6 @@ export function defaultData(): AppData {
     characters: [],
     charactersCurve: {},
     materials: [],
+    weapons: [],
   }
 }

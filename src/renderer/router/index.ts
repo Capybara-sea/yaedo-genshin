@@ -21,6 +21,11 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/Weapons',
+    name: 'Weapons',
+    component: () => import('../views/Weapons/Weapons.vue'),
+  },
+  {
     path: '/Settins',
     name: 'Settings',
     component: () => import('../views/Settings.vue'),

@@ -3,7 +3,7 @@
     <template #cover>
       <div class="cover">
         <div class="icon-box" :style="iconBackground">
-          <img v-if="icon" :src="icon" loading="lazy" />
+          <img v-if="icon" :src="icon" loading="lazy" ref="iconRef" :style="iconHeight" />
         </div>
         <img v-if="_subIcon" :src="_subIcon" loading="lazy" class="sub-icon-box" />
         <img :src="starIcon" class="star" />
@@ -40,6 +40,10 @@ const _subIcon = computed(() => {
   if (props.element) return Element.get(props.element)?.icon.s
   return undefined
 })
+
+const iconRef = ref<HTMLImageElement>()
+const { width } = useElementSize(iconRef)
+const iconHeight = computed(() => `height: ${width.value}px`)
 </script>
 
 <style lang="scss" scoped>
@@ -57,6 +61,7 @@ const _subIcon = computed(() => {
       padding-bottom: 100%;
       border-bottom-right-radius: '.5rem';
       > img {
+        object-fit: contain;
         background-image: linear-gradient(136deg, rgba(49, 43, 71, 0.53), transparent);
       }
     }
