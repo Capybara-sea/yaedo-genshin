@@ -2,7 +2,7 @@
 import { autoUpdater } from 'electron-updater'
 import { IpcMainProvider } from '../preload/ipcMainProvider'
 import Logger from '../utils/logger'
-const logger = new Logger('appUpdater')
+const logger = new Logger('AppUpdater')
 
 const mainWindowSender = IpcMainProvider.sender('AppUpdater')
 

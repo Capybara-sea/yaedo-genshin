@@ -5,7 +5,7 @@ import { IpcMainProvider } from '../preload/ipcMainProvider'
 import Logger from '../utils/logger'
 
 const ipcMainProvider = new IpcMainProvider()
-const logger = new Logger('mainWindow')
+const logger = new Logger('MainWindow')
 
 export function createMainWindow() {
   logger.info('createMainWindow')
